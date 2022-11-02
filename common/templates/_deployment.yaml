@@ -91,17 +91,24 @@ spec:
           {{- end }}
           volumeMounts: {{- include "helm.volumeMounts" . | indent 12 }}
           env:
-          {{- if .Values.dbConnectParameters }}
+          {{- if .Values.okapiConnectParameters }}
             - name: OKAPI_HOST
               valueFrom:
                 secretKeyRef:
                   key: OKAPI_HOST
-                  name: {{ .Values.dbConnectParameters }}
+                  name: {{ .Values.okapiConnectParameters }}
             - name: OKAPI_PORT
               valueFrom:
                 secretKeyRef:
                   key: OKAPI_PORT
-                  name: {{ .Values.dbConnectParameters }}
+                  name: {{ .Values.okapiConnectParameters }}
+            - name: OKAPI_URL
+              valueFrom:
+                secretKeyRef:
+                  key: OKAPI_URL
+                  name: {{ .Values.okapiConnectParameters }}
+          {{- end }}
+          {{- if .Values.dbConnectParameters }}
             - name: DB_DATABASE
               valueFrom:
                 secretKeyRef:

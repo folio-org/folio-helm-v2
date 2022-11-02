@@ -1,11 +1,11 @@
-# Default values for edge-dematic.
+# Default values for mod-patron-blocks.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: folioci/edge-dematic
+  repository: folioci/mod-patron-blocks
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
@@ -79,6 +79,10 @@ tolerations: []
 
 affinity: {}
 
+# Folio specific
+javaOptions: -XX:MaxRAMPercentage=85.0 -XX:+UseG1GC
+dbMaxPoolSize: 5
+
 # If need to create and attach ConfigMap add nedded parameters here
 # And create folder configmaps. In folder create file with the same name that in this config.
 # In file paste only data for configmap.
@@ -87,17 +91,14 @@ affinity: {}
 #     subPath: users.conf
 #     mountPath: /etc/sftp/users.conf
 
-volumeMounts:
-  secrets:
-    - name: secure-store-props
-      mountPath: /etc/edge
-      secretName: ephemeral-properties
-#   emptyDirs:
-#     - name: dumps-volume
-#       mountPath: /dumps
-
-dbMaxPoolSize: 5
-javaOptions: -XX:MaxRAMPercentage=85.0 -XX:+UseG1GC
+# volumeMounts:
+  # secrets:
+  #   - name: secure-store-props
+  #     mountPath: /etc/edge
+  #     secretName: ephemeral-properties
+  # emptyDirs:
+  #   - name: dumps-volume
+  #     mountPath: /dumps
 
 extraEnv: |
   - name: DB_MAXPOOLSIZE
@@ -109,7 +110,6 @@ extraEnv: |
 dbConnectParameters: db-connect-modules 
 # kafkaConnectParameters: db-connect-modules
 # awsConnectParameters: s3-credentials
-okapiConnectParameters: db-connect-modules
 
 # initContainer:
 #   image: 
@@ -121,3 +121,19 @@ okapiConnectParameters: db-connect-modules
 #     - diku
 #     - dkl
 #   mountPath: /path
+
+postJob:
+  enabled: false
+  okapiUrl: http://okapi:9130
+  tenantId: diku
+  sampleData: false
+  referenceData: false
+  image:
+    repository: docker.dev.folio.org/folio-okapi-registration
+    pullPolicy: Always
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "latest"
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded
