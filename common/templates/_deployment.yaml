@@ -1,0 +1,154 @@
+{{- define "common.deployment" -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "helm.name" . }}
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "helm.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "helm.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "helm.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.initContainer }}
+      initContainers:
+      - name: {{ .Chart.Name }}-init
+        image: "{{ .Values.initContainer.image.repository }}:{{ .Values.initContainer.image.tag }}"
+        imagePullPolicy: {{ .Values.initContainer.imagePullPolicy }}
+        command: ["{{ .Values.initContainer.command }}"]
+        {{- if .Values.initContainer.overrideArgs }}
+        args: [
+            {{- range $overrideArg := .Values.initContainer.overrideArgs }}
+              "{{- tpl $overrideArg $ }}",
+            {{- end }}
+        ]
+        {{- end }}
+        {{- if .Values.initContainer.mountPath }}
+        volumeMounts:
+        - name: {{ .Chart.Name }}-init-volume
+          mountPath: {{ .Values.initContainer.mountPath }}
+        {{- end }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- if .Values.overrideArgs }}
+          args: [
+            {{- range $overrideArg := .Values.overrideArgs }}
+              "{{- tpl $overrideArg $ }}",
+            {{- end }}
+          ]
+          {{- end }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: {{ .Values.service.portName | default "http" }}
+              containerPort: {{ .Values.service.containerPort }}
+              protocol: TCP
+          {{- if .Values.livenessProbe }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.livenessProbe.path }}
+              port: {{ .Values.service.containerPort }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+          {{- end }}
+          {{- if .Values.readinessProbe }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.path }}
+              port: {{ .Values.service.containerPort }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+          {{- end }}
+          {{- if .Values.startupProbe }}
+          startupProbe:
+            httpGet:
+              path: {{ .Values.startupProbe.path }}
+              port: {{ .Values.service.containerPort }}
+            periodSeconds: {{ .Values.startupProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.startupProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.startupProbe.failureThreshold }}
+          {{- end }}
+          volumeMounts: {{- include "helm.volumeMounts" . | indent 12 }}
+          env:
+          {{- if .Values.dbSecretName }}
+            - name: OKAPI_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: OKAPI_HOST
+                  name: {{ .Values.dbSecretName }}
+            - name: OKAPI_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: OKAPI_PORT
+                  name: {{ .Values.dbSecretName }}
+            - name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: DB_DATABASE
+                  name: {{ .Values.dbSecretName }}
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: DB_HOST
+                  name: {{ .Values.dbSecretName }}
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: DB_PASSWORD
+                  name: {{ .Values.dbSecretName }}
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: DB_PORT
+                  name: {{ .Values.dbSecretName }}
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: DB_USERNAME
+                  name: {{ .Values.dbSecretName }}
+            - name: ENV
+              valueFrom:
+                secretKeyRef:
+                  key: ENV
+                  name: {{ .Values.dbSecretName }}
+          {{- end }}
+          {{- with .Values.extraEnv }}
+          {{- tpl . $ | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes: {{- include "helm.volumes" . | indent 8 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end -}}

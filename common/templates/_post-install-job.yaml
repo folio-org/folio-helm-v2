@@ -1,0 +1,41 @@
+{{- define "common.post-install-job" -}}
+{{- if .Values.postJob.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "helm.name" . }}
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}
+  {{- with .Values.postJob.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  template:
+    metadata:
+      name: {{ include "helm.name" . }}
+      labels:
+        {{- include "helm.labels" . | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: post-install-job
+        image: "{{ .Values.postJob.image.repository }}:{{ .Values.postJob.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.postJob.image.pullPolicy }}
+        env:
+          - name: MODULE_NAME
+            value: {{ .Chart.Name }}
+          - name: MODULE_URL
+            value: {{ .Release.Name }}
+          - name: MODULE_VERSION
+            value: {{ .Values.image.tag | quote }}
+          - name: OKAPI_URL
+            value: {{ .Values.postJob.okapiUrl | quote }}
+          - name: TENANT_ID
+            value: {{ .Values.postJob.tenantId | quote }}
+          - name: SAMPLE_DATA
+            value: {{ .Values.postJob.sampleData | quote }}
+          - name: REF_DATA
+            value: {{ .Values.postJob.referenceData | quote }}
+{{- end }}
+{{- end }}
