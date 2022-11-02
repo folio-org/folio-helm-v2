@@ -91,47 +91,111 @@ spec:
           {{- end }}
           volumeMounts: {{- include "helm.volumeMounts" . | indent 12 }}
           env:
-          {{- if .Values.dbSecretName }}
+          {{- if .Values.dbConnectParameters }}
             - name: OKAPI_HOST
               valueFrom:
                 secretKeyRef:
                   key: OKAPI_HOST
-                  name: {{ .Values.dbSecretName }}
+                  name: {{ .Values.dbConnectParameters }}
             - name: OKAPI_PORT
               valueFrom:
                 secretKeyRef:
                   key: OKAPI_PORT
-                  name: {{ .Values.dbSecretName }}
+                  name: {{ .Values.dbConnectParameters }}
             - name: DB_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: DB_DATABASE
-                  name: {{ .Values.dbSecretName }}
+                  name: {{ .Values.dbConnectParameters }}
             - name: DB_HOST
               valueFrom:
                 secretKeyRef:
                   key: DB_HOST
-                  name: {{ .Values.dbSecretName }}
+                  name: {{ .Values.dbConnectParameters }}
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: DB_PASSWORD
-                  name: {{ .Values.dbSecretName }}
+                  name: {{ .Values.dbConnectParameters }}
             - name: DB_PORT
               valueFrom:
                 secretKeyRef:
                   key: DB_PORT
-                  name: {{ .Values.dbSecretName }}
+                  name: {{ .Values.dbConnectParameters }}
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:
                   key: DB_USERNAME
-                  name: {{ .Values.dbSecretName }}
+                  name: {{ .Values.dbConnectParameters }}
             - name: ENV
               valueFrom:
                 secretKeyRef:
                   key: ENV
-                  name: {{ .Values.dbSecretName }}
+                  name: {{ .Values.dbConnectParameters }}
+          {{- end }}
+          {{- if .Values.kafkaConnectParameters }}
+            - name: KAFKA_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: KAFKA_HOST
+                  name: {{ .Values.kafkaConnectParameters }}
+            - name: KAFKA_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: KAFKA_PORT
+                  name: {{ .Values.kafkaConnectParameters }}
+          {{- end }}
+          {{- if .Values.awsConnectParameters }}
+            - name: AWS_URL
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_URL
+                  name: {{ .Values.awsConnectParameters }}
+            - name: AWS_REGION
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_REGION
+                  name: {{ .Values.awsConnectParameters }}
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_ACCESS_KEY_ID
+                  name: {{ .Values.awsConnectParameters }}
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_SECRET_ACCESS_KEY
+                  name: {{ .Values.awsConnectParameters }}
+            - name: AWS_BUCKET
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_BUCKET
+                  name: {{ .Values.awsConnectParameters }}
+            - name: LOCAL_FS_URL
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_URL
+                  name: {{ .Values.awsConnectParameters }}
+            - name: LOCAL_FS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_ACCESS_KEY_ID
+                  name: {{ .Values.awsConnectParameters }}
+            - name: LOCAL_FS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_SECRET_ACCESS_KEY
+                  name: {{ .Values.awsConnectParameters }}
+            - name: LOCAL_FS_BUCKET
+              valueFrom:
+                secretKeyRef:
+                  key: LOCAL_FS_BUCKET
+                  name: {{ .Values.awsConnectParameters }}
+            - name: LOCAL_FS_REGION
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_REGION
+                  name: {{ .Values.awsConnectParameters }}
           {{- end }}
           {{- with .Values.extraEnv }}
           {{- tpl . $ | nindent 12 }}

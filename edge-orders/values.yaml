@@ -108,7 +108,7 @@ extraEnv: |
   - name: JAVA_OPTIONS
     value: {{ .Values.javaOptions }}
 
-dbSecretName: db-connect-modules
+dbConnectParameters: db-connect-modules
 
 # initContainer:
 #   image: 
