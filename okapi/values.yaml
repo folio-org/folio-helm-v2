@@ -1,18 +1,18 @@
-# Default values for mod-oa.
+# Default values for okapi.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: folioci/mod-oa
+  repository: folioci/okapi
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
 imagePullSecrets: []
 nameOverride: ""
-fullnameOverride: ""
+fullnameOverride: "okapi"
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -38,16 +38,20 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
-  containerPort: 8080
+  port: 9130
+  containerPort: 9130
+  annotations: {}
 
 ingress:
   enabled: false
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "1800"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
   hosts:
-    - host: chart-example.local
+    - host:
       paths: []
   tls: []
   #  - secretName: chart-example-tls
@@ -60,14 +64,11 @@ resources:
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
-  #   cpu: 100m
-    memory: 512Mi
+    #cpu: 500m
+    memory: 1500Mi
   requests:
-  #   cpu: 100m
-    memory: 400Mi
-
-javaOptions: -XX:+UseContainerSupport -XX:MaxRAMPercentage=85.0 -XX:+PrintFlagsFinal -XX:+UseG1GC
-dbMaxPoolSize: 5
+    #cpu: 300m
+    memory: 500Mi
 
 autoscaling:
   enabled: false
@@ -82,13 +83,18 @@ tolerations: []
 
 affinity: {}
 
+# Folio specific
+overrideArgs: 
+  - dev
+javaOptions: -Djava.awt.headless=true -Dstorage=postgres -Dpostgres_host=$(OKAPI_HOST) -Dpostgres_port=5432 -Dpostgres_username=$(OKAPI_DB_USER) -Dpostgres_password=$(OKAPI_DB_PASSWORD) -Dpostgres_database=$(OKAPI_DB) -Dlog4j.configurationFile=/etc/log4j2.xml -Dhost=okapi -Dokapiurl=http://okapi:9130
+
 # If need to create and attach ConfigMap add nedded parameters here
 # And create folder configmaps. In folder create file with the same name that in this config.
 # In file paste only data for configmap.
-# config:
-#   - name: sftp-config
-#     subPath: users.conf
-#     mountPath: /etc/sftp/users.conf
+config:
+  - name: okapi-log4j2-configmap
+    subPath: log4j2.xml
+    mountPath: /etc/log4j2.xml
 
 # volumeMounts:
   # secrets:
@@ -104,22 +110,28 @@ extraEnv: |
     value: "{{ .Values.dbMaxPoolSize }}"
   - name: JAVA_OPTIONS
     value: {{ .Values.javaOptions }}
-  - name: OKAPI_SERVICE_PORT
+  - name: OKAPI_DB
     valueFrom:
       secretKeyRef:
-        key: OKAPI_PORT
-        name: db-connect-modules
-  - name: OKAPI_SERVICE_HOST
+        name: {{ .Values.okapiConnectParameters }}
+        key: DB_DATABASE
+  - name: OKAPI_DB_USER
     valueFrom:
       secretKeyRef:
-        key: OKAPI_HOST
-        name: db-connect-modules
+        name: {{ .Values.okapiConnectParameters }}
+        key: DB_USERNAME
+  - name: OKAPI_DB_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: {{ .Values.okapiConnectParameters }}
+        key: DB_PASSWORD
 
-# Enable parameters for DB, Kafka or AWS connection. In value set name of secret
+# Enable parameters for OKAPI, DB, Kafka or AWS connection. In value set name of secret
 dbConnectParameters: db-connect-modules 
 # kafkaConnectParameters: db-connect-modules
 # awsConnectParameters: s3-credentials
-# okapiConnectParameters: db-connect-modules
+okapiConnectParameters: db-connect-modules
+# elasticSearchConnectParameters: db-connect-modules
 
 # initContainer:
 #   image: 

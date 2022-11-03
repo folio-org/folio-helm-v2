@@ -1,11 +1,11 @@
-# Default values for mod-oa.
+# Default values for mod-service-interaction.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: folioci/mod-oa
+  repository: folioci/mod-service-interaction
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
@@ -54,20 +54,17 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources:
+resources: 
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
-  #   cpu: 100m
+    #cpu: 128m
     memory: 512Mi
   requests:
-  #   cpu: 100m
+    #cpu: 50m
     memory: 400Mi
-
-javaOptions: -XX:+UseContainerSupport -XX:MaxRAMPercentage=85.0 -XX:+PrintFlagsFinal -XX:+UseG1GC
-dbMaxPoolSize: 5
 
 autoscaling:
   enabled: false
@@ -81,6 +78,10 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# Folio specific
+javaOptions: -XX:MaxRAMPercentage=85.0 -XX:+UseG1GC
+dbMaxPoolSize: 5
 
 # If need to create and attach ConfigMap add nedded parameters here
 # And create folder configmaps. In folder create file with the same name that in this config.
@@ -115,11 +116,12 @@ extraEnv: |
         key: OKAPI_HOST
         name: db-connect-modules
 
-# Enable parameters for DB, Kafka or AWS connection. In value set name of secret
+# Enable parameters for OKAPI, DB, Kafka or AWS connection. In value set name of secret
 dbConnectParameters: db-connect-modules 
 # kafkaConnectParameters: db-connect-modules
 # awsConnectParameters: s3-credentials
 # okapiConnectParameters: db-connect-modules
+# elasticSearchConnectParameters: db-connect-modules
 
 # initContainer:
 #   image: 

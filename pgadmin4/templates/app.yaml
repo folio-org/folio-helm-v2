@@ -1,0 +1,20 @@
+---
+{{- include "common.service" . }}
+---
+{{- include "common.deployment" . }}
+---
+{{- include "common.serviceaccount" . }}
+---
+{{- include "common.ingress" . }}
+---
+{{- include "common.hpa" . }}
+---
+{{- include "common.post-install-job" . }}
+---
+{{- include "common.network-policy" . }}
+---
+{{- include "common.secret" . }}
+---
+{{- include "common.persistent-disk" . }}
+---
+{{- include "common.test_connection_pod" . }}

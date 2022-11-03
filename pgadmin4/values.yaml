@@ -1,0 +1,190 @@
+# Default values for pgAdmin4.
+
+replicaCount: 1
+
+image:
+  repository: dpage/pgadmin4
+  tag: "4.22"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: http
+  # targetPort: 4181 To be used with a proxy extraContainer
+  portName: http
+  containerPort: 80
+
+  annotations: {}
+    ## Special annotations at the service level, e.g
+    ## this will set vnet internal IP's rather than public ip's
+    ## service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+
+## Server definitions will be loaded at launch time. This allows connection
+## information to be pre-loaded into the instance of pgAdmin4 in the container.
+## Ref: https://www.pgadmin.org/docs/pgadmin4/latest/import_export_servers.html
+##
+serverDefinitions:
+  ## If true, server definitions will be created
+  ##
+  enabled: false
+
+  servers: |-
+  #  "1": {
+  #    "Name": "Minimally Defined Server",
+  #    "Group": "Servers",
+  #    "Port": 5432,
+  #    "Username": "postgres",
+  #    "Host": "localhost",
+  #    "SSLMode": "prefer",
+  #    "MaintenanceDB": "postgres"
+  #  }
+
+ingress:
+  enabled: false
+  annotations: {}
+
+  hosts:
+    - host: chart-example.local
+      paths: []
+        # - /pgadmin4
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+## Security context to be added to pgAdmin4 pods
+securityContext:
+  runAsUser: 5050
+  runAsGroup: 5050
+  fsGroup: 5050
+
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+livenessProbe:
+  path: "/misc/ping"
+  periodSeconds: 60
+  timeoutSeconds: 15
+
+readinessProbe:
+  path: "/misc/ping"
+  periodSeconds: 60
+  timeoutSeconds: 15
+
+## Node labels for pgAdmin4 pod assignment
+## Ref: https://kubernetes.io/docs/user-guide/node-selection/
+nodeSelector: {}
+
+## Node tolerations for server scheduling to nodes with taints
+## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+tolerations: []
+
+## Pod affinity
+affinity: {}
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# Enbale networkPolicy
+networkPolicy: true
+
+# Create a new secret
+secrets:
+  - name: pgadmin4
+    password: SuperSecret
+
+# If need to create and attach ConfigMap add nedded parameters here
+# And create folder configmaps. In folder create file with the same name that in this config.
+# In file paste only data for configmap.
+# config:
+#   - name: sftp-config
+#     subPath: users.conf
+#     mountPath: /etc/sftp/users.conf
+
+volumeMounts:
+  # secrets:
+  #   - name: secure-store-props
+  #     mountPath: /etc/edge
+  #     secretName: ephemeral-properties
+  # emptyDirs:
+  #   - name: dumps-volume
+  #     mountPath: /dumps
+  pvc:
+    - name: pgadmin4
+      annotations: {}
+      accessModes:
+        - ReadWriteOnce
+      size: 10Gi
+      claimName: pgadmin4
+      mountPath:  /var/lib/pgadmin
+    # storageClass: "-"
+    # existingClaim: ""
+
+extraEnv: |
+  - name: PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION
+    value: "False"
+  - name: PGADMIN_DEFAULT_EMAIL
+    value: user@folio.org
+  - name: PGADMIN_DEFAULT_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: pgadmin4
+        key: password
+
+# Enable parameters for OKAPI, DB, Kafka or AWS connection. In value set name of secret
+# dbConnectParameters: db-connect-modules 
+# kafkaConnectParameters: db-connect-modules
+# awsConnectParameters: s3-credentials
+# okapiConnectParameters: db-connect-modules
+# elasticSearchConnectParameters: db-connect-modules
+
+# initContainer:
+#   image: 
+#     repository: busybox
+#     tag: latest
+#   imagePullPolicy: Always
+#   command: cat
+#   overrideArgs:
+#     - diku
+#     - dkl
+#   mountPath: /path
+
+postJob:
+  enabled: false
+  okapiUrl: http://okapi:9130
+  tenantId: diku
+  sampleData: false
+  referenceData: false
+  image:
+    repository: docker.dev.folio.org/folio-okapi-registration
+    pullPolicy: Always
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "latest"
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+
+testConnectionPod:
+  create: true
+  annotations: 
+    "helm.sh/hook": test-success

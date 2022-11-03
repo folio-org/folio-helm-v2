@@ -88,6 +88,10 @@ Create Volume Mount structure
 - name: {{ tpl .name $ }}
   mountPath: {{ tpl .mountPath $ }}
 {{- end }}
+{{- range .Values.volumeMounts.pvc }}
+- name: {{ tpl .name $ }}
+  mountPath: {{ tpl .mountPath $ }}
+{{- end }}
 {{- end }}
 {{- end -}}
 
@@ -110,6 +114,11 @@ Create Volume structure
 {{- range .Values.volumeMounts.emptyDirs }}
 - name: {{ tpl .name $ }}
   emptyDir: {}
+{{- end }}
+{{- range .Values.volumeMounts.pvc }}
+- name: {{ tpl .name $ }}
+  persistentVolumeClaim:
+    claimName: {{ tpl .claimName $ }}
 {{- end }}
 {{- end }}
 {{- end -}}

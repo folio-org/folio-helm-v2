@@ -1,11 +1,11 @@
-# Default values for mod-oa.
+# Default values for mod-serials-management.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: folioci/mod-oa
+  repository: folioci/mod-serials-management
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
@@ -60,14 +60,9 @@ resources:
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
-  #   cpu: 100m
-    memory: 512Mi
+    memory: 2Gi
   requests:
-  #   cpu: 100m
-    memory: 400Mi
-
-javaOptions: -XX:+UseContainerSupport -XX:MaxRAMPercentage=85.0 -XX:+PrintFlagsFinal -XX:+UseG1GC
-dbMaxPoolSize: 5
+    memory: 768Mi
 
 autoscaling:
   enabled: false
@@ -82,6 +77,16 @@ tolerations: []
 
 affinity: {}
 
+# Folio specific
+javaOptions: -server -XX:+UseContainerSupport -XX:MaxRAMPercentage=55.0 -XX:+PrintFlagsFinal
+dbMaxPoolSize: 5
+
+aws:
+  url: us-east-2
+
+bucket:
+  name: folio-scout
+
 # If need to create and attach ConfigMap add nedded parameters here
 # And create folder configmaps. In folder create file with the same name that in this config.
 # In file paste only data for configmap.
@@ -90,20 +95,34 @@ affinity: {}
 #     subPath: users.conf
 #     mountPath: /etc/sftp/users.conf
 
-# volumeMounts:
+volumeMounts:
   # secrets:
   #   - name: secure-store-props
   #     mountPath: /etc/edge
   #     secretName: ephemeral-properties
-  # emptyDirs:
-  #   - name: dumps-volume
-  #     mountPath: /dumps
+  emptyDirs:
+    - name: dumps-volume
+      mountPath: /dumps
 
 extraEnv: |
   - name: DB_MAXPOOLSIZE
     value: "{{ .Values.dbMaxPoolSize }}"
   - name: JAVA_OPTIONS
     value: {{ .Values.javaOptions }}
+  - name: DB_QUERYTIMEOUT
+    valueFrom:
+      secretKeyRef:
+        key: DB_QUERYTIMEOUT
+        name: {{ .Values.dbConnectParameters }}
+  - name: DB_CHARSET
+    valueFrom:
+      secretKeyRef:
+        key: DB_CHARSET
+        name: {{ .Values.dbConnectParameters }}
+  - name: POD_NAME
+    valueFrom:
+      fieldRef:
+        fieldPath: metadata.name
   - name: OKAPI_SERVICE_PORT
     valueFrom:
       secretKeyRef:
@@ -115,11 +134,12 @@ extraEnv: |
         key: OKAPI_HOST
         name: db-connect-modules
 
-# Enable parameters for DB, Kafka or AWS connection. In value set name of secret
+# Enable parameters for OKAPI, DB, Kafka or AWS connection. In value set name of secret
 dbConnectParameters: db-connect-modules 
 # kafkaConnectParameters: db-connect-modules
 # awsConnectParameters: s3-credentials
 # okapiConnectParameters: db-connect-modules
+# elasticSearchConnectParameters: db-connect-modules
 
 # initContainer:
 #   image: 

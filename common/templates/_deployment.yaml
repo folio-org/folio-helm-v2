@@ -91,6 +91,38 @@ spec:
           {{- end }}
           volumeMounts: {{- include "helm.volumeMounts" . | indent 12 }}
           env:
+          {{- if .Values.elasticSearchConnectParameters }}
+            - name: ELASTICSEARCH_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: ELASTICSEARCH_HOST
+                  name: {{ .Values.elasticSearchConnectParameters }}
+            - name: ELASTICSEARCH_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: ELASTICSEARCH_USERNAME
+                  name: {{ .Values.elasticSearchConnectParameters }}
+            - name: ELASTICSEARCH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: ELASTICSEARCH_PASSWORD
+                  name: {{ .Values.elasticSearchConnectParameters }}
+            - name: OKAPI_URL
+              valueFrom:
+                secretKeyRef:
+                  key: OKAPI_URL
+                  name: {{ .Values.elasticSearchConnectParameters }}
+            - name: ELASTICSEARCH_URL
+              valueFrom:
+                secretKeyRef:
+                  key: ELASTICSEARCH_URL
+                  name: {{ .Values.elasticSearchConnectParameters }}
+            - name: ELASTICSEARCH_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: ELASTICSEARCH_PORT
+                  name: {{ .Values.elasticSearchConnectParameters }}
+          {{- end }}  
           {{- if .Values.okapiConnectParameters }}
             - name: OKAPI_HOST
               valueFrom:
