@@ -1,0 +1,20 @@
+{{- define "common.network-policy" -}}
+{{- if .Values.networkPolicy }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "helm.name" . }}
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}
+spec:
+  policyTypes:
+    - Ingress
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "helm.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  ingress:
+  - ports:
+    - port: {{ .Values.service.targetPort }}
+{{- end }}
+{{- end -}}

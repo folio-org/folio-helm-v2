@@ -1,0 +1,21 @@
+{{- define "common.test_connection_pod" -}}
+{{- if .Values.testConnectionPod.create -}}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "helm.name" . }}-test-connection"
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}
+  {{- with .Values.testConnectionPod.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['{{ include "helm.name" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
+{{- end }}
+{{- end }}

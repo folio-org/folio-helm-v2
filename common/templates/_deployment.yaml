@@ -1,0 +1,257 @@
+{{- define "common.deployment" -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "helm.name" . }}
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "helm.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "helm.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "helm.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.initContainer }}
+      initContainers:
+      - name: {{ .Chart.Name }}-init
+        image: "{{ .Values.initContainer.image.repository }}:{{ .Values.initContainer.image.tag }}"
+        imagePullPolicy: {{ .Values.initContainer.imagePullPolicy }}
+        command: ["{{ .Values.initContainer.command }}"]
+        {{- if .Values.initContainer.overrideArgs }}
+        args: [
+            {{- range $overrideArg := .Values.initContainer.overrideArgs }}
+              "{{- tpl $overrideArg $ }}",
+            {{- end }}
+        ]
+        {{- end }}
+        {{- if .Values.initContainer.mountPath }}
+        volumeMounts:
+        - name: {{ .Chart.Name }}-init-volume
+          mountPath: {{ .Values.initContainer.mountPath }}
+        {{- end }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- if .Values.overrideArgs }}
+          args: [
+            {{- range $overrideArg := .Values.overrideArgs }}
+              "{{- tpl $overrideArg $ }}",
+            {{- end }}
+          ]
+          {{- end }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: {{ .Values.service.portName | default "http" }}
+              containerPort: {{ .Values.service.containerPort }}
+              protocol: TCP
+          {{- if .Values.livenessProbe }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.livenessProbe.path }}
+              port: {{ .Values.service.containerPort }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+          {{- end }}
+          {{- if .Values.readinessProbe }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.path }}
+              port: {{ .Values.service.containerPort }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+          {{- end }}
+          {{- if .Values.startupProbe }}
+          startupProbe:
+            httpGet:
+              path: {{ .Values.startupProbe.path }}
+              port: {{ .Values.service.containerPort }}
+            periodSeconds: {{ .Values.startupProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.startupProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.startupProbe.failureThreshold }}
+          {{- end }}
+          volumeMounts: {{- include "helm.volumeMounts" . | indent 12 }}
+          env:
+          {{- if .Values.elasticSearchConnectParameters }}
+            - name: ELASTICSEARCH_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: ELASTICSEARCH_HOST
+                  name: {{ .Values.elasticSearchConnectParameters }}
+            - name: ELASTICSEARCH_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: ELASTICSEARCH_USERNAME
+                  name: {{ .Values.elasticSearchConnectParameters }}
+            - name: ELASTICSEARCH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: ELASTICSEARCH_PASSWORD
+                  name: {{ .Values.elasticSearchConnectParameters }}
+            - name: OKAPI_URL
+              valueFrom:
+                secretKeyRef:
+                  key: OKAPI_URL
+                  name: {{ .Values.elasticSearchConnectParameters }}
+            - name: ELASTICSEARCH_URL
+              valueFrom:
+                secretKeyRef:
+                  key: ELASTICSEARCH_URL
+                  name: {{ .Values.elasticSearchConnectParameters }}
+            - name: ELASTICSEARCH_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: ELASTICSEARCH_PORT
+                  name: {{ .Values.elasticSearchConnectParameters }}
+          {{- end }}  
+          {{- if .Values.okapiConnectParameters }}
+            - name: OKAPI_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: OKAPI_HOST
+                  name: {{ .Values.okapiConnectParameters }}
+            - name: OKAPI_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: OKAPI_PORT
+                  name: {{ .Values.okapiConnectParameters }}
+            - name: OKAPI_URL
+              valueFrom:
+                secretKeyRef:
+                  key: OKAPI_URL
+                  name: {{ .Values.okapiConnectParameters }}
+          {{- end }}
+          {{- if .Values.dbConnectParameters }}
+            - name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: DB_DATABASE
+                  name: {{ .Values.dbConnectParameters }}
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: DB_HOST
+                  name: {{ .Values.dbConnectParameters }}
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: DB_PASSWORD
+                  name: {{ .Values.dbConnectParameters }}
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: DB_PORT
+                  name: {{ .Values.dbConnectParameters }}
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: DB_USERNAME
+                  name: {{ .Values.dbConnectParameters }}
+            - name: ENV
+              valueFrom:
+                secretKeyRef:
+                  key: ENV
+                  name: {{ .Values.dbConnectParameters }}
+          {{- end }}
+          {{- if .Values.kafkaConnectParameters }}
+            - name: KAFKA_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: KAFKA_HOST
+                  name: {{ .Values.kafkaConnectParameters }}
+            - name: KAFKA_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: KAFKA_PORT
+                  name: {{ .Values.kafkaConnectParameters }}
+          {{- end }}
+          {{- if .Values.awsConnectParameters }}
+            - name: AWS_URL
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_URL
+                  name: {{ .Values.awsConnectParameters }}
+            - name: AWS_REGION
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_REGION
+                  name: {{ .Values.awsConnectParameters }}
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_ACCESS_KEY_ID
+                  name: {{ .Values.awsConnectParameters }}
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_SECRET_ACCESS_KEY
+                  name: {{ .Values.awsConnectParameters }}
+            - name: AWS_BUCKET
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_BUCKET
+                  name: {{ .Values.awsConnectParameters }}
+            - name: LOCAL_FS_URL
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_URL
+                  name: {{ .Values.awsConnectParameters }}
+            - name: LOCAL_FS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_ACCESS_KEY_ID
+                  name: {{ .Values.awsConnectParameters }}
+            - name: LOCAL_FS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_SECRET_ACCESS_KEY
+                  name: {{ .Values.awsConnectParameters }}
+            - name: LOCAL_FS_BUCKET
+              valueFrom:
+                secretKeyRef:
+                  key: LOCAL_FS_BUCKET
+                  name: {{ .Values.awsConnectParameters }}
+            - name: LOCAL_FS_REGION
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_REGION
+                  name: {{ .Values.awsConnectParameters }}
+          {{- end }}
+          {{- with .Values.extraEnv }}
+          {{- tpl . $ | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes: {{- include "helm.volumes" . | indent 8 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end -}}
