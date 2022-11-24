@@ -10,6 +10,7 @@ import org.jenkinsci.plugins.workflow.libs.Library
 properties([
     buildDiscarder(logRotator(numToKeepStr: '20')),
     disableConcurrentBuilds(),
+    pipelineTriggers([[$class: 'GitHubPushTrigger']]),
     parameters([
         booleanParam(name: 'indexAllCharts', defaultValue: false, description: 'Run index for all charts in folio-helm-v2 repo')
     ])
