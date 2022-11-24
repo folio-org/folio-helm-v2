@@ -47,7 +47,7 @@ ansiColor('xterm') {
                 withCredentials([
                     usernamePassword(credentialsId: Constants.NEXUS_PUBLISH_CREDENTIALS_ID, usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD'),
                 ]) {
-                    if (chartsForIndex) {
+                    if (!chartsForIndex.isEmpty()) {
                         helm.k8sClient {
                             chartsForIndex.each {
                                 sh """
