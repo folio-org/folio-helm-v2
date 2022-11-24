@@ -16,7 +16,7 @@ properties([
 ])
 
 def chartsRepositoryUrl = "${Constants.FOLIO_GITHUB_URL}/folio-helm-v2.git"
-def chartsForIndex = []
+List chartsForIndex
 
 ansiColor('xterm') {
     node('jenkins-agent-java11') {
@@ -39,6 +39,7 @@ ansiColor('xterm') {
                         currentBuild.displayName = "Index all charts"
                     } else {
                         chartsForIndex = sh(script: "git diff HEAD~1 --name-only -- charts/ | cut -d'/' -f1-2 | sort | uniq", returnStdout: true).split('\\n')
+                        chartsForIndex.remove("")
                         currentBuild.displayName = "Triggered by Github"
                     }
                 }
