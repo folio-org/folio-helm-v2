@@ -38,7 +38,7 @@ ansiColor('xterm') {
                         chartsForIndex = sh(script: "ls -d charts/*", returnStdout: true).split('\\n')
                         currentBuild.displayName = "Index all charts"
                     } else {
-                        chartsForIndex = sh(script: "git diff HEAD~1 --name-only | cut -d'/' -f1-2 | sort | uniq", returnStdout: true).split('\\n')
+                        chartsForIndex = sh(script: "git diff HEAD~1 --name-only -- charts/ | cut -d'/' -f1-2 | sort | uniq", returnStdout: true).split('\\n')
                         currentBuild.displayName = "Triggered by Github"
                     }
                 }
