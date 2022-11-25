@@ -1,6 +1,6 @@
 #!groovy
 
-@Library('pipelines-shared-library@RANCHER-535') _
+@Library('pipelines-shared-library') _
 
 import org.folio.Constants
 import org.folio.utilities.Tools
@@ -26,7 +26,7 @@ ansiColor('xterm') {
                 sshagent(credentials: [Constants.GITHUB_CREDENTIALS_ID]) {
                     checkout([
                         $class           : 'GitSCM',
-                        branches         : [[name: "*/RANCHER-535"]],
+                        branches         : [[name: "*/master"]],
                         extensions       : scm.extensions + [[$class             : 'SubmoduleOption',
                                                             disableSubmodules  : false,
                                                             parentCredentials  : false,
