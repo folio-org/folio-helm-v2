@@ -121,3 +121,6 @@ okapiConnectParameters: db-connect-modules
 #     - diku
 #     - dkl
 #   mountPath: /path
+
+# jmxMetrics:
+#   enable: true
