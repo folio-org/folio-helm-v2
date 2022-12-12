@@ -16,6 +16,12 @@ spec:
       targetPort: {{ .Values.service.containerPort }}
       protocol: TCP
       name: {{ .Values.service.portName | default "http" }}
+    {{- if .Values.jmxMetrics }}
+    - port: {{ .Values.jmxMetrics.containerPort | default 9991 }}
+      targetPort: {{ .Values.jmxMetrics.containerPort | default 9991 }}
+      protocol: TCP
+      name: {{ .Values.jmxMetrics.portName | default "jmx" }}
+    {{- end }}
   selector:
     {{- include "helm.selectorLabels" . | nindent 4 }}
 {{- end -}}

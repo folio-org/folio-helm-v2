@@ -39,7 +39,7 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 80
-  containerPort: 8081
+  containerPort: 8001
 
 ingress:
   enabled: false
@@ -138,3 +138,6 @@ postJob:
     "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-weight": "-5"
     "helm.sh/hook-delete-policy": hook-succeeded
+
+# jmxMetrics:
+#   enable: true

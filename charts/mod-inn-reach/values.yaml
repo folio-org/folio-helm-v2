@@ -151,3 +151,9 @@ readinessProbe:
   path: "/admin/health"
   periodSeconds: 60
   timeoutSeconds: 10
+
+# Enable parameters for DB, Kafka or AWS connection. In value set name of secret
+# dbConnectParameters: db-connect-modules 
+# kafkaConnectParameters: db-connect-modules
+# awsConnectParameters: s3-credentials
+okapiConnectParameters: db-connect-modules
