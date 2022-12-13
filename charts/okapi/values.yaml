@@ -106,31 +106,39 @@ config:
   #     mountPath: /dumps
 
 extraEnv: |
-  - name: DB_MAXPOOLSIZE
-    value: "{{ .Values.dbMaxPoolSize }}"
   - name: JAVA_OPTIONS
     value: {{ .Values.javaOptions }}
   - name: OKAPI_DB
     valueFrom:
       secretKeyRef:
-        name: {{ .Values.okapiConnectParameters }}
+        name: db-connect-modules
         key: DB_DATABASE
   - name: OKAPI_DB_USER
     valueFrom:
       secretKeyRef:
-        name: {{ .Values.okapiConnectParameters }}
+        name: db-connect-modules
         key: DB_USERNAME
   - name: OKAPI_DB_PASSWORD
     valueFrom:
       secretKeyRef:
-        name: {{ .Values.okapiConnectParameters }}
+        name: db-connect-modules
         key: DB_PASSWORD
+  - name: OKAPI_HOST
+    valueFrom:
+      secretKeyRef:
+        key: DB_HOST
+        name: db-connect-modules
+  - name: ENV
+    valueFrom:
+      secretKeyRef:
+        key: ENV
+        name: db-connect-modules
 
 # Enable parameters for OKAPI, DB, Kafka or AWS connection. In value set name of secret
-dbConnectParameters: db-connect-modules 
+# dbConnectParameters: db-connect-modules 
 # kafkaConnectParameters: db-connect-modules
 # awsConnectParameters: s3-credentials
-okapiConnectParameters: db-connect-modules
+# okapiConnectParameters: db-connect-modules
 # elasticSearchConnectParameters: db-connect-modules
 
 # initContainer:
