@@ -64,6 +64,11 @@ spec:
             - name: {{ .Values.service.portName | default "http" }}
               containerPort: {{ .Values.service.containerPort }}
               protocol: TCP
+            {{- if .Values.jmxMetrics }}
+            - name: {{ .Values.jmxMetrics.portName | default "jmx" }}
+              containerPort: {{ .Values.jmxMetrics.containerPort | default 9991 }}
+              protocol: TCP
+            {{- end }}
           {{- if .Values.livenessProbe }}
           livenessProbe:
             httpGet:
@@ -106,11 +111,6 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: ELASTICSEARCH_PASSWORD
-                  name: {{ .Values.elasticSearchConnectParameters }}
-            - name: OKAPI_URL
-              valueFrom:
-                secretKeyRef:
-                  key: OKAPI_URL
                   name: {{ .Values.elasticSearchConnectParameters }}
             - name: ELASTICSEARCH_URL
               valueFrom:
