@@ -106,8 +106,6 @@ config:
   #     mountPath: /dumps
 
 extraEnv: |
-  - name: JAVA_OPTIONS
-    value: {{ .Values.javaOptions }}
   - name: OKAPI_DB
     valueFrom:
       secretKeyRef:
@@ -133,6 +131,8 @@ extraEnv: |
       secretKeyRef:
         key: ENV
         name: db-connect-modules
+  - name: JAVA_OPTIONS
+    value: {{ .Values.javaOptions }}
 
 # Enable parameters for OKAPI, DB, Kafka or AWS connection. In value set name of secret
 # dbConnectParameters: db-connect-modules 
