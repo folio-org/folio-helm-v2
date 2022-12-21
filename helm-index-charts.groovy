@@ -1,6 +1,6 @@
 #!groovy
 
-@Library('pipelines-shared-library') _
+@Library('pipelines-shared-library@RANCHER-345') _
 
 import org.folio.Constants
 import org.folio.utilities.Tools
@@ -55,7 +55,7 @@ ansiColor('xterm') {
                                 sh """
                                 echo "Pushing ${it} to repo Nexus..."
                                 CHART_PACKAGE="\$(helm package ${it} --dependency-update | cut -d":" -f2 | tr -d '[:space:]')"
-                                curl -is -u "${NEXUS_USERNAME}:${NEXUS_PASSWORD}" ${Constants.FOLIO_HELM_V2_REPO_NAME} --upload-file "\$CHART_PACKAGE"
+                                curl -is -u "${NEXUS_USERNAME}:${NEXUS_PASSWORD}" https://repository.folio.org/repository/folio-helm-v2-test/ --upload-file "\$CHART_PACKAGE"
                                 """
                             }
                         }

@@ -95,6 +95,11 @@ volumeMounts:
     - name: api-configuration
       mountPath: /etc/edge/api
       secretName: apiconfiguration
+
+config:
+  - name: edge-orders-ephemeral-properties
+    mountPath: /etc/edge/ephemeral
+
 #   emptyDirs:
 #     - name: dumps-volume
 #       mountPath: /dumps

@@ -94,6 +94,11 @@ volumeMounts:
     - name: secure-store-props
       mountPath: /etc/edge
       secretName: ephemeral-properties
+
+config:
+  - name: edge-oai-pmh-ephemeral-properties
+    mountPath: /etc/edge
+
 #   emptyDirs:
 #     - name: dumps-volume
 #       mountPath: /dumps
