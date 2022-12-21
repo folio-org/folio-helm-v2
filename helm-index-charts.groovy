@@ -26,7 +26,7 @@ ansiColor('xterm') {
                 sshagent(credentials: [Constants.GITHUB_CREDENTIALS_ID]) {
                     checkout([
                         $class           : 'GitSCM',
-                        branches         : [[name: "*/RANCHER-345"]],
+                        branches         : [[name: "RANCHER-345"]],
                         extensions       : scm.extensions + [[$class             : 'SubmoduleOption',
                                                             disableSubmodules  : false,
                                                             parentCredentials  : false,
