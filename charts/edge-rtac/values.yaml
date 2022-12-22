@@ -95,7 +95,7 @@ affinity: {}
 
 config:
   - name: edge-rtac-ephemeral-properties
-    mountPath: /etc/edge/ephemeral
+    mountPath: /etc/edge
 
 #   emptyDirs:
 #     - name: dumps-volume
