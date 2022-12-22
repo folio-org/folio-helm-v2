@@ -89,9 +89,9 @@ affinity: {}
 
 volumeMounts:
   secrets:
-    - name: secure-store-props
-      mountPath: /etc/edge/ephemeral
-      secretName: ephemeral-properties
+#    - name: secure-store-props
+#      mountPath: /etc/edge/ephemeral
+#      secretName: ephemeral-properties
     - name: api-configuration
       mountPath: /etc/edge/api
       secretName: apiconfiguration

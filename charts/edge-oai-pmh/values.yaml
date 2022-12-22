@@ -89,11 +89,11 @@ affinity: {}
 #     subPath: users.conf
 #     mountPath: /etc/sftp/users.conf
 
-volumeMounts:
-  secrets:
-    - name: secure-store-props
-      mountPath: /etc/edge
-      secretName: ephemeral-properties
+#volumeMounts:
+#  secrets:
+#    - name: secure-store-props
+#      mountPath: /etc/edge
+#      secretName: ephemeral-properties
 
 config:
   - name: edge-oai-pmh-ephemeral-properties
