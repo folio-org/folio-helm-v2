@@ -94,7 +94,7 @@ affinity: {}
 #      secretName: ephemeral-properties
 
 config:
-  - name: edge-orders-ephemeral-properties
+  - name: edge-rtac-ephemeral-properties
     mountPath: /etc/edge/ephemeral
 
 #   emptyDirs:
