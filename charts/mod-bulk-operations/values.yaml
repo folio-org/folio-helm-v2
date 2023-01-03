@@ -48,11 +48,7 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: chart-example.local
-      paths:
-      - path: /
-        backend:
-          serviceName: chart-example.local
-          servicePort: 80
+      paths: []
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
@@ -87,6 +83,12 @@ affinity: {}
 javaOptions: -XX:MaxRAMPercentage=85.0 -XX:+UseG1GC
 dbMaxPoolSize: 5
 
+aws:
+  url: us-east-2
+
+bucket:
+  name: folio-scout
+
 # If need to create and attach ConfigMap add nedded parameters here
 # And create folder configmaps. In folder create file with the same name that in this config.
 # In file paste only data for configmap.
@@ -95,14 +97,14 @@ dbMaxPoolSize: 5
 #     subPath: users.conf
 #     mountPath: /etc/sftp/users.conf
 
-# volumeMounts:
-#   secrets:
-#     - name: secure-store-props
-#       mountPath: /etc/edge
-#       secretName: ephemeral-properties
-#   emptyDirs:
-#     - name: dumps-volume
-#       mountPath: /dumps
+volumeMounts:
+  # secrets:
+  #   - name: secure-store-props
+  #     mountPath: /etc/edge
+  #     secretName: ephemeral-properties
+  emptyDirs:
+    - name: dumps-volume
+      mountPath: /dumps
 
 extraEnv: |
   - name: DB_MAXPOOLSIZE
@@ -112,8 +114,8 @@ extraEnv: |
 
 # Enable parameters for DB, Kafka or AWS connection. In value set name of secret
 dbConnectParameters: db-connect-modules 
-# kafkaConnectParameters: db-connect-modules
-# awsConnectParameters: s3-credentials
+kafkaConnectParameters: db-connect-modules
+awsConnectParameters: s3-credentials
 
 # initContainer:
 #   image: 
@@ -141,3 +143,4 @@ postJob:
     "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-weight": "-5"
     "helm.sh/hook-delete-policy": hook-succeeded
+
