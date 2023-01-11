@@ -99,14 +99,21 @@ affinity: {}
 #dbMaxPoolSize: 5
 #javaOptions: -XX:MaxRAMPercentage=85.0 -XX:+UseG1GC
 
-volumeMounts:
+#volumeMounts:
+#  - name: ldpconf
+#    mountPath: /var/lib/ldp
+
+
+#volumes:
+#  - name: ldpconf
+#    configMap:
+#      name: ldpconf.json
+
+config:
   - name: ldpconf
     mountPath: /var/lib/ldp
 
-volumes:
-  - name: ldpconf
-    configMap:
-      name: ldpconf.json
+
 
 overrideArgs:
   - init-database
