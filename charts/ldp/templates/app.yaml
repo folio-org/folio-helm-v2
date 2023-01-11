@@ -1,5 +1,5 @@
----
-{{- include "common.service" . }}
+#---
+#{{- include "common.service" . }}
 ---
 {{- include "common.deployment" . }}
 ---
