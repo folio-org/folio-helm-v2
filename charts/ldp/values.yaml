@@ -101,7 +101,7 @@ affinity: {}
 
 #volumeMounts:
 #  - name: ldpconf
-#    mountPath: /var/lib/ldp
+#    mountPath: "/var/lib/ldp"
 
 
 #volumes:
@@ -110,7 +110,7 @@ affinity: {}
 #      name: ldpconf.json
 
 config:
-  - name: ldpconf
+  - name: ldpconf.json
     mountPath: /var/lib/ldp
 
 
