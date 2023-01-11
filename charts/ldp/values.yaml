@@ -109,7 +109,7 @@ volumes:
       name: ldpconf.json
 
 overrideArgs:
-  - [ "init-database", "-D", "/var/lib/ldp", "--profile", "folio" ]
+  "'init-database', '-D', '/var/lib/ldp', '--profile', 'folio'"
 
 extraEnv: |
   - name: PATH
