@@ -102,7 +102,13 @@ Create Volume structure
 {{- range .Values.config }}
 - name: {{ tpl .name $ }}
   configMap:
+    {{- if .configMap }}
+    {{- if .configMap.name }}
+    name: {{ tpl .configMap.name $ }}
+    {{- end }}
+    {{- else }}
     name: {{ tpl .name $ }}
+    {{- end }}
     defaultMode: 0755
 {{- end }}
 {{- if .Values.volumeMounts }}
