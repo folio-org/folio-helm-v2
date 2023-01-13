@@ -99,24 +99,11 @@ affinity: {}
 #dbMaxPoolSize: 5
 #javaOptions: -XX:MaxRAMPercentage=85.0 -XX:+UseG1GC
 
-#volumeMounts:
-#  configMap:
-#    - name: ldpconf
-#      mountPath: "/var/lib/ldp"
-#
-#
-#volumes:
-#  configMap:
-#    - name: ldpconf
-#      configMap:
-#        name: ldpconf.json
-
 config:
   - name: ldpconf
     mountPath: /var/lib/ldp
     configMap:
       name: ldpconf.json
-
 
 
 overrideArgs:
@@ -125,7 +112,6 @@ overrideArgs:
   - /var/lib/ldp
   - --profile
   - folio
-#"'init-database', '-D', '/var/lib/ldp', '--profile', 'folio'"
 
 extraEnv: |
   - name: PATH
