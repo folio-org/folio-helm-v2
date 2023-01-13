@@ -110,7 +110,8 @@ affinity: {}
 #      name: ldpconf.json
 
 config:
-  - name: ldpconf.json
+  - name: ldpconf
+    subPath: ldpconf.json
     mountPath: /var/lib/ldp
 
 
