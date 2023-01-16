@@ -103,7 +103,7 @@ config:
   - name: ldpconf
     mountPath: /var/lib/ldp
     configMap:
-      name: ldpconf.json
+      name: ldpconf
 
 
 overrideArgs:
