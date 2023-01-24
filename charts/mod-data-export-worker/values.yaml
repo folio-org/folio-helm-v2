@@ -116,6 +116,7 @@ extraEnv: |
 dbConnectParameters: db-connect-modules 
 kafkaConnectParameters: db-connect-modules
 awsConnectParameters: s3-credentials
+localFsBucketParameters: s3-credentials
 
 # initContainer:
 #   image: 
