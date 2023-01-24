@@ -210,31 +210,33 @@ spec:
                 secretKeyRef:
                   key: AWS_BUCKET
                   name: {{ .Values.awsConnectParameters }}
+          {{- end }}
+          {{- if .Values.localFsBucketParameters }}
             - name: LOCAL_FS_URL
               valueFrom:
                 secretKeyRef:
                   key: AWS_URL
-                  name: {{ .Values.awsConnectParameters }}
+                  name: {{ .Values.localFsBucketParameters }}
             - name: LOCAL_FS_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
                   key: AWS_ACCESS_KEY_ID
-                  name: {{ .Values.awsConnectParameters }}
+                  name: {{ .Values.localFsBucketParameters }}
             - name: LOCAL_FS_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
                   key: AWS_SECRET_ACCESS_KEY
-                  name: {{ .Values.awsConnectParameters }}
+                  name: {{ .Values.localFsBucketParameters }}
             - name: LOCAL_FS_BUCKET
               valueFrom:
                 secretKeyRef:
                   key: LOCAL_FS_BUCKET
-                  name: {{ .Values.awsConnectParameters }}
+                  name: {{ .Values.localFsBucketParameters }}
             - name: LOCAL_FS_REGION
               valueFrom:
                 secretKeyRef:
                   key: AWS_REGION
-                  name: {{ .Values.awsConnectParameters }}
+                  name: {{ .Values.localFsBucketParameters }}
           {{- end }}
           {{- with .Values.extraEnv }}
           {{- tpl . $ | nindent 12 }}
