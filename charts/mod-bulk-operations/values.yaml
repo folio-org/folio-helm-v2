@@ -111,8 +111,6 @@ extraEnv: |
     value: "{{ .Values.dbMaxPoolSize }}"
   - name: JAVA_OPTIONS
     value: {{ .Values.javaOptions }}
-  - name: S3_IS_AWS
-    value: "true"
   - name: S3_URL
     valueFrom:
       secretKeyRef:
