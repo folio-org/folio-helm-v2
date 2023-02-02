@@ -109,8 +109,6 @@ extraEnv: |
     value: {{ .Values.javaOptions }}
   - name: INDEXING_DATA_FORMAT
     value: "json"
-  - name: SYSTEM_USER_PASSWORD
-    value: "Mod-search-1-0-0"
   - name: INITIAL_LANGUAGES
     value: "eng"
 
