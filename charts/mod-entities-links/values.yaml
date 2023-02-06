@@ -121,16 +121,12 @@ extraEnv: |
       secretKeyRef:
         key: DB_CHARSET
         name: {{ .Values.dbConnectParameters }}
-  - name: OKAPI_URL
-    valueFrom:
-      secretKeyRef:
-        key: OKAPI_URL
-        name: {{ .Values.dbConnectParameters }}
 
 # Enable parameters for DB, Kafka or AWS connection. In value set name of secret
 dbConnectParameters: db-connect-modules 
 kafkaConnectParameters: db-connect-modules
 # awsConnectParameters: s3-credentials
+okapiConnectParameters: db-connect-modules
 
 # initContainer:
 #   image: 
