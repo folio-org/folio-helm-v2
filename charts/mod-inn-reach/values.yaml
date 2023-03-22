@@ -142,12 +142,6 @@ postJob:
     "helm.sh/hook-weight": "-5"
     "helm.sh/hook-delete-policy": hook-succeeded
 
-livenessProbe:
-  enabled: true
-
-readinessProbe:
-  enabled: true
-
 # Enable parameters for DB, Kafka or AWS connection. In value set name of secret
 # dbConnectParameters: db-connect-modules 
 # kafkaConnectParameters: db-connect-modules
