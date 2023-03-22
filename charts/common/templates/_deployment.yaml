@@ -110,14 +110,14 @@ spec:
 #            timeoutSeconds: 5
 #            failureThreshold: 20
 
-          {{- if .Values.startupProbe }}
+          {{- if .Values.startupProbe.enabled | default "true" }}
           startupProbe:
             httpGet:
-              path: {{ .Values.startupProbe.path }}
+              path: {{ .Values.startupProbe.path | default "/admin/health" }}
               port: {{ .Values.service.containerPort }}
-            periodSeconds: {{ .Values.startupProbe.periodSeconds }}
-            timeoutSeconds: {{ .Values.startupProbe.timeoutSeconds }}
-            failureThreshold: {{ .Values.startupProbe.failureThreshold }}
+            periodSeconds: {{ .Values.startupProbe.periodSeconds | default 60 }}
+            timeoutSeconds: {{ .Values.startupProbe.timeoutSeconds | default 5 }}
+            failureThreshold: {{ .Values.startupProbe.failureThreshold | default 20 }}
           {{- end }}
           volumeMounts: {{- include "helm.volumeMounts" . | indent 12 }}
           env:
