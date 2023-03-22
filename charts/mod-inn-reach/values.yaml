@@ -144,15 +144,9 @@ postJob:
 
 livenessProbe:
   enabled: true
-#  path: "/admin/health"
-#  periodSeconds: 60
-  timeoutSeconds: 10
 
 readinessProbe:
   enabled: true
-#  path: "/admin/health"
-#  periodSeconds: 60
-  timeoutSeconds: 10
 
 # Enable parameters for DB, Kafka or AWS connection. In value set name of secret
 # dbConnectParameters: db-connect-modules 
