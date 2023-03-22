@@ -143,13 +143,15 @@ postJob:
     "helm.sh/hook-delete-policy": hook-succeeded
 
 livenessProbe:
-  path: "/admin/health"
-  periodSeconds: 60
+  enabled: true
+#  path: "/admin/health"
+#  periodSeconds: 60
   timeoutSeconds: 10
 
 readinessProbe:
-  path: "/admin/health"
-  periodSeconds: 60
+  enabled: true
+#  path: "/admin/health"
+#  periodSeconds: 60
   timeoutSeconds: 10
 
 # Enable parameters for DB, Kafka or AWS connection. In value set name of secret

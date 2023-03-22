@@ -79,21 +79,21 @@ tolerations: []
 
 affinity: {}
 
-livenessProbe:
-  path: "/admin/health"
-  periodSeconds: 60
-  timeoutSeconds: 5
-
-readinessProbe:
-  path: "/admin/health"
-  periodSeconds: 60
-  timeoutSeconds: 5
-
-startupProbe:
-  path: "/admin/health"
-  periodSeconds: 60
-  timeoutSeconds: 5
-  failureThreshold: 20
+#livenessProbe:
+#  path: "/admin/health"
+#  periodSeconds: 60
+#  timeoutSeconds: 5
+#
+#readinessProbe:
+#  path: "/admin/health"
+#  periodSeconds: 60
+#  timeoutSeconds: 5
+#
+#startupProbe:
+#  path: "/admin/health"
+#  periodSeconds: 60
+#  timeoutSeconds: 5
+#  failureThreshold: 20
 
 # If need to create and attach ConfigMap add nedded parameters here
 # And create folder configmaps. In folder create file with the same name that in this config.
