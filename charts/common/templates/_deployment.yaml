@@ -69,22 +69,47 @@ spec:
               containerPort: {{ .Values.jmxMetrics.containerPort | default 9991 }}
               protocol: TCP
             {{- end }}
-          {{- if .Values.livenessProbe }}
+
+
+
+
+
+          {{- if .Values.livenessProbe.enabled | default "true" }}
           livenessProbe:
             httpGet:
-              path: {{ .Values.livenessProbe.path }}
+              path: {{ .Values.livenessProbe.path | default "/admin/health" }}
               port: {{ .Values.service.containerPort }}
-            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
-            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds | default 60 }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds | default 5 }}
           {{- end }}
-          {{- if .Values.readinessProbe }}
+
+
+          {{- if .Values.readinessProbe.enabled | default "true" }}
           readinessProbe:
             httpGet:
-              path: {{ .Values.readinessProbe.path }}
+              path: {{ .Values.readinessProbe.path | default "/admin/health" }}
               port: {{ .Values.service.containerPort }}
-            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
-            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 5 }}
           {{- end }}
+
+
+#          livenessProbe:
+#            path: "/admin/health"
+#            periodSeconds: 60
+#            timeoutSeconds: 5
+#
+#          readinessProbe:
+#            path: "/admin/health"
+#            periodSeconds: 60
+#            timeoutSeconds: 5
+
+#          startupProbe:
+#            path: "/admin/health"
+#            periodSeconds: 60
+#            timeoutSeconds: 5
+#            failureThreshold: 20
+
           {{- if .Values.startupProbe }}
           startupProbe:
             httpGet:
