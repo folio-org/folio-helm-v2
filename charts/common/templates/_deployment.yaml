@@ -70,7 +70,7 @@ spec:
               protocol: TCP
             {{- end }}
           healthChecks:
-            enabled: {{- if .Values.healthCheck.enabled | default "true" }}
+            - enabled: {{- if .Values.healthCheck.enabled | default "true" }}
               livenessProbe:
                 httpGet:
                   path: {{ .Values.livenessProbe.path | default "/admin/health" }}
@@ -85,6 +85,8 @@ spec:
                 periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
                 timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 10 }}
               {{- end }}
+          {{- end }}
+
 #          {{- if .Values.startupProbe }}
 #          startupProbe:
 #            httpGet:
