@@ -85,8 +85,6 @@ spec:
                 periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
                 timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 10 }}
               {{- end }}
-            {{- end }}
-
 #          {{- if .Values.startupProbe }}
 #          startupProbe:
 #            httpGet:
