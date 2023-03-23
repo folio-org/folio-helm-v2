@@ -70,7 +70,7 @@ spec:
               protocol: TCP
             {{- end }}
           healthChecks:
-            - enabled: {{- if .Values.healthCheck.enabled | default "true" }}
+            - enabled: {{ .Values.healthCheck.enabled | default "true" }}
               livenessProbe:
                 httpGet:
                   path: {{ .Values.livenessProbe.path | default "/admin/health" }}
