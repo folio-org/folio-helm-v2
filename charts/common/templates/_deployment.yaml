@@ -69,15 +69,14 @@ spec:
               containerPort: {{ .Values.jmxMetrics.containerPort | default 9991 }}
               protocol: TCP
             {{- end }}
-          healthChecks:
-            - enabled: {{ .Values.healthCheck.enabled | default "true" }}
+            {{ if .Values.healthCheck.enabled }}
               livenessProbe:
                 httpGet:
                   path: {{ .Values.livenessProbe.path | default "/admin/health" }}
                   port: {{ .Values.service.containerPort }}
                 periodSeconds: {{ .Values.livenessProbe.periodSeconds | default 60 }}
                 timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds | default 10 }}
-              {{- end }}
+#              {{- end }}
               readinessProbe:
                 httpGet:
                   path: {{ .Values.readinessProbe.path | default "/admin/health" }}
@@ -85,7 +84,7 @@ spec:
                 periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
                 timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 10 }}
 #              {{- end }}
-#            {{- end }}
+            {{- end }}
 #          {{- if .Values.startupProbe }}
 #          startupProbe:
 #            httpGet:
