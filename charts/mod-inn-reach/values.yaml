@@ -83,6 +83,9 @@ tolerations: []
 
 affinity: {}
 
+healthCheck:
+  enabled: false
+
 # Folio specific
 javaOptions: -XX:MaxRAMPercentage=85.0 -XX:+UseG1GC
 dbMaxPoolSize: 5
