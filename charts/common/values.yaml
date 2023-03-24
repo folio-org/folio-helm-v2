@@ -1,2 +1,2 @@
-healthCheck:
-  enabled: true
+#healthCheck:
+#  enabled: true
