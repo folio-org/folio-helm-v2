@@ -53,8 +53,8 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-#healthCheck:
-#  enabled: false
+healthCheck:
+  enabled: true
 #  livenessProbe:
 #    httpGet:
 #      path: "/admin/health"
