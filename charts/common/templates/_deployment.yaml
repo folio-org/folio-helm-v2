@@ -70,38 +70,55 @@ spec:
               protocol: TCP
             {{- end }}
 
-          {{- if not .Values.healthCheckDisabled }}
-          {{- if not .Values.livenessProbe }}
-          livenessProbe:
-            httpGet:
-              path: "/admin/health"
-              port: {{ .Values.service.containerPort }}
-            periodSeconds: 60
-            timeoutSeconds: 10
+          {{- if .Values.healthCheck.enabled }}
+          healthCheck:
+            enabled: true
+            {{- if not .Values.healthCheck.livenessProbe }}
+            livenessProbe:
+              httpGet:
+                path: "/admin/health"
+                port: {{ .Values.service.containerPort }}
+              periodSeconds: 60
+              timeoutSeconds: 10
+            {{- else }}
+            livenessProbe:
+              httpGet:
+                path: {{ .Values.healthCheck.livenessProbe.path }}
+                port: {{ .Values.service.containerPort }}
+              periodSeconds: {{ .Values.healthCheck.livenessProbe.periodSeconds }}
+              timeoutSeconds: {{ .Values.healthCheck.livenessProbe.timeoutSeconds }}
+            {{- end }}
+            {{- if not .Values.healthCheck.readinessProbe }}
+            readinessProbe:
+              httpGet:
+                path: "/admin/health"
+                port: {{ .Values.service.containerPort }}
+              periodSeconds: 60
+              timeoutSeconds: 10
+            {{- else }}
+            readinessProbe:
+              httpGet:
+                path: {{ .Values.healthCheck.readinessProbe.path }}
+                port: {{ .Values.service.containerPort }}
+              periodSeconds: {{ .Values.healthCheck.readinessProbe.periodSeconds }}
+              timeoutSeconds: {{ .Values.healthCheck.readinessProbe.timeoutSeconds }}
+            {{- end }}
           {{- else }}
-          livenessProbe:
-            httpGet:
-              path: {{ .Values.livenessProbe.path | default "/admin/health" }}
-              port: {{ .Values.service.containerPort }}
-            periodSeconds: {{ .Values.livenessProbe.periodSeconds | default 60 }}
-            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds | default 10 }}
+          healthCheck:
+            enabled: false
           {{- end }}
-          {{- if not .Values.readinessProbe }}
-          readinessProbe:
-            httpGet:
-              path: "/admin/health"
-              port: {{ .Values.service.containerPort }}
-            periodSeconds: 60
-            timeoutSeconds: 10
-          {{- else }}
-          readinessProbe:
-            httpGet:
-              path: {{ .Values.readinessProbe.path | default "/admin/health" }}
-              port: {{ .Values.service.containerPort }}
-            periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
-            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 10 }}
-          {{- end }}
-          {{- end }}
+
+
+
+#          {{- if .Values.startupProbe }}
+#          startupProbe:
+#            httpGet:
+#              path: {{ .Values.startupProbe.path }}
+#              port: {{ .Values.service.containerPort }}
+#            periodSeconds: {{ .Values.startupProbe.periodSeconds }}
+#            timeoutSeconds: {{ .Values.startupProbe.timeoutSeconds }}
+#            failureThreshold: {{ .Values.startupProbe.failureThreshold }}
+#          {{- end }}
           volumeMounts: {{- include "helm.volumeMounts" . | indent 12 }}
           env:
           {{- if .Values.elasticSearchConnectParameters }}
@@ -264,4 +281,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-#{{- end -}}
+{{- end -}}

@@ -53,6 +53,12 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
+healthCheck:
+  enabled: true
+  livenessProbe:
+    path: "/admin/health"
+    periodSeconds: 600
+    timeoutSeconds: 100
 
 resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
