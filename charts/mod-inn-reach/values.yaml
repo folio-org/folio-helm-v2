@@ -83,9 +83,6 @@ tolerations: []
 
 affinity: {}
 
-healthCheck:
-  enabled: false
-
 # Folio specific
 javaOptions: -XX:MaxRAMPercentage=85.0 -XX:+UseG1GC
 dbMaxPoolSize: 5
@@ -156,8 +153,3 @@ postJob:
     "helm.sh/hook-weight": "-5"
     "helm.sh/hook-delete-policy": hook-succeeded
 
-# Enable parameters for DB, Kafka or AWS connection. In value set name of secret
-# dbConnectParameters: db-connect-modules 
-# kafkaConnectParameters: db-connect-modules
-# awsConnectParameters: s3-credentials
-okapiConnectParameters: db-connect-modules
