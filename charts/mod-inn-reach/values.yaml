@@ -112,11 +112,22 @@ extraEnv: |
     value: "{{ .Values.dbMaxPoolSize }}"
   - name: JAVA_OPTIONS
     value: {{ .Values.javaOptions }}
+  - name: DB_QUERYTIMEOUT
+    valueFrom:
+      secretKeyRef:
+        key: DB_QUERYTIMEOUT
+        name: {{ .Values.dbConnectParameters }}
+  - name: DB_CHARSET
+    valueFrom:
+      secretKeyRef:
+        key: DB_CHARSET
+        name: {{ .Values.dbConnectParameters }}
 
 # Enable parameters for DB, Kafka or AWS connection. In value set name of secret
 dbConnectParameters: db-connect-modules 
-# kafkaConnectParameters: db-connect-modules
+kafkaConnectParameters: db-connect-modules
 # awsConnectParameters: s3-credentials
+okapiConnectParameters: db-connect-modules
 
 # initContainer:
 #   image: 
