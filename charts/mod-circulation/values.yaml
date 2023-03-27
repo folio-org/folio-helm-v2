@@ -55,12 +55,10 @@ ingress:
   #      - chart-example.local
 healthCheck:
   enabled: true
-#  livenessProbe:
-#    httpGet:
-#      path: "/admin/health"
-#      port: {{ .Values.service.containerPort }}
-#    periodSeconds: 600
-#    timeoutSeconds: 100
+  livenessProbe:
+    path: "/admin/health"
+    periodSeconds: 600
+    timeoutSeconds: 100
 
 resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
