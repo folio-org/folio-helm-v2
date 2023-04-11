@@ -69,30 +69,31 @@ spec:
               containerPort: {{ .Values.jmxMetrics.containerPort | default 9991 }}
               protocol: TCP
             {{- end }}
-          {{- if not .Values.healthCheckDisabled }}
-          {{- if not .Values.livenessProbe }}
+
+
+          {{- if and (.Values.healthCheck) (eq .Values.healthCheck.enabled true) }}
+          {{- if not .Values.healthCheck.livenessProbe }}
           livenessProbe:
             httpGet:
+              {{- if not .Values.livenessProbe.path  }}
               path: "/admin/health"
+              {{- end }}
               port: {{ .Values.service.containerPort }}
+            {{- if not .Values.livenessProbe.periodSeconds }}
             periodSeconds: 60
+            {{- end }}
+            {{- if not .Values.livenessProbe.timeoutSeconds }}
             timeoutSeconds: 10
-          {{- else }}
-          livenessProbe:
-            httpGet:
-              path: {{ .Values.livenessProbe.path | default "/admin/health" }}
-              port: {{ .Values.service.containerPort }}
-            periodSeconds: {{ .Values.livenessProbe.periodSeconds | default 60 }}
-            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds | default 10 }}
-          {{- end }}
-          {{- if not .Values.readinessProbe }}
-          readinessProbe:
-            httpGet:
-              path: "/admin/health"
-              port: {{ .Values.service.containerPort }}
-            periodSeconds: 60
-            timeoutSeconds: 10
-          {{- else }}
+            {{- end }}
+            {{- end }}
+#          {{- if not .Values.readinessProbe }}
+#          readinessProbe:
+#            httpGet:
+#              path: "/admin/health"
+#              port: {{ .Values.service.containerPort }}
+#            periodSeconds: 60
+#            timeoutSeconds: 10
+#          {{- else }}
           readinessProbe:
             httpGet:
               path: {{ .Values.readinessProbe.path | default "/admin/health" }}
@@ -100,7 +101,10 @@ spec:
             periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 10 }}
           {{- end }}
-          {{- end }}
+#          {{- end }}
+
+
+
           volumeMounts: {{- include "helm.volumeMounts" . | indent 12 }}
           env:
           {{- if .Values.elasticSearchConnectParameters }}
