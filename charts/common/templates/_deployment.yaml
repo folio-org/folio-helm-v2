@@ -71,21 +71,28 @@ spec:
             {{- end }}
 
 
-          {{- if and (.Values.healthCheck) (eq .Values.healthCheck.enabled true) }}
-          {{- if not .Values.healthCheck.livenessProbe }}
+          {{- if and (not .Values.healthCheck) }}
+#          {{- if not .Values.healthCheck.livenessProbe }}
           livenessProbe:
-            httpGet:
-              {{- if not .Values.livenessProbe.path  }}
-              path: "/admin/health"
-              {{- end }}
+#            httpGet:
+             path: default "/admin/health" .Values.livenessProbe.path
+#              {{- if not .Values.livenessProbe.path  }}
+#              path: "/admin/health"
+#              {{- else }}
+#              path: {{ .Values.livenessProbe.path }}
+#              {{- end }}
               port: {{ .Values.service.containerPort }}
-            {{- if not .Values.livenessProbe.periodSeconds }}
-            periodSeconds: 60
-            {{- end }}
-            {{- if not .Values.livenessProbe.timeoutSeconds }}
-            timeoutSeconds: 10
-            {{- end }}
-            {{- end }}
+#            {{- if not .Values.livenessProbe.periodSeconds }}
+#            periodSeconds: 60
+#            {{- else }}
+#            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+#            {{- end }}
+#            {{- if not .Values.livenessProbe.timeoutSeconds }}
+#            timeoutSeconds: 10
+#            {{- else }}
+#            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+#            {{- end }}
+#            {{- end }}
 #          {{- if not .Values.readinessProbe }}
 #          readinessProbe:
 #            httpGet:
@@ -94,14 +101,14 @@ spec:
 #            periodSeconds: 60
 #            timeoutSeconds: 10
 #          {{- else }}
-          readinessProbe:
-            httpGet:
-              path: {{ .Values.readinessProbe.path | default "/admin/health" }}
-              port: {{ .Values.service.containerPort }}
-            periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
-            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 10 }}
-          {{- end }}
+#          readinessProbe:
+#            httpGet:
+#              path: {{ .Values.readinessProbe.path | default "/admin/health" }}
+#              port: {{ .Values.service.containerPort }}
+#            periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
+#            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 10 }}
 #          {{- end }}
+          {{- end }}
 
 
 
