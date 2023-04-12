@@ -71,44 +71,40 @@ spec:
             {{- end }}
 
 
-          {{- if not .Values.healthCheck }}
-          {{- if not .Values.livenessProbe }}
-          livenessProbe:
-            httpGet:
-              path: {{ .default "/admin/health" .Values.livenessProbe.path | quote }}
-              {{- if not .Values.livenessProbe.path  }}
-              path: "/admin/health"
-              {{- else }}
-              path: {{ .Values.livenessProbe.path }}
-              {{- end }}
-            port: {{ .Values.service.containerPort }}
-#            {{- if not .Values.livenessProbe.periodSeconds }}
-#            periodSeconds: 60
-#            {{- else }}
-#            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
-#            {{- end }}
-#            {{- if not .Values.livenessProbe.timeoutSeconds }}
-#            timeoutSeconds: 10
-#            {{- else }}
-#            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
-#            {{- end }}
-#            {{- end }}
-#          {{- if not .Values.readinessProbe }}
-#          readinessProbe:
-#            httpGet:
-#              path: "/admin/health"
-#              port: {{ .Values.service.containerPort }}
-#            periodSeconds: 60
-#            timeoutSeconds: 10
-#          {{- else }}
-#          readinessProbe:
-#            httpGet:
-#              path: {{ .Values.readinessProbe.path | default "/admin/health" }}
-#              port: {{ .Values.service.containerPort }}
-#            periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
-#            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 10 }}
-#          {{- end }}
-#          {{- end }}
+
+
+          {{- if not .Values.healthCheckDisabled }}
+#            livenessProbeDisabled: {{ if not .Values.healthCheckDisabled -}} {{ default "false" .Values.livenessProbeDisabled }} {{- else -}} "false" {{- end }}
+            livenessProbeDisabled: {{ .Values.healthCheckDisabled | default "true" }}
+#            readinessProbeDisabled: {{ if not .Values.healthCheckDisabled -}} {{ default "true" .Values.readinessProbeDisabled }} {{- else -}} "true" {{- end }}
+#            startupProbeDisabled: {{ if not .Values.healthCheckDisabled -}} {{ default "true" .Values.startupProbeDisabled }} {{- else -}} "true" {{- end }}
+          {{- if .Values.livenessProbeDisabled }}
+            livenessProbe:
+              httpGet:
+                path: {{ if .Values.livenessProbe -}} {{ default "/admin/health" .Values.livenessProbe.path | quote }} {{- else -}} "/admin/health" {{- end }}
+                port: {{ .Values.service.containerPort }}
+              periodSeconds: {{ if .Values.livenessProbe -}} {{ default 60 .Values.livenessProbe.periodSeconds }} {{- else -}} 60 {{- end }}
+              timeoutSeconds: {{ if .Values.livenessProbe -}} {{ default 10 .Values.livenessProbe.timeoutSeconds }} {{- else -}} 10 {{- end }}
+          {{- end}}
+          {{ if .Values.readinessProbeDisabled -}}
+            readinessProbe:
+              httpGet:
+                path: {{ if .Values.readinessProbe -}} {{ default "/admin/health" .Values.readinessProbe.path | quote }} {{- else -}} "/admin/health" {{- end }}
+                port: {{ .Values.service.containerPort }}
+              periodSeconds: {{ if .Values.readinessProbe -}} {{ default 60 .Values.readinessProbe.periodSeconds }} {{- else -}} 60 {{- end }}
+              timeoutSeconds: {{ if .Values.readinessProbe -}} {{ default 10 .Values.readinessProbe.timeoutSeconds }} {{- else -}} 10 {{- end }}
+          {{- end }}
+          startupProbeDisabled: true
+          {{- if not .Values.startupProbeDisabled }}
+            startupProbe:
+              httpGet:
+                path: {{ if .Values.startupProbe -}} {{ default "/admin/health" .Values.startupProbe.path | quote }} {{- else -}} "/admin/health" {{- end }}
+                port: {{ .Values.service.containerPort }}
+              periodSeconds: {{ if .Values.startupProbe -}} {{ default 60 .Values.startupProbe.periodSeconds }} {{- else -}} 60 {{- end }}
+              timeoutSeconds: {{ if .Values.startupProbe -}} {{ default 5 .Values.startupProbe.timeoutSeconds }} {{- else -}} 5 {{- end }}
+              failureThreshold: {{ if .Values.startupProbe -}} {{ default 20 .Values.startupProbe.failureThreshold }} {{- else -}} 20 {{- end }}
+          {{- end }}
+          {{- end }}
 
 
 
