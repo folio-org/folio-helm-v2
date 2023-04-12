@@ -71,17 +71,17 @@ spec:
             {{- end }}
 
 
-          {{- if and (not .Values.healthCheck) }}
-#          {{- if not .Values.healthCheck.livenessProbe }}
+          {{- if not .Values.healthCheck }}
+          {{- if not .Values.livenessProbe }}
           livenessProbe:
-#            httpGet:
-             path: default "/admin/health" .Values.livenessProbe.path
-#              {{- if not .Values.livenessProbe.path  }}
-#              path: "/admin/health"
-#              {{- else }}
-#              path: {{ .Values.livenessProbe.path }}
-#              {{- end }}
-              port: {{ .Values.service.containerPort }}
+            httpGet:
+              path: {{ .default "/admin/health" .Values.livenessProbe.path | quote }}
+              {{- if not .Values.livenessProbe.path  }}
+              path: "/admin/health"
+              {{- else }}
+              path: {{ .Values.livenessProbe.path }}
+              {{- end }}
+            port: {{ .Values.service.containerPort }}
 #            {{- if not .Values.livenessProbe.periodSeconds }}
 #            periodSeconds: 60
 #            {{- else }}
@@ -108,7 +108,7 @@ spec:
 #            periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
 #            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 10 }}
 #          {{- end }}
-          {{- end }}
+#          {{- end }}
 
 
 
