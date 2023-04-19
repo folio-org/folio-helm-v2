@@ -99,16 +99,6 @@ affinity: {}
 #     - name: dumps-volume
 #       mountPath: /dumps
 
-livenessProbe:
-  path: "/admin/health"
-  periodSeconds: 60
-  timeoutSeconds: 5
-
-readinessProbe:
-  path: "/admin/health"
-  periodSeconds: 60
-  timeoutSeconds: 5
-
 dbMaxPoolSize: 5
 javaOptions: -XX:MaxRAMPercentage=85.0 -XX:+UseG1GC
 

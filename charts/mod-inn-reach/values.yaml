@@ -153,12 +153,3 @@ postJob:
     "helm.sh/hook-weight": "-5"
     "helm.sh/hook-delete-policy": hook-succeeded
 
-livenessProbe:
-  path: "/admin/health"
-  periodSeconds: 60
-  timeoutSeconds: 10
-
-readinessProbe:
-  path: "/admin/health"
-  periodSeconds: 60
-  timeoutSeconds: 10
