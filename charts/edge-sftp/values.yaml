@@ -114,3 +114,5 @@ testConnectionPod:
   create: true
   annotations: 
     "helm.sh/hook": test
+
+healthCheck: false
