@@ -142,3 +142,5 @@ okapiUrl: http://localhost:9300
 overrideArgs:
   - -conf
   - /etc/config/sip2.conf
+
+healthCheck: false

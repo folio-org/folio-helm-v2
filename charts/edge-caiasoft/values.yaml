@@ -127,3 +127,5 @@ okapiConnectParameters: db-connect-modules
 #     - diku
 #     - dkl
 #   mountPath: /path
+
+healthCheck: false
