@@ -69,8 +69,7 @@ spec:
               containerPort: {{ .Values.jmxMetrics.containerPort | default 9991 }}
               protocol: TCP
             {{- end }}
-
-          {{- if or (eq .Values.healthCheck nil) (.Values.healthCheck) }}
+          {{- if .Values.healthCheck }}
           {{- if or (eq .Values.livenessProbeEnabled nil) (.Values.livenessProbeEnabled) }}
           livenessProbe:
             httpGet:
@@ -97,9 +96,6 @@ spec:
             failureThreshold: {{ if .Values.startupProbe -}} {{ default 20 .Values.startupProbe.failureThreshold }} {{- else -}} 30 {{- end }}
           {{- end }}
           {{- end }}
-
-
-
           volumeMounts: {{- include "helm.volumeMounts" . | indent 12 }}
           env:
           {{- if .Values.elasticSearchConnectParameters }}
