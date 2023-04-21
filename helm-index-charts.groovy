@@ -1,6 +1,6 @@
 #!groovy
 
-@Library('pipelines-shared-library') _
+@Library('pipelines-shared-library@RANCHER-767') _
 
 import org.folio.Constants
 import org.folio.utilities.Tools
@@ -16,7 +16,7 @@ properties([
     ])
 ])
 
-def chartsRepositoryUrl = "${Constants.FOLIO_GITHUB_URL}/folio-helm-v2.git"
+def chartsRepositoryUrl = "${Constants.FOLIO_GITHUB_URL}/folio-helm-v2-test.git"
 List chartsForIndex
 
 ansiColor('xterm') {
