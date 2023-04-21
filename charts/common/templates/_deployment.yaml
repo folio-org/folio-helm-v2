@@ -69,7 +69,7 @@ spec:
               containerPort: {{ .Values.jmxMetrics.containerPort | default 9991 }}
               protocol: TCP
             {{- end }}
-          {{- if .Values.healthCheck }}
+          {{- if or (eq .Values.healthCheck nil) (.Values.healthCheck) }}
           {{- if or (eq .Values.livenessProbeEnabled nil) (.Values.livenessProbeEnabled) }}
           livenessProbe:
             httpGet:
