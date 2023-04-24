@@ -170,3 +170,6 @@ postJob:
 
 livenessProbe:
   path: "/_/proxy/health"
+
+readinessProbe:
+  path: "/_/proxy/health"
