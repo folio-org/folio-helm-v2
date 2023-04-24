@@ -16,7 +16,7 @@ properties([
     ])
 ])
 
-def chartsRepositoryUrl = "${Constants.FOLIO_GITHUB_URL}/folio-helm-v2-test.git"
+def chartsRepositoryUrl = "https://repository.folio.org/repository/folio-helm-v2-test/"
 List chartsForIndex
 
 ansiColor('xterm') {
