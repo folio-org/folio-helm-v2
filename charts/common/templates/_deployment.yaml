@@ -76,6 +76,7 @@ spec:
               path: {{ if .Values.livenessProbe -}} {{ default "/admin/health" .Values.livenessProbe.path | quote }} {{- else -}} "/admin/health" {{- end }}
               port: {{ .Values.service.containerPort }}
             periodSeconds: {{ if .Values.livenessProbe -}} {{ default 60 .Values.livenessProbe.periodSeconds }} {{- else -}} 60 {{- end }}
+            initialDelaySeconds: {{ if .Values.initialDelaySeconds -}} {{ default 10 .Values.livenessProbe.initialDelaySeconds }} {{- else -}} 10 {{- end }}
             timeoutSeconds: {{ if .Values.livenessProbe -}} {{ default 50 .Values.livenessProbe.timeoutSeconds }} {{- else -}} 50 {{- end }}
           {{- end }}
           {{- if or (eq .Values.readinessProbeEnabled nil) (.Values.readinessProbeEnabled) }}
@@ -84,6 +85,7 @@ spec:
               path: {{ if .Values.readinessProbe -}} {{ default "/admin/health" .Values.readinessProbe.path | quote }} {{- else -}} "/admin/health" {{- end }}
               port: {{ .Values.service.containerPort }}
             periodSeconds: {{ if .Values.readinessProbe -}} {{ default 60 .Values.readinessProbe.periodSeconds }} {{- else -}} 60 {{- end }}
+            initialDelaySeconds: {{ if .Values.initialDelaySeconds -}} {{ default 10 .Values.livenessProbe.initialDelaySeconds }} {{- else -}} 10 {{- end }}
             timeoutSeconds: {{ if .Values.readinessProbe -}} {{ default 50 .Values.readinessProbe.timeoutSeconds }} {{- else -}} 50 {{- end }}
           {{- end }}
           {{- if .Values.startupProbeEnabled }}
@@ -92,6 +94,7 @@ spec:
               path: {{ if .Values.startupProbe -}} {{ default "/admin/health" .Values.startupProbe.path | quote }} {{- else -}} "/admin/health" {{- end }}
               port: {{ .Values.service.containerPort }}
             periodSeconds: {{ if .Values.startupProbe -}} {{ default 60 .Values.startupProbe.periodSeconds }} {{- else -}} 60 {{- end }}
+            initialDelaySeconds: {{ if .Values.initialDelaySeconds -}} {{ default 10 .Values.livenessProbe.initialDelaySeconds }} {{- else -}} 10 {{- end }}
             timeoutSeconds: {{ if .Values.startupProbe -}} {{ default 50 .Values.startupProbe.timeoutSeconds }} {{- else -}} 50 {{- end }}
             failureThreshold: {{ if .Values.startupProbe -}} {{ default 10 .Values.startupProbe.failureThreshold }} {{- else -}} 10 {{- end }}
           {{- end }}
