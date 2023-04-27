@@ -88,7 +88,7 @@ spec:
             initialDelaySeconds: {{ if .Values.initialDelaySeconds -}} {{ default 30 .Values.livenessProbe.initialDelaySeconds }} {{- else -}} 30 {{- end }}
             timeoutSeconds: {{ if .Values.readinessProbe -}} {{ default 50 .Values.readinessProbe.timeoutSeconds }} {{- else -}} 50 {{- end }}
           {{- end }}
-          {{- if or (eq .Values.startupProbeEnabled nil) (.Values.startupProbeEnabled) }}
+          {{- if .Values.startupProbeEnabled }}
           startupProbe:
             httpGet:
               path: {{ if .Values.startupProbe -}} {{ default "/admin/health" .Values.startupProbe.path | quote }} {{- else -}} "/admin/health" {{- end }}
