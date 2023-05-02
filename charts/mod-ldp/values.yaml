@@ -141,3 +141,4 @@ postJob:
 
 # jmxMetrics:
 #   enable: true
+healthCheck: false
