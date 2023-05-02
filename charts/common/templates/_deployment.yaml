@@ -75,7 +75,8 @@ spec:
             httpGet:
               path: {{ if .Values.livenessProbe -}} {{ default "/admin/health" .Values.livenessProbe.path | quote }} {{- else -}} "/admin/health" {{- end }}
               port: {{ .Values.service.containerPort }}
-            periodSeconds: {{ if .Values.livenessProbe -}} {{ default 60 .Values.livenessProbe.periodSeconds }} {{- else -}} 60 {{- end }}
+            periodSeconds: {{ if .Values.livenessProbe -}} {{ default 90 .Values.livenessProbe.periodSeconds }} {{- else -}} 90 {{- end }}
+            initialDelaySeconds: {{ if .Values.initialDelaySeconds -}} {{ default 5 .Values.livenessProbe.initialDelaySeconds }} {{- else -}} 5 {{- end }}
             timeoutSeconds: {{ if .Values.livenessProbe -}} {{ default 30 .Values.livenessProbe.timeoutSeconds }} {{- else -}} 30 {{- end }}
           {{- end }}
           {{- if or (eq .Values.readinessProbeEnabled nil) (.Values.readinessProbeEnabled) }}
@@ -83,7 +84,8 @@ spec:
             httpGet:
               path: {{ if .Values.readinessProbe -}} {{ default "/admin/health" .Values.readinessProbe.path | quote }} {{- else -}} "/admin/health" {{- end }}
               port: {{ .Values.service.containerPort }}
-            periodSeconds: {{ if .Values.readinessProbe -}} {{ default 60 .Values.readinessProbe.periodSeconds }} {{- else -}} 60 {{- end }}
+            periodSeconds: {{ if .Values.readinessProbe -}} {{ default 90 .Values.readinessProbe.periodSeconds }} {{- else -}} 90 {{- end }}
+            initialDelaySeconds: {{ if .Values.initialDelaySeconds -}} {{ default 6 .Values.livenessProbe.initialDelaySeconds }} {{- else -}} 6 {{- end }}
             timeoutSeconds: {{ if .Values.readinessProbe -}} {{ default 30 .Values.readinessProbe.timeoutSeconds }} {{- else -}} 30 {{- end }}
           {{- end }}
           {{- if .Values.startupProbeEnabled }}
