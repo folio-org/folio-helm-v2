@@ -69,13 +69,14 @@ spec:
               containerPort: {{ .Values.jmxMetrics.containerPort | default 9991 }}
               protocol: TCP
             {{- end }}
-          {{- if .Values.healthCheck }}
+          {{- if or (eq .Values.healthCheck nil) (.Values.healthCheck) }}
           {{- if or (eq .Values.livenessProbeEnabled nil) (.Values.livenessProbeEnabled) }}
           livenessProbe:
             httpGet:
               path: {{ if .Values.livenessProbe -}} {{ default "/admin/health" .Values.livenessProbe.path | quote }} {{- else -}} "/admin/health" {{- end }}
               port: {{ .Values.service.containerPort }}
-            periodSeconds: {{ if .Values.livenessProbe -}} {{ default 60 .Values.livenessProbe.periodSeconds }} {{- else -}} 60 {{- end }}
+            periodSeconds: {{ if .Values.livenessProbe -}} {{ default 90 .Values.livenessProbe.periodSeconds }} {{- else -}} 90 {{- end }}
+            initialDelaySeconds: {{ if .Values.initialDelaySeconds -}} {{ default 5 .Values.livenessProbe.initialDelaySeconds }} {{- else -}} 5 {{- end }}
             timeoutSeconds: {{ if .Values.livenessProbe -}} {{ default 30 .Values.livenessProbe.timeoutSeconds }} {{- else -}} 30 {{- end }}
           {{- end }}
           {{- if or (eq .Values.readinessProbeEnabled nil) (.Values.readinessProbeEnabled) }}
@@ -83,7 +84,8 @@ spec:
             httpGet:
               path: {{ if .Values.readinessProbe -}} {{ default "/admin/health" .Values.readinessProbe.path | quote }} {{- else -}} "/admin/health" {{- end }}
               port: {{ .Values.service.containerPort }}
-            periodSeconds: {{ if .Values.readinessProbe -}} {{ default 60 .Values.readinessProbe.periodSeconds }} {{- else -}} 60 {{- end }}
+            periodSeconds: {{ if .Values.readinessProbe -}} {{ default 90 .Values.readinessProbe.periodSeconds }} {{- else -}} 90 {{- end }}
+            initialDelaySeconds: {{ if .Values.initialDelaySeconds -}} {{ default 6 .Values.livenessProbe.initialDelaySeconds }} {{- else -}} 6 {{- end }}
             timeoutSeconds: {{ if .Values.readinessProbe -}} {{ default 30 .Values.readinessProbe.timeoutSeconds }} {{- else -}} 30 {{- end }}
           {{- end }}
           {{- if .Values.startupProbeEnabled }}
@@ -91,9 +93,8 @@ spec:
             httpGet:
               path: {{ if .Values.startupProbe -}} {{ default "/admin/health" .Values.startupProbe.path | quote }} {{- else -}} "/admin/health" {{- end }}
               port: {{ .Values.service.containerPort }}
-            periodSeconds: {{ if .Values.startupProbe -}} {{ default 60 .Values.startupProbe.periodSeconds }} {{- else -}} 60 {{- end }}
-            timeoutSeconds: {{ if .Values.startupProbe -}} {{ default 50 .Values.startupProbe.timeoutSeconds }} {{- else -}} 50 {{- end }}
-            failureThreshold: {{ if .Values.startupProbe -}} {{ default 30 .Values.startupProbe.failureThreshold }} {{- else -}} 30 {{- end }}
+            periodSeconds: {{ if .Values.startupProbe -}} {{ default 30 .Values.startupProbe.periodSeconds }} {{- else -}} 30 {{- end }}
+            failureThreshold: {{ if .Values.startupProbe -}} {{ default 10 .Values.startupProbe.failureThreshold }} {{- else -}} 10 {{- end }}
           {{- end }}
           {{- end }}
           volumeMounts: {{- include "helm.volumeMounts" . | indent 12 }}
