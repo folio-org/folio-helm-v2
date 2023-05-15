@@ -241,6 +241,18 @@ spec:
                   key: AWS_REGION
                   name: {{ .Values.localFsBucketParameters }}
           {{- end }}
+          {{- if .Values.readWriteSplitEnabled }}
+            - name: DB_HOST_READER
+              valueFrom:
+                secretKeyRef:
+                  key: DB_HOST_READER
+                  name: {{ .Values.dbConnectParameters }}
+            - name: DB_PORT_READER
+              valueFrom:
+                secretKeyRef:
+                  key: DB_PORT
+                  name: {{ .Values.dbConnectParameters }}
+          {{- end }}
           {{- with .Values.extraEnv }}
           {{- tpl . $ | nindent 12 }}
           {{- end }}
