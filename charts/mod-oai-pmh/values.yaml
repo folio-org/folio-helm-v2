@@ -109,7 +109,8 @@ extraEnv: |
 # Enable parameters for DB, Kafka or AWS connection. In value set name of secret
 dbConnectParameters: db-connect-modules 
 # kafkaConnectParameters: db-connect-modules
-# awsConnectParameters: s3-credentials
+# awsConnectParameters for MinIO
+awsConnectParameters: s3-credentials-oai-pmh
 
 # initContainer:
 #   image: 
