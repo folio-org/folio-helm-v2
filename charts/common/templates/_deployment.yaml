@@ -253,6 +253,11 @@ spec:
                   key: DB_PORT
                   name: {{ .Values.dbConnectParameters }}
           {{- end }}
+          {{- if .Values.CONSORTIUM_ENABLED }}
+            - name: CONSORTIUM_ENABLED
+                key: CONSORTIUM_ENABLED
+                name: {{ .Values.CONSORTIUM_ENABLED }}
+          {{- end }}
           {{- with .Values.extraEnv }}
           {{- tpl . $ | nindent 12 }}
           {{- end }}
