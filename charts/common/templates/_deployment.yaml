@@ -255,7 +255,7 @@ spec:
           {{- end }}
           {{- if .Values.consortiumEnabled }}
             - name: CONSORTIUM_ENABLED
-              value: {{ .Values.consortiumEnabled }}
+              value: {{ .Values.consortiumEnabled | quote }}
           {{- end }}
           {{- with .Values.extraEnv }}
           {{- tpl . $ | nindent 12 }}
