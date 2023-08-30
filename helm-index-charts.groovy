@@ -1,6 +1,6 @@
 #!groovy
 
-@Library('pipelines-shared-library@RANCHER-962') _
+@Library('pipelines-shared-library') _
 
 import org.folio.Constants
 import org.folio.utilities.Tools
@@ -12,11 +12,11 @@ properties([
     disableConcurrentBuilds(),
     pipelineTriggers([[$class: 'GitHubPushTrigger']]),
     parameters([
-        booleanParam(name: 'indexAllCharts', defaultValue: false, description: 'Run index for all charts in folio-helm-v2-test repo')
+        booleanParam(name: 'indexAllCharts', defaultValue: false, description: 'Run index for all charts in folio-helm-v2 repo')
     ])
 ])
 
-def chartsRepositoryUrl = "${Constants.FOLIO_GITHUB_URL}/folio-helm-v2-test.git"
+def chartsRepositoryUrl = "${Constants.FOLIO_GITHUB_URL}/folio-helm-v2.git"
 List chartsForIndex
 
 ansiColor('xterm') {
