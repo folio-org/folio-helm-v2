@@ -99,6 +99,7 @@ affinity: {}
   #     mountPath: /dumps
 
   # Folio specific
+javaOptions: -XX:MaxRAMPercentage=75.0 -XX:+UseG1GC
 dbMaxPoolSize: 5
 
 extraEnv: |
