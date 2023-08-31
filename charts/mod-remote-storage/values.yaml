@@ -98,6 +98,9 @@ affinity: {}
   #   - name: dumps-volume
   #     mountPath: /dumps
 
+  # Folio specific
+dbMaxPoolSize: 5
+
 extraEnv: |
   - name: DB_MAXPOOLSIZE
     value: "{{ .Values.dbMaxPoolSize }}"
