@@ -119,6 +119,8 @@ extraEnv: |
       secretKeyRef:
         key: OKAPI_URL
         name: db-connect-modules
+  - name: SYSTEM_USER_PASSWORD
+    value: "Mod-consortia-1-0-0"
 
 # Enable parameters for DB, Kafka or AWS connection. In value set name of secret
 dbConnectParameters: db-connect-modules 
