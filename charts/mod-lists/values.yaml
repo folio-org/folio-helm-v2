@@ -110,9 +110,9 @@ extraEnv: |
   - name: MAX_LIST_SIZE
     value: {{ .Values.maxListSize | quote }}
   - name: LIST_EXPORT_BATCH_SIZE
-    value: "{{ .Values.listExportBatchSize }}"
+    value: {{ .Values.listExportBatchSize | quote }}
   - name: spring.task.execution.pool.max-size
-    value: "{{ .Values.springTaskPoolSize }}"
+    value: {{ .Values.springTaskPoolSize | quote }}
 
 # Enable parameters for DB, Kafka or AWS connection. In value set name of secret
 dbConnectParameters: db-connect-modules 
