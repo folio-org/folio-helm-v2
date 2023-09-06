@@ -96,23 +96,23 @@ affinity: {}
 #     - name: dumps-volume
 #       mountPath: /dumps
 
-dbMaxPoolSize: 5
-javaOptions: -XX:MaxRAMPercentage=85.0
-maxListSize: 1250000
-listExportBatchSize: 1000
-springTaskPoolSize: 10
+dbMaxPoolSize: "5"
+javaOptions: "-XX:MaxRAMPercentage=85.0"
+maxListSize: "1250000"
+listExportBatchSize: "1000"
+springTaskPoolSize: "10"
 
 extraEnv: |
   - name: DB_MAXPOOLSIZE
-    value: "{{ .Values.dbMaxPoolSize }}"
+    value: {{ .Values.dbMaxPoolSize }}
   - name: JAVA_OPTIONS
     value: {{ .Values.javaOptions }}
   - name: MAX_LIST_SIZE
-    value: {{ .Values.maxListSize | quote }}
+    value: {{ .Values.maxListSize }}
   - name: LIST_EXPORT_BATCH_SIZE
-    value: {{ .Values.listExportBatchSize | quote }}
+    value: {{ .Values.listExportBatchSize }}
   - name: spring.task.execution.pool.max-size
-    value: {{ .Values.springTaskPoolSize | quote }}
+    value: {{ .Values.springTaskPoolSize }}
 
 # Enable parameters for DB, Kafka or AWS connection. In value set name of secret
 dbConnectParameters: db-connect-modules 
