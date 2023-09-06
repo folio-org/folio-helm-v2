@@ -108,7 +108,7 @@ extraEnv: |
   - name: JAVA_OPTIONS
     value: {{ .Values.javaOptions }}
   - name: MAX_LIST_SIZE
-    value: "{{ .Values.maxListSize }}"
+    value: {{ .Values.maxListSize }}
   - name: LIST_EXPORT_BATCH_SIZE
     value: "{{ .Values.listExportBatchSize }}"
   - name: spring.task.execution.pool.max-size
