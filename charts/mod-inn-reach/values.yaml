@@ -119,6 +119,8 @@ extraEnv: |
       secretKeyRef:
         key: DB_CHARSET
         name: {{ .Values.dbConnectParameters }}
+  - name: INNREACH_TENANTS
+    value: diku|fs09000000|consortium|college|university
 
 # Enable parameters for DB, Kafka or AWS connection. In value set name of secret
 dbConnectParameters: db-connect-modules 
