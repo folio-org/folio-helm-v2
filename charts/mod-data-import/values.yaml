@@ -139,4 +139,20 @@ postJob:
     "helm.sh/hook-weight": "-5"
     "helm.sh/hook-delete-policy": hook-succeeded
 
-healthCheck: false
+healthCheck: true
+
+livenessProbeEnabled: true
+livenessProbe:
+  path: "/"
+
+readinessProbeEnabled: true
+readinessProbe:
+  path: "/"
+
+startupProbeEnabled: true
+startupProbe:
+  path: "/"
+
+
+
+

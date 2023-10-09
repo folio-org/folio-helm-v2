@@ -171,3 +171,21 @@ postJob:
 
 jmxMetrics:
   enable: true
+
+healthCheck: true
+
+livenessProbeEnabled: true
+livenessProbe:
+  path: "/"
+
+readinessProbeEnabled: true
+readinessProbe:
+  path: "/"
+
+startupProbeEnabled: true
+startupProbe:
+  path: "/"
+
+
+
+

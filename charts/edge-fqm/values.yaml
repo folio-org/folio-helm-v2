@@ -129,4 +129,20 @@ okapiConnectParameters: db-connect-modules
 #     - dkl
 #   mountPath: /path
 
-healthCheck: false
+healthCheck: true
+
+livenessProbeEnabled: true
+livenessProbe:
+  path: "/"
+
+readinessProbeEnabled: true
+readinessProbe:
+  path: "/"
+
+startupProbeEnabled: true
+startupProbe:
+  path: "/"
+
+
+
+

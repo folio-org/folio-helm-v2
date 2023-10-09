@@ -143,3 +143,21 @@ dbConnectParameters: db-connect-modules
 # overrideArgs: 
 #   - for
 #   - test
+
+healthCheck: true
+
+livenessProbeEnabled: true
+livenessProbe:
+  path: "/"
+
+readinessProbeEnabled: true
+readinessProbe:
+  path: "/"
+
+startupProbeEnabled: true
+startupProbe:
+  path: "/"
+
+
+
+

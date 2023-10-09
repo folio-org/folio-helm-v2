@@ -143,4 +143,20 @@ overrideArgs:
   - -conf
   - /etc/config/sip2.conf
 
-healthCheck: false
+healthCheck: true
+
+livenessProbeEnabled: true
+livenessProbe:
+  path: "/"
+
+readinessProbeEnabled: true
+readinessProbe:
+  path: "/"
+
+startupProbeEnabled: true
+startupProbe:
+  path: "/"
+
+
+
+
