@@ -118,20 +118,7 @@ testConnectionPod:
 healthCheck: true
 
 livenessProbeEnabled: true
-livenessProbe:
-  path: "/admin/health"
-
 
 readinessProbeEnabled: true
-readinessProbe:
-  path: "/admin/health"
-
 
 startupProbeEnabled: true
-startupProbe:
-  path: "/admin/health"
-
-
-
-
-
