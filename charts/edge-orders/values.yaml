@@ -134,12 +134,14 @@ healthCheck: true
 
 livenessProbeEnabled: true
 livenessProbe:
-  path: "/"
+  path: "/admin/health"
+
 
 readinessProbeEnabled: true
 readinessProbe:
-  path: "/"
+  path: "/admin/health"
+
 
 startupProbeEnabled: true
 startupProbe:
-  path: "/"
+  path: "/admin/health"
