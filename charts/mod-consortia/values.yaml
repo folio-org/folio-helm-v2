@@ -123,7 +123,7 @@ extraEnv: |
     valueFrom:
       secretKeyRef:
         key: SYSTEM_USER_PASSWORD
-        name: {{.Values.dbConnectParameters}
+        name: {{ .Values.dbConnectParameters }}
 
 # Enable parameters for DB, Kafka or AWS connection. In value set name of secret
 dbConnectParameters: db-connect-modules 
