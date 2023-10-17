@@ -54,17 +54,17 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources: 
+resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
     #cpu: 128m
-    memory: 512Mi
+    memory: 1024Mi
   requests:
     #cpu: 50m
-    memory: 400Mi
+    memory: 512Mi
 
 autoscaling:
   enabled: false
@@ -117,14 +117,14 @@ extraEnv: |
         name: db-connect-modules
 
 # Enable parameters for OKAPI, DB, Kafka or AWS connection. In value set name of secret
-dbConnectParameters: db-connect-modules 
+dbConnectParameters: db-connect-modules
 # kafkaConnectParameters: db-connect-modules
 # awsConnectParameters: s3-credentials
 # okapiConnectParameters: db-connect-modules
 # elasticSearchConnectParameters: db-connect-modules
 
 # initContainer:
-#   image: 
+#   image:
 #     repository: busybox
 #     tag: latest
 #   imagePullPolicy: Always
