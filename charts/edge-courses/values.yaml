@@ -1,11 +1,11 @@
-# Default values for mod-service-interaction.
+# Default values for edge-rtac.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: folioci/mod-service-interaction
+  repository: folioci/edge-courses
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
@@ -61,10 +61,10 @@ resources:
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
     #cpu: 128m
-    memory: 1024Mi
+    memory: 512Mi
   requests:
     #cpu: 50m
-    memory: 512Mi
+    memory: 400Mi
 
 autoscaling:
   enabled: false
@@ -79,11 +79,7 @@ tolerations: []
 
 affinity: {}
 
-# Folio specific
-javaOptions: -XX:MaxRAMPercentage=85.0 -XX:+UseG1GC
-dbMaxPoolSize: 5
-
-# If need to create and attach ConfigMap add nedded parameters here
+# If need to create and attach ConfigMap add needed parameters here
 # And create folder configmaps. In folder create file with the same name that in this config.
 # In file paste only data for configmap.
 # config:
@@ -91,37 +87,36 @@ dbMaxPoolSize: 5
 #     subPath: users.conf
 #     mountPath: /etc/sftp/users.conf
 
-# volumeMounts:
-  # secrets:
-  #   - name: secure-store-props
-  #     mountPath: /etc/edge
-  #     secretName: ephemeral-properties
-  # emptyDirs:
-  #   - name: dumps-volume
-  #     mountPath: /dumps
+#volumeMounts:
+#  secrets:
+#    - name: secure-store-props
+#      mountPath: /etc/edge
+#      secretName: ephemeral-properties
+
+config:
+  - name: edge-courses-ephemeral-properties
+    mountPath: /etc/edge
+
+#   emptyDirs:
+#     - name: dumps-volume
+#       mountPath: /dumps
+
+dbMaxPoolSize: 5
+javaOptions: -XX:MaxRAMPercentage=85.0 -XX:+UseG1GC
 
 extraEnv: |
   - name: DB_MAXPOOLSIZE
     value: "{{ .Values.dbMaxPoolSize }}"
   - name: JAVA_OPTIONS
     value: {{ .Values.javaOptions }}
-  - name: OKAPI_SERVICE_PORT
-    valueFrom:
-      secretKeyRef:
-        key: OKAPI_PORT
-        name: db-connect-modules
-  - name: OKAPI_SERVICE_HOST
-    valueFrom:
-      secretKeyRef:
-        key: OKAPI_HOST
-        name: db-connect-modules
+  - name: secure_store
+    value: Ephemeral
 
-# Enable parameters for OKAPI, DB, Kafka or AWS connection. In value set name of secret
+# Enable parameters for DB, Kafka or AWS connection. In value set name of secret
 dbConnectParameters: db-connect-modules
 # kafkaConnectParameters: db-connect-modules
 # awsConnectParameters: s3-credentials
-# okapiConnectParameters: db-connect-modules
-# elasticSearchConnectParameters: db-connect-modules
+okapiConnectParameters: db-connect-modules
 
 # initContainer:
 #   image:
@@ -133,21 +128,5 @@ dbConnectParameters: db-connect-modules
 #     - diku
 #     - dkl
 #   mountPath: /path
-
-postJob:
-  enabled: false
-  okapiUrl: http://okapi:9130
-  tenantId: diku
-  sampleData: false
-  referenceData: false
-  image:
-    repository: docker.dev.folio.org/folio-okapi-registration
-    pullPolicy: Always
-    # Overrides the image tag whose default is the chart appVersion.
-    tag: "latest"
-  annotations:
-    "helm.sh/hook": post-install,post-upgrade
-    "helm.sh/hook-weight": "-5"
-    "helm.sh/hook-delete-policy": hook-succeeded
 
 healthCheck: false

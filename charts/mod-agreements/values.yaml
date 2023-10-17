@@ -61,10 +61,10 @@ resources:
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
     #cpu: 1500m
-    memory: 2000Mi
+    memory: 2500Mi
   requests:
     #cpu: 1000m
-    memory: 1500Mi
+    memory: 2000Mi
 
 autoscaling:
   enabled: false
@@ -106,12 +106,12 @@ extraEnv: |
     value: {{ .Values.javaOptions }}
 
 # Enable parameters for DB, Kafka or AWS connection. In value set name of secret
-dbConnectParameters: db-connect-modules 
+dbConnectParameters: db-connect-modules
 # kafkaConnectParameters: db-connect-modules
 # awsConnectParameters: s3-credentials
 
 # initContainer:
-#   image: 
+#   image:
 #     repository: busybox
 #     tag: latest
 #   imagePullPolicy: Always
