@@ -127,6 +127,7 @@ dbConnectParameters: db-connect-modules
 kafkaConnectParameters: db-connect-modules
 # awsConnectParameters: s3-credentials
 okapiConnectParameters: db-connect-modules
+systemUser: true
 
 # initContainer:
 #   image: 
