@@ -1,11 +1,11 @@
-# Default values for mod-search.
+# Default values for mod-marc-migrations.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: folioci/mod-search
+  repository: folioci/mod-marc-migrations
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
@@ -110,7 +110,7 @@ extraEnv: |
   - name: INDEXING_DATA_FORMAT
     value: "json"
   - name: SYSTEM_USER_PASSWORD
-    value: "Mod-search-1-0-0"
+    value: "Mod-marc-migrations-1-0-0"
   - name: INITIAL_LANGUAGES
     value: "eng"
 
