@@ -113,11 +113,11 @@ extraEnv: |
     value: {{ .Values.listExportBatchSize | quote }}
   - name: spring.task.execution.pool.max-size
     value: {{ .Values.springTaskPoolSize | quote }}
-  - name: LIST_APP_S3_BUCKET
-    value: {{ .Values.awsConnectParameters | quote }}
+
 
 # Enable parameters for DB, Kafka or AWS connection. In value set name of secret
 dbConnectParameters: db-connect-modules
+awsBucketName: enabled
 # kafkaConnectParameters: db-connect-modules
 awsConnectParameters: s3-credentials
 
