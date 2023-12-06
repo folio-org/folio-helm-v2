@@ -243,6 +243,13 @@ spec:
                   key: AWS_BUCKET
                   name: {{ .Values.awsConnectParameters }}
           {{- end }}
+          {{- if .Values.awsBucketName }}
+            - name: LIST_APP_S3_BUCKET
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_BUCKET
+                  name: {{ .Values.awsConnectParameters }}
+          {{- end }}
           {{- if .Values.localFsBucketParameters }}
             - name: LOCAL_FS_URL
               valueFrom:
