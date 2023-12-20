@@ -1,9 +1,9 @@
-# Default values for okapi.
+# Default values for example.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 image:
-  repository: folioorg/okapi
+  repository: folioorg/example
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -17,10 +17,10 @@ replicaCount: 1
 resources:
   limits:
     # cpu: 100m
-    memory: 1664Mi
+    memory: 256Mi
   requests:
-    # cpu: 100m
-    memory: 1024Mi
+    # cpu: 50m
+    memory: 128Mi
 
 autoscaling:
   enabled: false
@@ -35,7 +35,7 @@ service:
   ports:
     - name: http
       protocol: TCP
-      port: 9130
+      port: 8080
       targetPort: http
   annotations: {}
 
@@ -55,23 +55,12 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-# Okapi cmd argument https://github.com/folio-org/okapi/blob/master/doc/guide.md#command
-args:
-  - dev
+args: []
 
 ## @param javaOpts Custom JVM parameters
 ##
 javaOpts:
-  - "-XX:MaxRAMPercentage=75.0 -Ddeploy.waitIterations=90 -Dhost=okapi -Dokapiurl=http://okapi:9130 -Dstorage=postgres -Dpostgres_host=$(DB_HOST) -Dpostgres_database=$(DB_DATABASE) -Dpostgres_username=$(DB_USERNAME) -Dpostgres_password=$(DB_PASSWORD)"
-
-# Should be checked if this options required
-# --add-modules java.se
-# --add-exports java.base/jdk.internal.ref=ALL-UNNAMED
-# --add-opens java.base/java.lang=ALL-UNNAMED
-# --add-opens java.base/java.nio=ALL-UNNAMED
-# --add-opens java.base/sun.nio.ch=ALL-UNNAMED
-# --add-opens java.management/sun.management=ALL-UNNAMED
-# --add-opens jdk.management/com.sun.management.internal=ALL-UNNAMED
+  - "-XX:MaxRAMPercentage=75.0"
 
 extraJavaOpts: []
   # - "-Dlog_level=DEBUG"
@@ -91,8 +80,15 @@ jmx:
 heapDumpEnabled: false
 
 integrations:
+  okapi:
+    enabled: false
+    host: okapi
+    port: 9130
+    url: http://okapi:9130
+    existingSecret: ""
+
   db:
-    enabled: true
+    enabled: false
     host: localhost
     hostReader: ""
     port: 5432
@@ -102,11 +98,48 @@ integrations:
     charset: UTF-8
     querytimeout: ""
     maxpoolsize: ""
-    existingSecret: db-connect-modules
+    existingSecret: ""
+
+  kafka:
+    enabled: false
+    host: localhost
+    port: 9092
+    existingSecret: ""
+
+  opensearch:
+    enabled: false
+    host: localhost
+    port: 443
+    url: https://localhost:443
+    username: ""
+    password: ""
+    existingSecret: ""
+
+  systemUser:
+    enabled: false
+    name: ""
+    password: ""
+    existingSecret: ""
+
+  s3:
+    enabled: false
+    isAws: true
+    sdk: ""
+    url: "http://localhost"
+    region: ""
+    bucket: ""
+    accessKeyId: ""
+    secretAccessKey: ""
+    forcepathstyle: ""
+    existingSecret: ""
 
 configMaps:
+  ephemeral:
+    enabled: false
+    fileName: ephemeral.properties
+    mountPath: /etc/edge
   log4j:
-    enabled: true
+    enabled: false
     fileName: log4j2.xml
     mountPath: /etc/log4j2.xml
 
@@ -119,13 +152,7 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-startupProbe:
-  httpGet:
-    path: /_/proxy/health
-    port: http
-  initialDelaySeconds: 30
-  periodSeconds: 15
-  failureThreshold: 20
+startupProbe: {}
 readinessProbe: {}
 livenessProbe: {}
 

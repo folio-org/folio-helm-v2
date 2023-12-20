@@ -1,0 +1,6 @@
+dependencies:
+- name: folio-common
+  repository: file://../folio-common
+  version: 0.2.0
+digest: sha256:e65460bae7f8a38aebe35f30e6261affe78b979aeea7645de94b862982350140
+generated: "2023-11-27T17:33:35.993138+02:00"
