@@ -108,7 +108,7 @@ extraEnv: |
   - name: DB_MAXPOOLSIZE
     value: "{{ .Values.dbMaxPoolSize }}"
   - name: JAVA_OPTIONS
-    value: {{ .Values.javaOptions }}
+    value: {{ .Values.javaOptions | quote }}
   - name: secure_store
     value: Ephemeral
 
