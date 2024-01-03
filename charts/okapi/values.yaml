@@ -36,6 +36,7 @@ service:
     - name: http
       protocol: TCP
       port: 9130
+      containerPort: 9130
       targetPort: http
   annotations: {}
 
@@ -48,8 +49,9 @@ ingress:
   hosts:
     - host: chart-example.local
       paths:
-        - path: /
+        - path: /*
           pathType: ImplementationSpecific
+          servicePort: 9130
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
@@ -93,7 +95,7 @@ heapDumpEnabled: false
 integrations:
   db:
     enabled: true
-    host: localhost
+    host: postgresql
     hostReader: ""
     port: 5432
     database: folio
@@ -102,13 +104,14 @@ integrations:
     charset: UTF-8
     querytimeout: ""
     maxpoolsize: ""
-    existingSecret: db-connect-modules
+    existingSecret: ""
 
 configMaps:
   log4j:
     enabled: true
     fileName: log4j2.xml
     mountPath: /etc/log4j2.xml
+    existingConfig: ""
 
 serviceAccount:
   # Specifies whether a service account should be created

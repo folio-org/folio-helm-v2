@@ -1,0 +1,11 @@
+{{/* vim: set filetype=mustache: */}}
+
+{{- include "folio-common.serviceaccount.tpl" . }}
+---
+{{- include "folio-common.deployment.tpl" . }}
+---
+{{- include "folio-common.hpa.tpl" . }}
+---
+{{- include "folio-common.service.tpl" . }}
+---
+{{- include "folio-common.ingress.tpl" . }}

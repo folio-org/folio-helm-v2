@@ -17,10 +17,10 @@ replicaCount: 1
 resources:
   limits:
     # cpu: 100m
-    memory: 256Mi
+    memory: 384Mi
   requests:
     # cpu: 50m
-    memory: 128Mi
+    memory: 256Mi
 
 autoscaling:
   enabled: false
@@ -35,7 +35,8 @@ service:
   ports:
     - name: http
       protocol: TCP
-      port: 8080
+      port: 80
+      containerPort: 8081
       targetPort: http
   annotations: {}
 
@@ -48,7 +49,7 @@ ingress:
   hosts:
     - host: chart-example.local
       paths:
-        - path: /
+        - path: /*
           pathType: ImplementationSpecific
   tls: []
   #  - secretName: chart-example-tls
@@ -81,51 +82,51 @@ heapDumpEnabled: false
 
 integrations:
   okapi:
-    enabled: false
+    enabled: true
     host: okapi
     port: 9130
     url: http://okapi:9130
     existingSecret: ""
 
   db:
-    enabled: false
-    host: localhost
+    enabled: true
+    host: postgresql
     hostReader: ""
     port: 5432
     database: folio
-    username: folio
-    password: folio
+    username: admin
+    password: password
     charset: UTF-8
-    querytimeout: ""
-    maxpoolsize: ""
+    querytimeout: 60000
+    maxpoolsize: 5
     existingSecret: ""
 
   kafka:
-    enabled: false
-    host: localhost
+    enabled: true
+    host: kafka
     port: 9092
     existingSecret: ""
 
   opensearch:
-    enabled: false
+    enabled: true
     host: localhost
     port: 443
-    url: https://localhost:443
+    url: https://opensearch:443
     username: ""
     password: ""
     existingSecret: ""
 
-  systemUser:
-    enabled: false
+  systemuser:
+    enabled: true
     name: ""
     password: ""
     existingSecret: ""
 
   s3:
-    enabled: false
+    enabled: true
     isAws: true
     sdk: ""
-    url: "http://localhost"
+    url: "http://minio"
     region: ""
     bucket: ""
     accessKeyId: ""
@@ -135,13 +136,20 @@ integrations:
 
 configMaps:
   ephemeral:
-    enabled: false
+    enabled: true
     fileName: ephemeral.properties
     mountPath: /etc/edge
+    existingConfig: ""
+  apiconfig:
+    enabled: true
+    fileName: api_configuration.json
+    mountPath: /etc/edge
+    existingConfig: ""
   log4j:
-    enabled: false
+    enabled: true
     fileName: log4j2.xml
     mountPath: /etc/log4j2.xml
+    existingConfig: ""
 
 serviceAccount:
   # Specifies whether a service account should be created

@@ -3,6 +3,7 @@
 
 # Chart dependencies
 **/charts/*.tgz
+**/charts/*/Chart.lock
 
 # Vscode files
 .vscode
