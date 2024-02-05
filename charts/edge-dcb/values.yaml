@@ -1,4 +1,4 @@
-# Default values for edge-rtac.
+# Default values for edge-dcb.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -94,7 +94,7 @@ affinity: {}
 #      secretName: ephemeral-properties
 
 config:
-  - name: edge-fqm-ephemeral-properties
+  - name: edge-dcb-ephemeral-properties
     mountPath: /etc/edge
 
 #   emptyDirs:
