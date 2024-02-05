@@ -295,6 +295,7 @@ spec:
           {{- end }}
           {{- if .Values.rtrEnabled }}
             - name: LEGACY_TOKEN_TENANTS
+              value: ''
           {{- else -}}
             - name: LEGACY_TOKEN_TENANTS
               value: '*'
