@@ -293,6 +293,12 @@ spec:
             - name: CONSORTIUM_ENABLED
               value: {{ .Values.consortiumEnabled | quote }}
           {{- end }}
+          {{- if .Values.rtrEnabled }}
+            - name: LEGACY_TOKEN_TENANTS
+          {{- else -}}
+            - name: LEGACY_TOKEN_TENANTS
+              value: '*'
+          {{- end }}
           {{- if .Values.systemUser }}
             - name: SYSTEM_USER_PASSWORD
               valueFrom:
