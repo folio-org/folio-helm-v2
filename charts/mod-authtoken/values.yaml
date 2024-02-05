@@ -109,7 +109,7 @@ extraEnv: |
 dbConnectParameters: db-connect-modules 
 # kafkaConnectParameters: db-connect-modules
 # awsConnectParameters: s3-credentials
-rtrEnabled: true
+rtrEnabled: false
 
 # initContainer:
 #   image: 
