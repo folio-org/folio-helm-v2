@@ -15,7 +15,7 @@ properties([
       description: 'GitHub branch to build an index from', branch: '', branchFilter: '.*', listSize: '0',
       quickFilterEnabled: true, selectedValue: 'DEFAULT', sortMode: 'ASCENDING', tagFilter: '*',
       type: 'GitParameterDefinition', useRepository: 'folio-helm-v2'),
-    //TODO Change choise order before push
+    //TODO Change choice order before push
     choice(name: 'HELM_NEXUS_REPOSITORY', choices: ['folio-helm-v2-test', 'folio-helm-v2'],
       description: 'Nexus repository of folio-helm chart'),
     booleanParam(name: 'INDEX_ALL', defaultValue: false, description: 'Run index for all charts in folio-helm-v2 repo'),
@@ -33,7 +33,7 @@ String chartsRepositoryUrl = "${Constants.FOLIO_GITHUB_URL}/folio-helm-v2.git"
 List chartsForIndex = []
 
 ansiColor('xterm') {
-  node('jenkins-agent-java11') {
+  node('jenkins-agent-java17') {
     try {
       stage('Init') {
         println(currentBuild.getBuildCauses())
