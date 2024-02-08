@@ -101,24 +101,6 @@ integrations:
     maxpoolsize: 5
     existingSecret: ""
 
-  kafka:
-    enabled: true
-    host: localhost
-    port: 9092
-    existingSecret: ""
-  db:
-    enabled: true
-    host: postgresql
-    hostReader: ""
-    port: 5432
-    database: folio
-    username: admin
-    password: password
-    charset: UTF-8
-    querytimeout: 60000
-    maxpoolsize: 5
-    existingSecret: ""
-
   systemuser:
     enabled: true
     name: "mod-circulation-item"
