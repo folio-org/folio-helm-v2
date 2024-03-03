@@ -71,7 +71,7 @@ folio-helm-v2/
 ### Chart usage
 
 The charts in this repository allow users to deploy different modules of the FOLIO project to a Kubernetes cluster using
-the Helm package manager. To do this you can follow the following steps:
+the Helm package manager. To deploy a module, follow these steps:
 * Search for the particular FOLIO module you are interested in (For example, mod-users).
 * Look at the values.yaml file to understand the default configurations available for this module. Usually,
 they have common [Parameters](#parameters) but some distinctions are possible.
@@ -94,7 +94,7 @@ This approach ensures seamless deployments and maintenance of the FOLIO project 
 
 Please DO NOT forget to increase the Chart version if changes were made.
 
-After merging Pull Request to the master branch the job https://jenkins-aws.indexdata.com/job/Rancher/job/Index-helm-charts/
+After merging Pull Request to the master branch the job https://jenkins-aws.indexdata.com/job/folioRancher/job/folioDevOpsTools/job/indexFolioHelmCharts/
 will run, package and index chart in Nexus automatically.
 
 ## Prerequisites
@@ -108,7 +108,7 @@ To add the repository locally, execute the following command before installing t
 This command isn't necessary for subsequent chart installations.
 
 ```console
-helm repo add folio https://repository.folio.org/repository/folio-helm-v2/
+helm repo add folio-helm-v2 https://repository.folio.org/repository/folio-helm-v2/
 ```
 
 ## Install Chart
@@ -117,13 +117,13 @@ Should the repository have been added a while ago, run the following command to 
 with the latest changes before installing any chart.
 
 ```console
-helm repo update folio
+helm repo update folio-helm-v2
 ```
 
 To install the chart invoke the following command.
 
 ```console
-helm install my-install-name folio/CHART_NAME
+helm install my-install-name folio-helm-v2/CHART_NAME
 ```
 
 > **Note**: Please make sure to replace `CHART_NAME` with the name of the chart that needs to be installed.
@@ -134,7 +134,7 @@ To get the exact name of a specific module chart, invoke the following command t
 and their latest version in the folio repository:
 
 ```console
-helm search repo folio
+helm search repo folio-helm-v2
 ```
 
 The install command deploys a specific module on the Kubernetes cluster in the default configuration.
