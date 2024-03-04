@@ -123,7 +123,7 @@ Merge precedence is consistent with http://masterminds.github.io/sprig/dicts.htm
   {{- $args = concat $args .Values.args -}}
 {{- end -}}
 {{- if .Values.heapDumpEnabled -}}
-  {{- $heapDumpArgs := list "-XX:+HeapDumpOnOutOfMemoryError" "-XX:HeapDumpPath=/tmp/dump/heapdump" -}}
+  {{- $heapDumpArgs := list "-XX:+HeapDumpOnOutOfMemoryError" "-XX:HeapDumpPath=/tmp/dump/" -}}
   {{- $args = concat $args $heapDumpArgs -}}
 {{- end -}}
 {{- if len $args -}}
@@ -137,7 +137,7 @@ Merge precedence is consistent with http://masterminds.github.io/sprig/dicts.htm
   {{- if $config.enabled }}
 - name: {{ $name }}
   configMap:
-    name: {{ printf "%s-%s" (include "folio-common.fullname" $) $name }}
+    name: {{ default (printf "%s-%s" (include "folio-common.fullname" $) $name) $config.existingConfig }}
     defaultMode: 0755
   {{- end }}
 {{- end -}}
@@ -147,7 +147,7 @@ Merge precedence is consistent with http://masterminds.github.io/sprig/dicts.htm
 {{- range $name, $config := .Values.configMaps -}}
   {{- if $config.enabled }}
 - name: {{ $name }}
-  mountPath: {{ $config.mountPath }}
+  mountPath: {{ printf "%s/%s" $config.mountPath $config.fileName }}
   subPath: {{ $config.fileName }}
   {{- end }}
 {{- end -}}
@@ -162,12 +162,16 @@ Merge precedence is consistent with http://masterminds.github.io/sprig/dicts.htm
   {{- $javaOpts = append $javaOpts (.Values.extraJavaOpts | join " ") -}}
 {{- end -}}
 {{- if .Values.configMaps.log4j -}}
-  {{- $log4jOpt := printf "-Dlog4j.configurationFile=%s" .Values.configMaps.log4j.mountPath -}}
+  {{- $log4jOpt := printf "-Dlog4j.configurationFile=%s/%s" .Values.configMaps.log4j.mountPath .Values.configMaps.log4j.fileName -}}
   {{- $javaOpts = append $javaOpts $log4jOpt -}}
 {{- end -}}
 {{- if .Values.configMaps.ephemeral -}}
-  {{- $ephemeralOpt := printf "-Dsecure_store_props=%s" .Values.configMaps.ephemeral.mountPath -}}
+  {{- $ephemeralOpt := printf "-Dsecure_store_props=%s/%s" .Values.configMaps.ephemeral.mountPath .Values.configMaps.ephemeral.fileName -}}
   {{- $javaOpts = append $javaOpts $ephemeralOpt -}}
+{{- end -}}
+{{- if .Values.configMaps.apiconfig -}}
+  {{- $apiconfigOpt := printf "-Dapi_config=%s/%s" .Values.configMaps.apiconfig.mountPath .Values.configMaps.apiconfig.fileName -}}
+  {{- $javaOpts = append $javaOpts $apiconfigOpt -}}
 {{- end -}}
 {{- $javaOpts | join " " | quote -}}
 {{- end -}}

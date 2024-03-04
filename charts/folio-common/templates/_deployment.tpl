@@ -51,7 +51,7 @@ spec:
           ports:
             {{- range .Values.service.ports }}
             - name: {{ .targetPort | default "http" }}
-              containerPort: {{ .port | default "8080" }}
+              containerPort: {{ .containerPort | default "8080" }}
               protocol: {{ .protocol | default "TCP"}}
             {{- end }}
             {{- if .Values.jmx.enabled }}
