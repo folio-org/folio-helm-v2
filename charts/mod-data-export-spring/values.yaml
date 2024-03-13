@@ -105,13 +105,11 @@ extraEnv: |
     value: "{{ .Values.dbMaxPoolSize }}"
   - name: JAVA_OPTIONS
     value: {{ .Values.javaOptions }}
-  - name: S3_IS_AWS
-    value: 'true'
 
 # Enable parameters for DB, Kafka or AWS connection. In value set name of secret
 dbConnectParameters: db-connect-modules 
 kafkaConnectParameters: db-connect-modules
-awsConnectParameters: s3-mod-data-export-spring
+# awsConnectParameters: s3-credentials
 okapiConnectParameters: db-connect-modules
 systemUser: true
 
