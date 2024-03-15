@@ -1,0 +1,25 @@
+annotations:
+  category: Infrastructure
+apiVersion: v2
+type: application
+name: folio-common
+description: A common Helm chart for FOLIO Kubernetes charts
+# NOTE! Versions always should be the same
+version: 0.2.0
+appVersion: 0.2.0
+
+home: https://folio.org/
+icon: https://folio.org/favicon.ico
+
+keywords:
+  - common
+  - helper
+  - template
+  - function
+
+maintainers:
+  - name: Kitfox
+    url: https://wiki.folio.org/display/FOLIJET/Kitfox+Team+DevOps+-+Dev+Support
+
+sources:
+  - https://github.com/folio-org/folio-helm-v2
