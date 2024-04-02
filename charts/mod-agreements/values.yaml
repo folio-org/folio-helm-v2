@@ -96,7 +96,7 @@ affinity: {}
 #     - name: dumps-volume
 #       mountPath: /dumps
 
-dbMaxPoolSize: 5
+dbMaxPoolSize: 50
 javaOptions: -XX:MaxRAMPercentage=85.0 -XX:+UseG1GC
 
 extraEnv: |
