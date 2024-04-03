@@ -81,7 +81,7 @@ affinity: {}
 
 # Folio specific
 javaOptions: -XX:MaxRAMPercentage=85.0 -XX:+UseG1GC
-dbMaxPoolSize: 5
+dbMaxPoolSize: 50
 
 # If need to create and attach ConfigMap add nedded parameters here
 # And create folder configmaps. In folder create file with the same name that in this config.
@@ -92,13 +92,13 @@ dbMaxPoolSize: 5
 #     mountPath: /etc/sftp/users.conf
 
 # volumeMounts:
-  # secrets:
-  #   - name: secure-store-props
-  #     mountPath: /etc/edge
-  #     secretName: ephemeral-properties
-  # emptyDirs:
-  #   - name: dumps-volume
-  #     mountPath: /dumps
+# secrets:
+#   - name: secure-store-props
+#     mountPath: /etc/edge
+#     secretName: ephemeral-properties
+# emptyDirs:
+#   - name: dumps-volume
+#     mountPath: /dumps
 
 extraEnv: |
   - name: DB_MAXPOOLSIZE
@@ -107,12 +107,12 @@ extraEnv: |
     value: {{ .Values.javaOptions }}
 
 # Enable parameters for DB, Kafka or AWS connection. In value set name of secret
-dbConnectParameters: db-connect-modules 
+dbConnectParameters: db-connect-modules
 # kafkaConnectParameters: db-connect-modules
 # awsConnectParameters: s3-credentials
 
 # initContainer:
-#   image: 
+#   image:
 #     repository: busybox
 #     tag: latest
 #   imagePullPolicy: Always
