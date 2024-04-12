@@ -39,7 +39,7 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 80
-  containerPort: 8081  
+  containerPort: 8081
 
 ingress:
   enabled: false
@@ -119,15 +119,17 @@ extraEnv: |
       secretKeyRef:
         key: OKAPI_URL
         name: db-connect-modules
+  - name: KAFKA_PRODUCER_TENANT_COLLECTION
+    value: "ALL"
 
 # Enable parameters for DB, Kafka or AWS connection. In value set name of secret
-dbConnectParameters: db-connect-modules 
+dbConnectParameters: db-connect-modules
 kafkaConnectParameters: db-connect-modules
 # awsConnectParameters: s3-credentials
 systemUser: true
 
 # initContainer:
-#   image: 
+#   image:
 #     repository: busybox
 #     tag: latest
 #   imagePullPolicy: Always
