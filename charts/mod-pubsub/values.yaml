@@ -107,16 +107,18 @@ extraEnv: |
     value: {{ .Values.javaOptions }}
   - name: SYSTEM_USER_NAME
     value: "pub-sub"
+  - name: KAFKA_PRODUCER_TENANT_COLLECTION
+    value: "ALL"
 
 # Enable parameters for OKAPI, DB, Kafka or AWS connection. In value set name of secret
-dbConnectParameters: db-connect-modules 
+dbConnectParameters: db-connect-modules
 kafkaConnectParameters: db-connect-modules
 # awsConnectParameters: s3-credentials
 okapiConnectParameters: db-connect-modules
 systemUser: true
 
 # initContainer:
-#   image: 
+#   image:
 #     repository: busybox
 #     tag: latest
 #   imagePullPolicy: Always
