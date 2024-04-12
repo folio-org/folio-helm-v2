@@ -104,6 +104,8 @@ extraEnv: |
     value: "{{ .Values.dbMaxPoolSize }}"
   - name: JAVA_OPTIONS
     value: {{ .Values.javaOptions }}
+  - name: KAFKA_PRODUCER_TENANT_COLLECTION
+    value: "ALL"
 
 # Enable parameters for DB, Kafka or AWS connection. In value set name of secret
 dbConnectParameters: db-connect-modules
