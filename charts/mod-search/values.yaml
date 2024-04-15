@@ -115,6 +115,8 @@ extraEnv: |
     value: "eng"
   - name: MAX_BROWSE_REQUEST_OFFSET
     value: "5000"
+  - name: KAFKA_PRODUCER_TENANT_COLLECTION
+    value: "ALL"
 
 
 # Enable parameters for OKAPI, DB, Kafka or AWS connection. In value set name of secret
