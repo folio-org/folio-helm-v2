@@ -64,7 +64,7 @@ resources:
     memory: 512Mi
   requests:
     #cpu: 50m
-    memory: 400Mi
+    memory: 384Mi
 
 autoscaling:
   enabled: false
@@ -80,8 +80,8 @@ tolerations: []
 affinity: {}
 
 # Folio specific
-javaOptions: -XX:MaxRAMPercentage=85.0 -XX:+UseG1GC
-dbMaxPoolSize: 5
+javaOptions: -XX:MaxRAMPercentage=66.0
+dbMaxPoolSize: 20
 
 # If need to create and attach ConfigMap add nedded parameters here
 # And create folder configmaps. In folder create file with the same name that in this config.
