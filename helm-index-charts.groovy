@@ -20,7 +20,7 @@ def chartsRepositoryUrl = "${Constants.FOLIO_GITHUB_URL}/folio-helm-v2.git"
 List chartsForIndex
 
 ansiColor('xterm') {
-    node('jenkins-agent-java11') {
+    node('jenkins-agent-java17') {
         try {
             stage('Init') {
                 sshagent(credentials: [Constants.GITHUB_CREDENTIALS_ID]) {
