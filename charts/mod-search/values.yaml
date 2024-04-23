@@ -126,6 +126,8 @@ kafkaConnectParameters: db-connect-modules
 okapiConnectParameters: db-connect-modules
 elasticSearchConnectParameters: db-connect-modules
 
+modSearchDev: false
+
 # initContainer:
 #   image:
 #     repository: busybox
