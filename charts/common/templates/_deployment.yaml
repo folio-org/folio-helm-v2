@@ -299,21 +299,21 @@ spec:
           {{- end }}
           {{- if .Values.modSearchDev }}
             - name: KAFKA_CONTRIBUTORS_TOPIC_PARTITIONS
-              value: 2
+              value: "2"
             - name: KAFKA_CONSORTIUM_INSTANCE_TOPIC_PARTITIONS
-              value: 2
+              value: "2"
             - name: KAFKA_SUBJECTS_TOPIC_PARTITIONS
-              value: 2
+              value: "2"
           {{- end }}
           {{- if .Values.modEntitiesLinksDev }}
             - name: KAFKA_INSTANCE_AUTHORITY_TOPIC_PARTITIONS
-              value: 2
+              value: "2"
             - name: KAFKA_INSTANCE_AUTHORITY_STATS_TOPIC_PARTITIONS
-              value: 2
+              value: "2"
           {{- end }}
           {{- if .Values.modInventoryStorageDev }}
             - name: KAFKA_DOMAIN_TOPIC_NUM_PARTITIONS
-              value: 2
+              value: "2"
           {{- end }}
           {{- if .Values.systemUser }}
             - name: SYSTEM_USER_PASSWORD
