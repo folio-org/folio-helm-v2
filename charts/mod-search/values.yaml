@@ -120,7 +120,7 @@ extraEnv: |
   - name: BROWSE_CLASSIFICATIONS_ENABLED
     value: "true"
   - name: SEARCH_BY_ALL_FIELDS_ENABLED
-    value: "ALL"
+    value: "true"
 
 
 # Enable parameters for OKAPI, DB, Kafka or AWS connection. In value set name of secret
