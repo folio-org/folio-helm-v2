@@ -118,7 +118,7 @@ extraEnv: |
   - name: KAFKA_PRODUCER_TENANT_COLLECTION
     value: "ALL"
   - name: BROWSE_CLASSIFICATIONS_ENABLED
-    value: true
+    value: "true"
   - name: SEARCH_BY_ALL_FIELDS_ENABLED
     value: "ALL"
 
