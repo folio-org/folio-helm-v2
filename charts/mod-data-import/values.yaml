@@ -142,4 +142,3 @@ postJob:
     "helm.sh/hook-delete-policy": hook-succeeded
 
 healthCheck: false
-disEnabled: true
