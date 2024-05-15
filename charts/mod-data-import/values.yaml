@@ -66,6 +66,16 @@ javaOpts:
 extraJavaOpts: []
   # - "-Dlog_level=DEBUG"
 
+envVars:
+  - name: SPLIT_FILES_ENABLED
+    value: "true"
+  - name: RECORDS_PER_SPLIT_FILE
+    value: "1000"
+  - name: ASYNC_PROCESSOR_POLL_INTERVAL_MS
+    value: "5000"
+  - name: ASYNC_PROCESSOR_MAX_WORKERS_COUNT
+    value: "1"
+
 extraEnvVars: []
   # - name: FOO
   #   value: bar

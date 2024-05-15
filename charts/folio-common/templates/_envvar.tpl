@@ -2,6 +2,9 @@
 
 {{- define "folio-common.envvar" -}}
 env:
+{{- if .Values.envVars }}
+{{- include "folio-common.tplvalues.render" (dict "value" .Values.envVars "context" $) | nindent 2 }}
+{{- end }}
 {{- if .Values.extraEnvVars }}
 {{- include "folio-common.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 2 }}
 {{- end }}
