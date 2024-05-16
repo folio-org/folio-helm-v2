@@ -66,6 +66,10 @@ javaOpts:
 extraJavaOpts: []
   # - "-Dlog_level=DEBUG"
 
+envVars:
+  - name: KAFKA_PRODUCER_TENANT_COLLECTION
+    value: "ALL"
+
 extraEnvVars: []
   # - name: FOO
   #   value: bar

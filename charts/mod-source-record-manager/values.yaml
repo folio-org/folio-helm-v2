@@ -66,13 +66,17 @@ javaOpts:
 extraJavaOpts: []
   # - "-Dlog_level=DEBUG"
 
-extraEnvVars:
+envVars:
+  - name: KAFKA_PRODUCER_TENANT_COLLECTION
+    value: "ALL"
   - name: DB_MAXPOOLSIZE
     value: "15"
   - name: DB_RECONNECTATTEMPTS
     value: "3"
   - name: DB_RECONNECTINTERVAL
     value: "1000"
+
+extraEnvVars: []
 
 extraEnvVarsSecrets: []
   # = foo-secret

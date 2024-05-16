@@ -75,6 +75,8 @@ envVars:
     value: "5000"
   - name: ASYNC_PROCESSOR_MAX_WORKERS_COUNT
     value: "1"
+  - name: KAFKA_PRODUCER_TENANT_COLLECTION
+    value: "ALL"
 
 extraEnvVars: []
   # - name: FOO
