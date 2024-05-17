@@ -299,7 +299,7 @@ spec:
           {{- end }}
           {{- if .Values.disEnabled }}
             - name: SPLIT_FILES_ENABLED
-              value: true
+              value: "true"
             - name: AWS_URL
               valueFrom:
                 secretKeyRef:
@@ -351,7 +351,7 @@ spec:
                   key: AWS_BUCKET
                   name: {{ .Values.awsConnectParameters }}
             - name: AWS_SDK
-              value: true
+              value: "true"
           {{- end }}
           {{- if .Values.modSearchDev }}
             - name: KAFKA_CONTRIBUTORS_TOPIC_PARTITIONS

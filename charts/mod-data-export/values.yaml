@@ -61,10 +61,10 @@ resources:
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
     #cpu: 128m
-    memory: 2048Mi
+    memory: 2560Mi
   requests:
     #cpu: 50m
-    memory: 1024Mi
+    memory: 2048Mi
 
 autoscaling:
   enabled: false
@@ -105,6 +105,36 @@ extraEnv: |
     value: "{{ .Values.dbMaxPoolSize }}"
   - name: JAVA_OPTIONS
     value: {{ .Values.javaOptions }}
+  - name: EXPORT_FILES_MAX_POOL_SIZE
+    value: "10"
+  - name: EXPORT_IDS_BATCH
+    value: "1000"
+  - name: S3_URL
+    valueFrom:
+      secretKeyRef:
+        key: AWS_URL
+        name: s3-credentials
+  - name: S3_REGION
+    valueFrom:
+      secretKeyRef:
+        key: AWS_REGION
+        name: s3-credentials
+  - name: S3_ACCESS_KEY_ID
+    valueFrom:
+      secretKeyRef:
+        key: AWS_ACCESS_KEY_ID
+        name: s3-credentials
+  - name: S3_SECRET_ACCESS_KEY
+    valueFrom:
+      secretKeyRef:
+        key: AWS_SECRET_ACCESS_KEY
+        name: s3-credentials
+  - name: S3_BUCKET
+    valueFrom:
+      secretKeyRef:
+        key: AWS_BUCKET
+        name: s3-credentials
+
 
 # Enable parameters for DB, Kafka or AWS connection. In value set name of secret
 dbConnectParameters: db-connect-modules 
