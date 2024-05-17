@@ -83,7 +83,7 @@ affinity: {}
 
 # Folio specific
 javaOptions: -XX:MaxRAMPercentage=85.0 -XX:+UseG1GC
-dbMaxPoolSize: 5
+dbMaxPoolSize: 50
 
 # If need to create and attach ConfigMap add nedded parameters here
 # And create folder configmaps. In folder create file with the same name that in this config.
@@ -117,6 +117,10 @@ extraEnv: |
     value: "5000"
   - name: KAFKA_PRODUCER_TENANT_COLLECTION
     value: "ALL"
+  - name: BROWSE_CLASSIFICATIONS_ENABLED
+    value: "true"
+  - name: SEARCH_BY_ALL_FIELDS_ENABLED
+    value: "true"
 
 
 # Enable parameters for OKAPI, DB, Kafka or AWS connection. In value set name of secret
