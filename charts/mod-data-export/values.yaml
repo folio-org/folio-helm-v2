@@ -81,7 +81,7 @@ jmx:
 heapDumpEnabled: false
 
 volumeClaims:
-  - enabled: true
+  - enabled: false
     name: extendedTmp
     storageClassName: gp2
     size: 20Gi
@@ -92,7 +92,7 @@ extraVolumeMounts:
   - enabled: false
     name: heapdump
     mountPath: /tmp/dump
-  - enabled: true
+  - enabled: false
     name: extendedTmp
     mountPath: /tmp
 
@@ -100,13 +100,13 @@ extraVolumes:
   - enabled: false
     name: heapdump
     emptyDir: {}
-  - enabled: true
+  - enabled: false
     name: extendedTmp
     persistentVolumeClaim:
       claimName: extendedTmp
 
 initContainer:
-  enabled: true
+  enabled: false
   image:
     repository: busybox
     tag: latest
