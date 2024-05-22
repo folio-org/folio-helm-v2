@@ -25,6 +25,23 @@ spec:
       {{- with .Values.podSecurityContext }}
       securityContext: {{ toYaml . | nindent 8 }}
       {{- end }}
+      {{- if and .Values.initContainer .Values.initContainer.enabled }}
+      {{- with .Values.initContainer }}
+      initContainers:
+        - name: {{ $.Chart.Name }}-init
+          image: {{ .image.repository }}:{{ .image.tag | default "latest" }}
+          imagePullPolicy: {{ .image.pullPolicy }}
+          {{- if .command }}
+          command: {{ .command }}
+          {{- end }}
+          {{- if .args }}
+          args: {{ include "folio-common.tplvalues.render" (dict "value" .args "context" $) | nindent 12 }}
+          {{- end }}
+		  {{- if and .extraVolumeMounts (eq (include "folio-common.list.hasAnyEnabled" .extraVolumeMounts) "true") }}
+          volumeMounts: {{- include "folio-common.list.renderEnabled" (list $ .extraVolumeMounts) | nindent 12 }}
+		  {{- end }}
+      {{- end }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           {{- with .Values.securityContext }}
@@ -61,12 +78,18 @@ spec:
             {{- end }}
           volumeMounts:
           {{- include "folio-common.volumeMounts" . | indent 12}}
+          {{- if and .Values.extraVolumeMounts (eq (include "folio-common.list.hasAnyEnabled" .Values.extraVolumeMounts) "true") }}
+          {{- include "folio-common.list.renderEnabled" (list $ .Values.extraVolumeMounts) | nindent 12 }}
+          {{- end }}
           {{- if .Values.heapDumpEnabled }}
             - name: heapdump
               mountPath: /tmp/dump
           {{- end }}
       volumes:
       {{- include "folio-common.volumes" . | indent 8}}
+	  {{- if and .Values.extraVolumes (eq (include "folio-common.list.hasAnyEnabled" .Values.extraVolumes) "true") }}
+      {{- include "folio-common.list.renderEnabled" (list $ .Values.extraVolumes) | nindent 8 }}
+	  {{- end }}
       {{- if .Values.heapDumpEnabled }}
         - name: heapdump
           emptyDir: {}
