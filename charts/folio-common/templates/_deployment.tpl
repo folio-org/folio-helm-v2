@@ -30,7 +30,7 @@ spec:
       initContainers:
         - name: {{ $.Chart.Name }}-init
           image: {{ .image.repository }}:{{ .image.tag | default "latest" }}
-          imagePullPolicy: {{ .image.pullPolicy }}
+          imagePullPolicy: {{ .image.pullPolicy | default "Always" }}
           {{- if .command }}
           command: {{ .command }}
           {{- end }}
