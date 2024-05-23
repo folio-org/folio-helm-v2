@@ -84,7 +84,7 @@ jmx:
 
 heapDumpEnabled: false
 
-volumeClaim:
+volumeClaims:
   - enabled: false
     name: extendedTmp
     storageClassName: gp2
