@@ -7,12 +7,12 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 {{ template "folio-common.pvc.metadata" (list $ .) }}
 spec:
-  storageClassName: {{ .storageClassName }}
+  storageClassName: {{ .storageClassName | default "gp2" }}
   accessModes:
-   - {{ .accessModes }}
+   - {{ .accessModes | default "ReadWriteOnce" }}
   resources:
     requests:
-      storage: {{ .size }}
+      storage: {{ .size | default "10Gi" }}
   volumeMode: Filesystem
 {{- end -}}
 {{- end -}}
