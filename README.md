@@ -216,17 +216,17 @@ helm uninstall my-release-name
 | Name                              | Description                                                                                                                                                              | Common value                                                                                     |
 |-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
 | `configMaps.NAME`                 | Defines existing or new ConfigMaps section with NAME (replace with the existing or desired name). Resource file used as a source for the data section of new ConfigMaps. | `ephemeral`, `apiconfig`, `log4j`, `sip2config`, `sip2tenants`                                   |
-| `configMaps.NAME.enabled`         | If `configMaps.NAME.enabled` is true, volume with desired ConfigMaps is mounted as a volume to a container.                                                                | `true`                                                                                           |
+| `configMaps.NAME.enabled`         | If `configMaps.NAME.enabled` is true, volume with desired ConfigMaps is mounted as a volume to a container.                                                              | `true`                                                                                           |
 | `configMaps.NAME.fileName`        | Name of a file used as a source for the data section of new ConfigMaps. Resides in the resource subfolder of the chart.                                                  | `ephemeral.properties`, `api_configuration.json`, `log4j2.xml`, `sip2.conf`, `sip2-tenants.conf` |
 | `configMaps.NAME.mountPath`       | Mount path used in volume definition section with mapping of newly created ConfigMaps.                                                                                   | `/etc/edge`, `/etc/log4j2.xml`                                                                   |
-| `configMaps.NAME.existingConfig`  | Defines existing ConfigMaps name. If defined and `configMaps.NAME.enabled` is true, existing ConfigMaps are used and mapped to the volume.                                 | `""`                                                                                             |
+| `configMaps.NAME.existingConfig`  | Defines existing ConfigMaps name. If defined and `configMaps.NAME.enabled` is true, existing ConfigMaps are used and mapped to the volume.                               | `""`                                                                                             |
 
 ### Secret parameters
 
 | Name                                | Description                                                                                                                                                      | Common value                                             |
 |-------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|
 | `integrations.NAME`                 | Defines either existing or new Secret with NAME (replace with the existing or desired name).                                                                     | `okapi`, `db`, `kafka`, `opensearch`, `systemuser`, `s3` |
-| `integrations.NAME.enabled`         | If `integrations.NAME.enabled` is true, desired Secret is mapped via the secretRef section.                                                                        | `true`                                                   |
+| `integrations.NAME.enabled`         | If `integrations.NAME.enabled` is true, desired Secret is mapped via the secretRef section.                                                                      | `true`                                                   |
 | `integrations.NAME.host`            | Host name that forms part of connection data in Secret. Can be omitted in some cases, depending on the the service requirements.                                 | `okapi`, `postgresql`, `kafka`, `localhost`              |
 | `integrations.NAME.port`            | Port number forming part of connection data in Secret. Can be omitted in some cases depending on the the service requirements.                                   | `9130`, `5432`, `9092`, `443`                            |
 | `integrations.NAME.url`             | URL forming part of connection data in Secret. Can be omitted in some cases depending on the the service requirements.                                           | `/etc/edge`, `/etc/log4j2.xml`                           |
@@ -245,8 +245,50 @@ helm uninstall my-release-name
 | `integrations.NAME.accessKeyId`     | An IAM user accessKeyId used for AWS CLI authorization. Used in AWS S3 integration case.                                                                         | `""`                                                     |
 | `integrations.NAME.secretAccessKey` | An IAM user secretAccessKey used for AWS CLI authorization. Used in AWS S3 integration case.                                                                     | `""`                                                     |
 | `integrations.NAME.forcepathstyle`  | A configuration setting that determines how the bucket name appears in the URL of your S3 objects.                                                               | `""`                                                     |
-| `integrations.NAME.existingSecret`  | Defines an existing Secret name. If provided and `integrations.NAME.enabled` is true, the existing Secret will be utilised and mapped to the volume.               | `""`                                                     |
+| `integrations.NAME.existingSecret`  | Defines an existing Secret name. If provided and `integrations.NAME.enabled` is true, the existing Secret will be utilised and mapped to the volume.             | `""`                                                     |
 
+### Init container
+
+| Name                                            | Description                                                                                                            | Common value |
+|-------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|--------------|
+| `initContainer.enabled`                         | If `initContainer.enabled` is true, a new init container will be added to the pod.                                     | `false`      |
+| `initContainer.image.repository`                | An init container image name.                                                                                          |              |
+| `initContainer.image.tag`                       | An init container image tag.                                                                                           | `latest`     |
+| `initContainer.image.pullPolicy`                | An init container image pull policy.                                                                                   | `Always`     |
+| `initContainer.command`                         | Init container command list.                                                                                           | []           |
+| `initContainer.args`                            | Arguments passed to the command that is run in the init container.                                                     | []           |
+| `initContainer.extraVolumeMounts: \| enabled`   | If the extra volume mount element is enabled, a previously defined volume will be mounted to the pod's init container. | `false`      |
+| `initContainer.extraVolumeMounts: \| name`      | A reference name to an existed extra volume.                                                                           |              |
+| `initContainer.extraVolumeMounts: \| mountPath` | Extra volume mount path.                                                                                               |              |
+
+### Volume claim (PVC) list element
+
+| Name                                | Description                                                                                                                                                   | Common value    |
+|-------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
+| `volumeClaims: \| enabled`          | If the volumeClaims element is enabled, a new PVC will be added to the namespace.                                                                             | `false`         |
+| `volumeClaims: \| name`             | A new volume claim name.                                                                                                                                      |                 |
+| `volumeClaims: \| storageClassName` | Storage class type name of the volume.                                                                                                                        | `gp2`           |
+| `volumeClaims: \| size`             | Size of the PV to be allocated.                                                                                                                               | `10Gi`          |
+| `volumeClaims: \| accessModes`      | Access mode type for the provided PV.                                                                                                                         | `ReadWriteOnce` |
+| `volumeClaims: \| existingClaim`    | Defines an existing persistence volume claim. If provided and `volumeClaims: \| enabled` is true, the existing PVC will be utilized and mapped to the volume. |                 |
+
+
+### Extra volume list element
+
+| Name                                               | Description                                                                               | Common value |
+|----------------------------------------------------|-------------------------------------------------------------------------------------------|--------------|
+| `extraVolumes: \| enabled`                         | If the extra volume element is enabled, a new volume will be added to the deployment pod. | `false`      |
+| `extraVolumes: \| name`                            | An extra volume name.                                                                     |              |
+| `extraVolumes: \| emptyDir`                        | Definition for the ephemeral local Kubernetes node volume (OPTIONAL).                     | `{}`         |
+| `extraVolumes: \| persistentVolumeClaim.claimName` | A reference name for the existing PVC (defined or not in the chart) (OPTIONAL).           |              |
+
+### Pod's container extra volume mount list element
+
+| Name                              | Description                                                                                                       | Common value |
+|-----------------------------------|-------------------------------------------------------------------------------------------------------------------|--------------|
+| `extraVolumeMounts: \| enabled`   | If the extra volume mount element is enabled, a previously defined volume will be mounted to the pod's container. | `false`      |
+| `extraVolumeMounts: \| name`      | A reference name to an existed extra volume.                                                                      |              |
+| `extraVolumeMounts: \| mountPath` | Extra volume mount path.                                                                                          |              |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
