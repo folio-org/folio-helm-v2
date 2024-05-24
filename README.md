@@ -249,46 +249,46 @@ helm uninstall my-release-name
 
 ### Init container
 
-| Name                                            | Description                                                                                                            | Common value |
-|-------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|--------------|
-| `initContainer.enabled`                         | If `initContainer.enabled` is true, a new init container will be added to the pod.                                     | `false`      |
-| `initContainer.image.repository`                | An init container image name.                                                                                          |              |
-| `initContainer.image.tag`                       | An init container image tag.                                                                                           | `latest`     |
-| `initContainer.image.pullPolicy`                | An init container image pull policy.                                                                                   | `Always`     |
-| `initContainer.command`                         | Init container command list.                                                                                           | []           |
-| `initContainer.args`                            | Arguments passed to the command that is run in the init container.                                                     | []           |
-| `initContainer.extraVolumeMounts: \| enabled`   | If the extra volume mount element is enabled, a previously defined volume will be mounted to the pod's init container. | `false`      |
-| `initContainer.extraVolumeMounts: \| name`      | A reference name to an existed extra volume.                                                                           |              |
-| `initContainer.extraVolumeMounts: \| mountPath` | Extra volume mount path.                                                                                               |              |
+| Name                                              | Description                                                                                                            | Common value |
+|---------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|--------------|
+| `initContainer.enabled`                           | If `initContainer.NAME.enabled` is true, a new init container will be added to the pod.                                | `false`      |
+| `initContainer.image.repository`                  | An init container image name.                                                                                          |              |
+| `initContainer.image.tag`                         | An init container image tag.                                                                                           | `latest`     |
+| `initContainer.image.pullPolicy`                  | An init container image pull policy.                                                                                   | `Always`     |
+| `initContainer.command`                           | Init container command list.                                                                                           | []           |
+| `initContainer.args`                              | Arguments passed to the command that is run in the init container.                                                     | []           |
+| `initContainer.extraVolumeMounts.NAME.enabled`    | If the extra volume mount element is enabled, a previously defined volume will be mounted to the pod's init container. | `false`      |
+| `initContainer.extraVolumeMounts.NAME.name`       | A reference name to an existed extra volume.                                                                           |              |
+| `initContainer.extraVolumeMounts.NAME.mountPath`  | Extra volume mount path.                                                                                               |              |
 
 ### Volume claim (PVC) list element
 
-| Name                                | Description                                                                                                                                                   | Common value    |
-|-------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
-| `volumeClaims: \| enabled`          | If the volumeClaims element is enabled, a new PVC will be added to the namespace.                                                                             | `false`         |
-| `volumeClaims: \| name`             | A new volume claim name.                                                                                                                                      |                 |
-| `volumeClaims: \| storageClassName` | Storage class type name of the volume.                                                                                                                        | `gp2`           |
-| `volumeClaims: \| size`             | Size of the PV to be allocated.                                                                                                                               | `10Gi`          |
-| `volumeClaims: \| accessModes`      | Access mode type for the provided PV.                                                                                                                         | `ReadWriteOnce` |
-| `volumeClaims: \| existingClaim`    | Defines an existing persistence volume claim. If provided and `volumeClaims: \| enabled` is true, the existing PVC will be utilized and mapped to the volume. |                 |
+| Name                                  | Description                                                                                                                                                    | Common value    |
+|---------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
+| `volumeClaims.NAME.enabled`           | If the volumeClaims element is enabled, a new PVC will be added to the namespace.                                                                              | `false`         |
+| `volumeClaims.NAME.name`              | A new volume claim name.                                                                                                                                       |                 |
+| `volumeClaims.NAME.storageClassName`  | Storage class type name of the volume.                                                                                                                         | `gp2`           |
+| `volumeClaims.NAME.size`              | Size of the PV to be allocated.                                                                                                                                | `10Gi`          |
+| `volumeClaims.NAME.accessModes`       | Access mode type for the provided PV.                                                                                                                          | `ReadWriteOnce` |
+| `volumeClaims.NAME.existingClaim`     | Defines an existing persistence volume claim. If provided and `volumeClaims.NAME.enabled` is true, the existing PVC will be utilized and mapped to the volume. |                 |
 
 
 ### Extra volume list element
 
-| Name                                               | Description                                                                               | Common value |
-|----------------------------------------------------|-------------------------------------------------------------------------------------------|--------------|
-| `extraVolumes: \| enabled`                         | If the extra volume element is enabled, a new volume will be added to the deployment pod. | `false`      |
-| `extraVolumes: \| name`                            | An extra volume name.                                                                     |              |
-| `extraVolumes: \| emptyDir`                        | Definition for the ephemeral local Kubernetes node volume (OPTIONAL).                     | `{}`         |
-| `extraVolumes: \| persistentVolumeClaim.claimName` | A reference name for the existing PVC (defined or not in the chart) (OPTIONAL).           |              |
+| Name                                                 | Description                                                                               | Common value |
+|------------------------------------------------------|-------------------------------------------------------------------------------------------|--------------|
+| `extraVolumes.NAME.enabled`                          | If the extra volume element is enabled, a new volume will be added to the deployment pod. | `false`      |
+| `extraVolumes.NAME.name`                             | An extra volume name.                                                                     |              |
+| `extraVolumes.NAME.emptyDir`                         | Definition for the ephemeral local Kubernetes node volume (OPTIONAL).                     | `{}`         |
+| `extraVolumes.NAME.persistentVolumeClaim.claimName`  | A reference name for the existing PVC (defined or not in the chart) (OPTIONAL).           |              |
 
 ### Pod's container extra volume mount list element
 
-| Name                              | Description                                                                                                       | Common value |
-|-----------------------------------|-------------------------------------------------------------------------------------------------------------------|--------------|
-| `extraVolumeMounts: \| enabled`   | If the extra volume mount element is enabled, a previously defined volume will be mounted to the pod's container. | `false`      |
-| `extraVolumeMounts: \| name`      | A reference name to an existed extra volume.                                                                      |              |
-| `extraVolumeMounts: \| mountPath` | Extra volume mount path.                                                                                          |              |
+| Name                               | Description                                                                                                       | Common value |
+|------------------------------------|-------------------------------------------------------------------------------------------------------------------|--------------|
+| `extraVolumeMounts.NAME.enabled`   | If the extra volume mount element is enabled, a previously defined volume will be mounted to the pod's container. | `false`      |
+| `extraVolumeMounts.NAME.name`      | A reference name to an existed extra volume.                                                                      |              |
+| `extraVolumeMounts.NAME.mountPath` | Extra volume mount path.                                                                                          |              |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
