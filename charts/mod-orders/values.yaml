@@ -81,9 +81,9 @@ jmx:
 heapDumpEnabled: false
 
 volumeClaims:
-  extendedTmp:
+  extendedtmp:
     enabled: false
-    name: extendedTmp
+    name: extendedtmp
     storageClassName: gp2
     size: 20Gi
     accessModes: ReadWriteOnce
