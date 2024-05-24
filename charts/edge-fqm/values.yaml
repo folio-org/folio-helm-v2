@@ -83,7 +83,8 @@ jmx:
 heapDumpEnabled: false
 
 volumeClaims:
-  - enabled: false
+  extendedTmp:
+    enabled: false
     name: extendedTmp
     storageClassName: gp2
     size: 20Gi
@@ -91,18 +92,22 @@ volumeClaims:
     existingClaim:
 
 extraVolumeMounts:
-  - enabled: false
+  heapdump:
+    enabled: false
     name: heapdump
     mountPath: /tmp/dump
-  - enabled: false
+  extendedTmp:
+    enabled: false
     name: extendedTmp
     mountPath: /tmp
 
 extraVolumes:
-  - enabled: false
+  heapdump:
+    enabled: false
     name: heapdump
     emptyDir: {}
-  - enabled: false
+  extendedTmp:
+    enabled: false
     name: extendedTmp
     persistentVolumeClaim:
       claimName: extendedTmp
@@ -114,9 +119,10 @@ initContainer:
     tag: latest
     pullPolicy: Always
   command: ["sh", "-c", "chown -R 1000:1000 /tmp"]
-  args: []
+  args:
   extraVolumeMounts:
-    - enabled: false
+    extendedTmp:
+      enabled: false
       name: extendedTmp
       mountPath: /tmp
 
