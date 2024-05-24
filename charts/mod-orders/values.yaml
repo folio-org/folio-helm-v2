@@ -94,9 +94,9 @@ extraVolumeMounts:
     enabled: false
     name: heapdump
     mountPath: /tmp/dump
-  extendedTmp:
+  extendedtmp:
     enabled: false
-    name: extendedTmp
+    name: extendedtmp
     mountPath: /tmp
 
 extraVolumes:
@@ -104,11 +104,11 @@ extraVolumes:
     enabled: false
     name: heapdump
     emptyDir: {}
-  extendedTmp:
+  extendedtmp:
     enabled: false
-    name: extendedTmp
+    name: extendedtmp
     persistentVolumeClaim:
-      claimName: extendedTmp
+      claimName: extendedtmp
 
 initContainer:
   enabled: false
@@ -119,9 +119,9 @@ initContainer:
   command: ["sh", "-c", "chown -R 1000:1000 /tmp"]
   args:
   extraVolumeMounts:
-    extendedTmp:
+    extendedtmp:
       enabled: false
-      name: extendedTmp
+      name: extendedtmp
       mountPath: /tmp
 
 integrations:
