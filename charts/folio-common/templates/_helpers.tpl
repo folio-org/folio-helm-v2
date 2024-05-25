@@ -105,10 +105,12 @@ Merge precedence is consistent with http://masterminds.github.io/sprig/dicts.htm
 {{ $dst | toYaml }}
 {{- end -}}
 
-{{/* Check if any integration is enabled */}}
-{{- define "folio-common.anyIntegrationEnabled" -}}
+{{/*
+Check if any element in list is enabled
+*/}}
+{{- define "folio-common.list.hasAnyEnabled" -}}
 {{- $enabled := false -}}
-{{- range $key, $value := .Values.integrations }}
+{{- range $key, $value := . }}
   {{- if $value.enabled }}
     {{- $enabled = true -}}
   {{- end }}
@@ -116,6 +118,30 @@ Merge precedence is consistent with http://masterminds.github.io/sprig/dicts.htm
 {{- $enabled -}}
 {{- end -}}
 
+{{/*
+Proceed .value list of elements and return new list with enabled: true elements only.
+*/}}
+{{- define "folio-common.list.getEnabled" -}}
+{{- $retList := list -}}
+{{- range $key, $value := . }}
+  {{- if $value.enabled }}
+    {{- $retList = append $retList (unset (deepCopy $value) "enabled") -}}
+  {{- end }}
+{{- end }}
+{{- toYaml $retList -}}
+{{- end -}}
+
+{{/*
+Proceed list of elements and return new list with enabled: true elements only
+without enabled: true key-value pair.
+*/}}
+{{- define "folio-common.list.renderEnabled" -}}
+{{- $ := index . 0 -}}
+{{- with index . 1 -}}
+{{- $list := include "folio-common.list.getEnabled" . -}}
+{{- include "folio-common.tplvalues.render" (dict "value" $list "context" $) -}}
+{{- end -}}
+{{- end -}}
 
 {{- define "folio-common.args" -}}
 {{- $args := list -}}
@@ -130,7 +156,6 @@ Merge precedence is consistent with http://masterminds.github.io/sprig/dicts.htm
 {{ include "folio-common.tplvalues.render" (dict "value" $args "context" $) }}
 {{- end -}}
 {{- end -}}
-
 
 {{- define "folio-common.volumes" -}}
 {{- range $name, $config := .Values.configMaps -}}

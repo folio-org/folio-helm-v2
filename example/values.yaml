@@ -80,6 +80,50 @@ jmx:
 
 heapDumpEnabled: false
 
+volumeClaims:
+  extendedtmp:
+    enabled: false
+    name: &extendedtmp_name '{{ printf "%s-%s" (include "folio-common.fullname" $) "extendedtmp" }}'
+    storageClassName: gp2
+    size: 20Gi
+    accessModes: ReadWriteOnce
+    existingClaim:
+
+extraVolumeMounts:
+  heapdump:
+    enabled: false
+    name: heapdump
+    mountPath: /tmp/dump
+  extendedtmp:
+    enabled: false
+    name: extendedtmp
+    mountPath: /tmp
+
+extraVolumes:
+  heapdump:
+    enabled: false
+    name: heapdump
+    emptyDir: {}
+  extendedtmp:
+    enabled: false
+    name: extendedtmp
+    persistentVolumeClaim:
+      claimName: *extendedtmp_name
+
+initContainer:
+  enabled: false
+  image:
+    repository: busybox
+    tag: latest
+    pullPolicy: Always
+  command: '["sh", "-c", "chown -R 1000:1000 /tmp"]'
+  args:
+  extraVolumeMounts:
+    extendedtmp:
+      enabled: false
+      name: extendedtmp
+      mountPath: /tmp
+
 integrations:
   okapi:
     enabled: true
