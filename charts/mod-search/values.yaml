@@ -87,7 +87,7 @@ heapDumpEnabled: false
 volumeClaims:
   extendedtmp:
     enabled: false
-    name: extendedtmp
+    name: &extendedtmp_name '{{ printf "%s-%s" (include "folio-common.fullname" $) "extendedtmp" }}'
     storageClassName: gp2
     size: 20Gi
     accessModes: ReadWriteOnce
@@ -112,7 +112,7 @@ extraVolumes:
     enabled: false
     name: extendedtmp
     persistentVolumeClaim:
-      claimName: extendedtmp
+      claimName: *extendedtmp_name
 
 initContainer:
   enabled: false
