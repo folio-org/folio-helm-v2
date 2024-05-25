@@ -124,7 +124,7 @@ initContainer:
     repository: busybox
     tag: latest
     pullPolicy: Always
-  command: ["sh", "-c", "chown -R 1000:1000 /tmp"]
+    command: '["sh", "-c", "chown -R 1000:1000 /tmp"]'
   args:
   extraVolumeMounts:
     extendedtmp:
