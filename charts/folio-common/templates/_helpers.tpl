@@ -119,8 +119,7 @@ Check if any element in list is enabled
 {{- end -}}
 
 {{/*
-Proceed .value list of elements and return new list with enabled: true elements only
-If .unset passed and its true list will be returned without enabled: true key-value pair.
+Proceed .value list of elements and return new list with enabled: true elements only.
 */}}
 {{- define "folio-common.list.getEnabled" -}}
 {{- $retList := list -}}
