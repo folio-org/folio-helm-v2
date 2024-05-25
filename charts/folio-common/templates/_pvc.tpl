@@ -30,6 +30,6 @@ spec:
 {{- $ := index . 0 }}
 {{- with index . 1 }}
 metadata:
-  name: {{ printf "%s-%s" (include "folio-common.fullname" $) .name }}
+  name: {{ include "folio-common.tplvalues.render" (dict "value" .name "context" $) }}
 {{- end -}}
 {{- end -}}
