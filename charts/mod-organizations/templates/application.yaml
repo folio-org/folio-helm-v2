@@ -10,6 +10,13 @@
 ---
 {{- include "folio-common.ingress.tpl" . }}
 
+{{- range .Values.volumeClaims }}
+  {{- if and .enabled (not .existingClaim) }}
+---
+{{ include "folio-common.pvc.tpl" (list $ .) }}
+  {{- end }}
+{{- end }}
+
 {{- range $integration, $config := .Values.integrations }}
   {{- if and $config.enabled (not $config.existingSecret) }}
 ---
