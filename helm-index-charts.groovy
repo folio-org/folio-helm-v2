@@ -1,6 +1,6 @@
 #!groovy
 
-@Library('pipelines-shared-library') _
+@Library('pipelines-shared-library@0.0.1-beta') _
 
 import org.folio.Constants
 import org.folio.utilities.Tools
