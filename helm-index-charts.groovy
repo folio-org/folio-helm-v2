@@ -52,10 +52,15 @@ ansiColor('xterm') {
                     if (!chartsForIndex.isEmpty()) {
                         helm.k8sClient {
                             chartsForIndex.each {
+//                                sh """
+//                                echo "Pushing ${it} to repo Nexus..."
+//                                CHART_PACKAGE="\$(helm package ${it} --dependency-update | cut -d":" -f2 | tr -d '[:space:]')"
+//                                curl -is -u "${NEXUS_USERNAME}:${NEXUS_PASSWORD}" ${Constants.FOLIO_HELM_V2_REPO_URL} --upload-file "\$CHART_PACKAGE"
+//                                """
                                 sh """
                                 echo "Pushing ${it} to repo Nexus..."
                                 CHART_PACKAGE="\$(helm package ${it} --dependency-update | cut -d":" -f2 | tr -d '[:space:]')"
-                                curl -is -u "${NEXUS_USERNAME}:${NEXUS_PASSWORD}" ${Constants.FOLIO_HELM_V2_REPO_URL} --upload-file "\$CHART_PACKAGE"
+                                curl -is -u "${NEXUS_USERNAME}:${NEXUS_PASSWORD}" https://repository.folio.org/repository/folio-helm-v2-deprecated/ --upload-file "\$CHART_PACKAGE"
                                 """
                             }
                         }
