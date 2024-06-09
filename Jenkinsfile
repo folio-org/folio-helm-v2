@@ -11,12 +11,11 @@ properties([
 //  pipelineTriggers([[$class: 'GitHubPushTrigger']]),
   parameters([
     //TODO change HELM_BRANCH value to origin/master before merge
-    gitParameter(name: 'HELM_BRANCH', defaultValue: 'origin/RANCHER-989-values',
+    gitParameter(name: 'HELM_BRANCH', defaultValue: 'origin/master',
       description: 'GitHub branch to build an index from', branch: '', branchFilter: '.*', listSize: '0',
       quickFilterEnabled: true, selectedValue: 'DEFAULT', sortMode: 'ASCENDING', tagFilter: '*',
       type: 'GitParameterDefinition', useRepository: 'folio-helm-v2'),
-    //TODO Change choice order before push
-    choice(name: 'HELM_NEXUS_REPOSITORY', choices: ['folio-helm-v2-test', 'folio-helm-v2'],
+    choice(name: 'HELM_NEXUS_REPOSITORY', choices: ['folio-helm-v2', 'folio-helm-v2-test'],
       description: 'Nexus repository of folio-helm chart'),
     booleanParam(name: 'INDEX_ALL', defaultValue: false, description: 'Run index for all charts in folio-helm-v2 repo'),
     folioParameters.refreshParameters()
