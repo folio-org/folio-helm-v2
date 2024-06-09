@@ -243,6 +243,13 @@ spec:
                   key: AWS_BUCKET
                   name: {{ .Values.awsConnectParameters }}
           {{- end }}
+          {{- if .Values.awsBucketName }}
+            - name: LIST_APP_S3_BUCKET
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_BUCKET
+                  name: {{ .Values.awsConnectParameters }}
+          {{- end }}
           {{- if .Values.localFsBucketParameters }}
             - name: LOCAL_FS_URL
               valueFrom:
@@ -285,6 +292,84 @@ spec:
           {{- if .Values.consortiumEnabled }}
             - name: CONSORTIUM_ENABLED
               value: {{ .Values.consortiumEnabled | quote }}
+          {{- end }}
+          {{- if .Values.rtrEnabled }}
+            - name: LEGACY_TOKEN_TENANTS
+              value: {{- if .Values.rtrEnabled }} {{- else }} '*' {{- end }}
+          {{- end }}
+          {{- if .Values.disEnabled }}
+            - name: SPLIT_FILES_ENABLED
+              value: "true"
+            - name: AWS_URL
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_URL
+                  name: {{ .Values.awsConnectParameters }}
+            - name: AWS_REGION
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_REGION
+                  name: {{ .Values.awsConnectParameters }}
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_ACCESS_KEY_ID
+                  name: {{ .Values.awsConnectParameters }}
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_SECRET_ACCESS_KEY
+                  name: {{ .Values.awsConnectParameters }}
+            - name: AWS_BUCKET
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_BUCKET
+                  name: {{ .Values.awsConnectParameters }}
+            - name: S3_URL
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_URL
+                  name: {{ .Values.awsConnectParameters }}
+            - name: S3_REGION
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_REGION
+                  name: {{ .Values.awsConnectParameters }}
+            - name: S3_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_ACCESS_KEY_ID
+                  name: {{ .Values.awsConnectParameters }}
+            - name: S3_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_SECRET_ACCESS_KEY
+                  name: {{ .Values.awsConnectParameters }}
+            - name: S3_BUCKET
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_BUCKET
+                  name: {{ .Values.awsConnectParameters }}
+            - name: AWS_SDK
+              value: "true"
+          {{- end }}
+          {{- if .Values.modSearchDev }}
+            - name: KAFKA_CONTRIBUTORS_TOPIC_PARTITIONS
+              value: "2"
+            - name: KAFKA_CONSORTIUM_INSTANCE_TOPIC_PARTITIONS
+              value: "2"
+            - name: KAFKA_SUBJECTS_TOPIC_PARTITIONS
+              value: "2"
+          {{- end }}
+          {{- if .Values.modEntitiesLinksDev }}
+            - name: KAFKA_INSTANCE_AUTHORITY_TOPIC_PARTITIONS
+              value: "2"
+            - name: KAFKA_INSTANCE_AUTHORITY_STATS_TOPIC_PARTITIONS
+              value: "2"
+          {{- end }}
+          {{- if .Values.modInventoryStorageDev }}
+            - name: KAFKA_DOMAIN_TOPIC_NUM_PARTITIONS
+              value: "2"
           {{- end }}
           {{- if .Values.systemUser }}
             - name: SYSTEM_USER_PASSWORD
