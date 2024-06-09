@@ -9,7 +9,7 @@ kind: PersistentVolumeClaim
 spec:
   storageClassName: {{ .storageClassName | default "gp2" }}
   accessModes:
-   - {{ .accessModes | default "ReadWriteOnce" }}
+  - {{ .accessModes | default "ReadWriteOnce" }}
   resources:
     requests:
       storage: {{ .size | default "10Gi" }}

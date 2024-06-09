@@ -31,8 +31,8 @@ def list_folders_in_directory(directory_path):
     # List all folders in the specified directory.
     try:
         folder_list = [name for name in os.listdir(directory_path)
-                       if os.path.isdir(os.path.join(directory_path, name)) and
-                       (name.startswith('mod-') or name.startswith('edge-'))]
+                        if os.path.isdir(os.path.join(directory_path, name)) and
+                        (name.startswith('mod-') or name.startswith('edge-'))]
         return folder_list
     except Exception as e:
         print(f"An error occurred: {e}")

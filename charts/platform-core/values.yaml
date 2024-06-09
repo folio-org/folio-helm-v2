@@ -98,14 +98,14 @@ affinity: {}
 
 # Enable parameters for OKAPI, DB, Kafka or AWS connection. In value set name of secret
 
-# dbConnectParameters: db-connect-modules 
+# dbConnectParameters: db-connect-modules
 # kafkaConnectParameters: db-connect-modules
 # awsConnectParameters: s3-credentials
 # okapiConnectParameters: db-connect-modules
 # elasticSearchConnectParameters: db-connect-modules
 
 # initContainer:
-#   image: 
+#   image:
 #     repository: busybox
 #     tag: latest
 #   imagePullPolicy: Always

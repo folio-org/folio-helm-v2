@@ -11,13 +11,13 @@
 <p align="center">
   <div align="center">
     <a href="https://kubernetes.io/releases/download/">
-      <img src="https://img.shields.io/badge/K8S-1.22+-blue?style=for-the-badge" alt="K8S 1.22+" />
+    <img src="https://img.shields.io/badge/K8S-1.22+-blue?style=for-the-badge" alt="K8S 1.22+" />
     </a>&nbsp;
     <a href="https://github.com/folio-org/folio-helm-v2/LICENSE">
-      <img src="https://img.shields.io/badge/License-Apache_2.0-green?style=for-the-badge" alt="License Apache-2.0" />
+    <img src="https://img.shields.io/badge/License-Apache_2.0-green?style=for-the-badge" alt="License Apache-2.0" />
     </a>&nbsp;
     <a href="https://helm.sh/docs/intro/install/">
-      <img src="https://img.shields.io/badge/HELM-3.10+-blue?style=for-the-badge" alt="HELM 3.10+" />
+    <img src="https://img.shields.io/badge/HELM-3.10+-blue?style=for-the-badge" alt="HELM 3.10+" />
     </a>&nbsp;
   </div>
 </p>

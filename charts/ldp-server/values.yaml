@@ -125,7 +125,7 @@ extraEnv: |
 # awsConnectParameters: s3-credentials
 
 # initContainer:
-#   image: 
+#   image:
 #     repository: busybox
 #     tag: latest
 #   imagePullPolicy: Always

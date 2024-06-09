@@ -12,4 +12,3 @@
 {{- include "common.configmap" . }}
 ---
 {{- include "common.test_connection_pod" . }}
-

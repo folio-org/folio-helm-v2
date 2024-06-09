@@ -37,9 +37,9 @@ spec:
           {{- if .args }}
           args: {{ include "folio-common.tplvalues.render" (dict "value" .args "context" $) | nindent 12 }}
           {{- end }}
-		  {{- if and .extraVolumeMounts (eq (include "folio-common.list.hasAnyEnabled" .extraVolumeMounts) "true") }}
+      {{- if and .extraVolumeMounts (eq (include "folio-common.list.hasAnyEnabled" .extraVolumeMounts) "true") }}
           volumeMounts: {{- include "folio-common.list.renderEnabled" (list $ .extraVolumeMounts) | nindent 12 }}
-		  {{- end }}
+      {{- end }}
       {{- end }}
       {{- end }}
       containers:
@@ -87,9 +87,9 @@ spec:
           {{- end }}
       volumes:
       {{- include "folio-common.volumes" . | indent 8}}
-	  {{- if and .Values.extraVolumes (eq (include "folio-common.list.hasAnyEnabled" .Values.extraVolumes) "true") }}
+    {{- if and .Values.extraVolumes (eq (include "folio-common.list.hasAnyEnabled" .Values.extraVolumes) "true") }}
       {{- include "folio-common.list.renderEnabled" (list $ .Values.extraVolumes) | nindent 8 }}
-	  {{- end }}
+    {{- end }}
       {{- if .Values.heapDumpEnabled }}
         - name: heapdump
           emptyDir: {}
