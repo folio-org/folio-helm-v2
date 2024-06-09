@@ -100,7 +100,7 @@ config:
 #       mountPath: /dumps
 
 # initContainer:
-#   image: 
+#   image:
 #     repository: busybox
 #     tag: latest
 #   imagePullPolicy: Always
@@ -112,7 +112,7 @@ config:
 
 testConnectionPod:
   create: true
-  annotations: 
+  annotations:
     "helm.sh/hook": test
 
 healthCheck: false

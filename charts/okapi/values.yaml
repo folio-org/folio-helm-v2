@@ -2,17 +2,160 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
-
 image:
-  repository: folioci/okapi
-  pullPolicy: Always
+  repository: folioorg/okapi
+  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: ""
 
 imagePullSecrets: []
 nameOverride: ""
-fullnameOverride: "okapi"
+fullnameOverride: ""
+
+replicaCount: 1
+
+resources:
+  limits:
+    # cpu: 100m
+    memory: 1664Mi
+  requests:
+    # cpu: 100m
+    memory: 1024Mi
+
+autoscaling:
+  enabled: false
+  # minReplicas: 1
+  # maxReplicas: 4
+  # targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+# Should be set to NodePort if ingress for AWS ALB enabled
+service:
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 9130
+      containerPort: 9130
+      targetPort: http
+  annotations: {}
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          servicePort: 9130
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+# Okapi cmd argument https://github.com/folio-org/okapi/blob/master/doc/guide.md#command
+args:
+  - dev
+
+## @param javaOpts Custom JVM parameters
+##
+javaOpts:
+  - "-XX:MaxRAMPercentage=75.0 -Ddeploy.waitIterations=90 -Dhost=okapi -Dokapiurl=http://okapi:9130 -Dstorage=postgres -Dpostgres_host=$(DB_HOST) -Dpostgres_database=$(DB_DATABASE) -Dpostgres_username=$(DB_USERNAME) -Dpostgres_password=$(DB_PASSWORD)"
+
+# Should be checked if this options required
+# --add-modules java.se
+# --add-exports java.base/jdk.internal.ref=ALL-UNNAMED
+# --add-opens java.base/java.lang=ALL-UNNAMED
+# --add-opens java.base/java.nio=ALL-UNNAMED
+# --add-opens java.base/sun.nio.ch=ALL-UNNAMED
+# --add-opens java.management/sun.management=ALL-UNNAMED
+# --add-opens jdk.management/com.sun.management.internal=ALL-UNNAMED
+
+extraJavaOpts: []
+  # - "-Dlog_level=DEBUG"
+
+extraEnvVars: []
+  # - name: FOO
+  #   value: bar
+
+extraEnvVarsSecrets: []
+  # = foo-secret
+  # - bar-secret
+
+jmx:
+  enabled: false
+  port: 1099
+
+heapDumpEnabled: false
+
+volumeClaims:
+  extendedtmp:
+    enabled: false
+    name: &extendedtmp_name '{{ printf "%s-%s" (include "folio-common.fullname" $) "extendedtmp" }}'
+    storageClassName: gp2
+    size: 20Gi
+    accessModes: ReadWriteOnce
+    existingClaim:
+
+extraVolumeMounts:
+  heapdump:
+    enabled: false
+    name: heapdump
+    mountPath: /tmp/dump
+  extendedtmp:
+    enabled: false
+    name: extendedtmp
+    mountPath: /tmp
+
+extraVolumes:
+  heapdump:
+    enabled: false
+    name: heapdump
+    emptyDir: {}
+  extendedtmp:
+    enabled: false
+    name: extendedtmp
+    persistentVolumeClaim:
+      claimName: *extendedtmp_name
+
+initContainer:
+  enabled: false
+  image:
+    repository: busybox
+    tag: latest
+    pullPolicy: Always
+    command: '["sh", "-c", "chown -R 1000:1000 /tmp"]'
+  args:
+  extraVolumeMounts:
+    extendedtmp:
+      enabled: false
+      name: extendedtmp
+      mountPath: /tmp
+
+integrations:
+  db:
+    enabled: true
+    host: postgresql
+    hostReader: ""
+    port: 5432
+    database: folio
+    username: folio
+    password: folio
+    charset: UTF-8
+    querytimeout: ""
+    maxpoolsize: ""
+    existingSecret: ""
+
+configMaps:
+  log4j:
+    enabled: true
+    fileName: log4j2.xml
+    mountPath: /etc/log4j2.xml
+    existingConfig: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -22,6 +165,16 @@ serviceAccount:
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
+
+startupProbe:
+  httpGet:
+    path: /_/proxy/health
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 15
+  failureThreshold: 20
+readinessProbe: {}
+livenessProbe: {}
 
 podAnnotations: {}
 
@@ -36,140 +189,8 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-service:
-  type: ClusterIP
-  port: 9130
-  containerPort: 9130
-  annotations: {}
-
-ingress:
-  enabled: false
-  annotations:
-    kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/proxy-connect-timeout: "1800"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
-    nginx.ingress.kubernetes.io/proxy-body-size: "0"
-  hosts:
-    - host:
-      paths: []
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
-
-resources:
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  limits:
-    #cpu: 500m
-    memory: 1500Mi
-  requests:
-    #cpu: 300m
-    memory: 500Mi
-
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
-
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
-
-# Folio specific
-overrideArgs: 
-  - dev
-javaOptions: -Djava.awt.headless=true -Dstorage=postgres -Dpostgres_host=$(OKAPI_HOST) -Dpostgres_port=5432 -Dpostgres_username=$(OKAPI_DB_USER) -Dpostgres_password=$(OKAPI_DB_PASSWORD) -Dpostgres_database=$(OKAPI_DB) -Dlog4j.configurationFile=/etc/log4j2.xml -Dhost=okapi -Dokapiurl=http://okapi:9130
-
-# If need to create and attach ConfigMap add nedded parameters here
-# And create folder configmaps. In folder create file with the same name that in this config.
-# In file paste only data for configmap.
-config:
-  - name: okapi-log4j2-configmap
-    subPath: log4j2.xml
-    mountPath: /etc/log4j2.xml
-
-# volumeMounts:
-  # secrets:
-  #   - name: secure-store-props
-  #     mountPath: /etc/edge
-  #     secretName: ephemeral-properties
-  # emptyDirs:
-  #   - name: dumps-volume
-  #     mountPath: /dumps
-
-extraEnv: |
-  - name: OKAPI_DB
-    valueFrom:
-      secretKeyRef:
-        name: db-connect-modules
-        key: DB_DATABASE
-  - name: OKAPI_DB_USER
-    valueFrom:
-      secretKeyRef:
-        name: db-connect-modules
-        key: DB_USERNAME
-  - name: OKAPI_DB_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: db-connect-modules
-        key: DB_PASSWORD
-  - name: OKAPI_HOST
-    valueFrom:
-      secretKeyRef:
-        key: DB_HOST
-        name: db-connect-modules
-  - name: ENV
-    valueFrom:
-      secretKeyRef:
-        key: ENV
-        name: db-connect-modules
-  - name: JAVA_OPTIONS
-    value: {{ .Values.javaOptions }}
-
-# Enable parameters for OKAPI, DB, Kafka or AWS connection. In value set name of secret
-# dbConnectParameters: db-connect-modules 
-# kafkaConnectParameters: db-connect-modules
-# awsConnectParameters: s3-credentials
-# okapiConnectParameters: db-connect-modules
-# elasticSearchConnectParameters: db-connect-modules
-
-# initContainer:
-#   image: 
-#     repository: busybox
-#     tag: latest
-#   imagePullPolicy: Always
-#   command: cat
-#   overrideArgs:
-#     - diku
-#     - dkl
-#   mountPath: /path
-
-postJob:
-  enabled: false
-  okapiUrl: http://okapi:9130
-  tenantId: diku
-  sampleData: false
-  referenceData: false
-  image:
-    repository: docker.dev.folio.org/folio-okapi-registration
-    pullPolicy: Always
-    # Overrides the image tag whose default is the chart appVersion.
-    tag: "latest"
-  annotations:
-    "helm.sh/hook": post-install,post-upgrade
-    "helm.sh/hook-weight": "-5"
-    "helm.sh/hook-delete-policy": hook-succeeded
-
-livenessProbe:
-  path: "/_/proxy/health"
-
-readinessProbe:
-  path: "/_/proxy/health"

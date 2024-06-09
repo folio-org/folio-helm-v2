@@ -8,7 +8,7 @@ metadata:
   name: {{ $map.name }}
   labels:
     {{- include "helm.labels" $ | nindent 4 }}
-data: 
+data:
   {{ $map.subPath }}: |-
 {{ tpl ($.Files.Get (printf "configmaps/%s" $map.name)) $ | indent 4 }}
 {{- end }}
