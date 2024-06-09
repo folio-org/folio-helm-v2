@@ -26,7 +26,7 @@ ansiColor('xterm') {
                 sshagent(credentials: [Constants.GITHUB_CREDENTIALS_ID]) {
                     checkout([
                         $class           : 'GitSCM',
-                        branches         : [[name: "*/master"]],
+                        branches         : [[name: "*/DEPRECATED-master"]],
                         extensions       : scm.extensions + [[$class             : 'SubmoduleOption',
                                                             disableSubmodules  : false,
                                                             parentCredentials  : false,
