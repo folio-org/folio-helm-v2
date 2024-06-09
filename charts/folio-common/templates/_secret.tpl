@@ -28,6 +28,7 @@ Generate secret data from a given dictionary.
 metadata:
   name: {{ printf "%s-okapi" (include "folio-common.fullname" .) }}
 data: {{ include "folio-common.generateSecretData" (list "OKAPI" .Values.integrations.okapi) | nindent 2 }}
+{{ include "folio-common.generateSecretData" (list "OKAPI_SERVICE" .Values.integrations.okapi) | nindent 2 }}
 {{- end -}}
 
 {{- define "folio-common.db.secret" -}}
@@ -46,12 +47,13 @@ data: {{ include "folio-common.generateSecretData" (list "KAFKA" .Values.integra
 metadata:
   name: {{ printf "%s-opensearch" (include "folio-common.fullname" .) }}
 data: {{ include "folio-common.generateSecretData" (list "OPENSEARCH" .Values.integrations.opensearch) | nindent 2 }}
+{{ include "folio-common.generateSecretData" (list "ELASTICSEARCH" .Values.integrations.opensearch) | nindent 2 }}
 {{- end -}}
 
-{{- define "folio-common.systemUser.secret" -}}
+{{- define "folio-common.systemuser.secret" -}}
 metadata:
-  name: {{ printf "%s-systemUser" (include "folio-common.fullname" .) }}
-data: {{ include "folio-common.generateSecretData" (list "SYSTEM_USER" .Values.integrations.systemUser) | nindent 2 }}
+  name: {{ printf "%s-systemuser" (include "folio-common.fullname" .) }}
+data: {{ include "folio-common.generateSecretData" (list "SYSTEM_USER" .Values.integrations.systemuser) | nindent 2 }}
 {{- end -}}
 
 {{- define "folio-common.s3.secret" -}}
@@ -59,4 +61,5 @@ metadata:
   name: {{ printf "%s-s3" (include "folio-common.fullname" .) }}
 data: {{ include "folio-common.generateSecretData" (list "S3" .Values.integrations.s3) | nindent 2 }}
 {{ include "folio-common.generateSecretData" (list "AWS" .Values.integrations.s3) | nindent 2 }}
+{{ include "folio-common.generateSecretData" (list "LOCAL_FS" .Values.integrations.s3) | nindent 2 }}
 {{- end -}}

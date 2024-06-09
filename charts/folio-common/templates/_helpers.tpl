@@ -105,10 +105,12 @@ Merge precedence is consistent with http://masterminds.github.io/sprig/dicts.htm
 {{ $dst | toYaml }}
 {{- end -}}
 
-{{/* Check if any integration is enabled */}}
-{{- define "folio-common.anyIntegrationEnabled" -}}
+{{/*
+Check if any element in list is enabled
+*/}}
+{{- define "folio-common.list.hasAnyEnabled" -}}
 {{- $enabled := false -}}
-{{- range $key, $value := .Values.integrations }}
+{{- range $key, $value := . }}
   {{- if $value.enabled }}
     {{- $enabled = true -}}
   {{- end }}
@@ -116,6 +118,30 @@ Merge precedence is consistent with http://masterminds.github.io/sprig/dicts.htm
 {{- $enabled -}}
 {{- end -}}
 
+{{/*
+Proceed .value list of elements and return new list with enabled: true elements only.
+*/}}
+{{- define "folio-common.list.getEnabled" -}}
+{{- $retList := list -}}
+{{- range $key, $value := . }}
+  {{- if $value.enabled }}
+    {{- $retList = append $retList (unset (deepCopy $value) "enabled") -}}
+  {{- end }}
+{{- end }}
+{{- toYaml $retList -}}
+{{- end -}}
+
+{{/*
+Proceed list of elements and return new list with enabled: true elements only
+without enabled: true key-value pair.
+*/}}
+{{- define "folio-common.list.renderEnabled" -}}
+{{- $ := index . 0 -}}
+{{- with index . 1 -}}
+{{- $list := include "folio-common.list.getEnabled" . -}}
+{{- include "folio-common.tplvalues.render" (dict "value" $list "context" $) -}}
+{{- end -}}
+{{- end -}}
 
 {{- define "folio-common.args" -}}
 {{- $args := list -}}
@@ -123,7 +149,7 @@ Merge precedence is consistent with http://masterminds.github.io/sprig/dicts.htm
   {{- $args = concat $args .Values.args -}}
 {{- end -}}
 {{- if .Values.heapDumpEnabled -}}
-  {{- $heapDumpArgs := list "-XX:+HeapDumpOnOutOfMemoryError" "-XX:HeapDumpPath=/tmp/dump/heapdump" -}}
+  {{- $heapDumpArgs := list "-XX:+HeapDumpOnOutOfMemoryError" "-XX:HeapDumpPath=/tmp/dump/" -}}
   {{- $args = concat $args $heapDumpArgs -}}
 {{- end -}}
 {{- if len $args -}}
@@ -131,13 +157,12 @@ Merge precedence is consistent with http://masterminds.github.io/sprig/dicts.htm
 {{- end -}}
 {{- end -}}
 
-
 {{- define "folio-common.volumes" -}}
 {{- range $name, $config := .Values.configMaps -}}
   {{- if $config.enabled }}
 - name: {{ $name }}
   configMap:
-    name: {{ printf "%s-%s" (include "folio-common.fullname" $) $name }}
+    name: {{ default (printf "%s-%s" (include "folio-common.fullname" $) $name) $config.existingConfig }}
     defaultMode: 0755
   {{- end }}
 {{- end -}}
@@ -147,7 +172,7 @@ Merge precedence is consistent with http://masterminds.github.io/sprig/dicts.htm
 {{- range $name, $config := .Values.configMaps -}}
   {{- if $config.enabled }}
 - name: {{ $name }}
-  mountPath: {{ $config.mountPath }}
+  mountPath: {{ printf "%s/%s" $config.mountPath $config.fileName }}
   subPath: {{ $config.fileName }}
   {{- end }}
 {{- end -}}
@@ -162,12 +187,16 @@ Merge precedence is consistent with http://masterminds.github.io/sprig/dicts.htm
   {{- $javaOpts = append $javaOpts (.Values.extraJavaOpts | join " ") -}}
 {{- end -}}
 {{- if .Values.configMaps.log4j -}}
-  {{- $log4jOpt := printf "-Dlog4j.configurationFile=%s" .Values.configMaps.log4j.mountPath -}}
+  {{- $log4jOpt := printf "-Dlog4j.configurationFile=%s/%s" .Values.configMaps.log4j.mountPath .Values.configMaps.log4j.fileName -}}
   {{- $javaOpts = append $javaOpts $log4jOpt -}}
 {{- end -}}
 {{- if .Values.configMaps.ephemeral -}}
-  {{- $ephemeralOpt := printf "-Dsecure_store_props=%s" .Values.configMaps.ephemeral.mountPath -}}
+  {{- $ephemeralOpt := printf "-Dsecure_store_props=%s/%s" .Values.configMaps.ephemeral.mountPath .Values.configMaps.ephemeral.fileName -}}
   {{- $javaOpts = append $javaOpts $ephemeralOpt -}}
+{{- end -}}
+{{- if .Values.configMaps.apiconfig -}}
+  {{- $apiconfigOpt := printf "-Dapi_config=%s/%s" .Values.configMaps.apiconfig.mountPath .Values.configMaps.apiconfig.fileName -}}
+  {{- $javaOpts = append $javaOpts $apiconfigOpt -}}
 {{- end -}}
 {{- $javaOpts | join " " | quote -}}
 {{- end -}}
