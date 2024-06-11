@@ -67,6 +67,7 @@ extraJavaOpts: []
   # - "-Dlog_level=DEBUG"
 
 extraEnvVars: []
+
   # - name: FOO
   #   value: bar
 
@@ -148,6 +149,19 @@ integrations:
     accessKeyId: ""
     secretAccessKey: ""
     forcepathstyle: ""
+    existingSecret: ""
+
+  systemuser:
+    enabled: true
+    name: mod-lists
+    password: ""
+    existingSecret: ""
+
+  okapi:
+    enabled: true
+    host: okapi
+    port: 9130
+    url: http://okapi:9130
     existingSecret: ""
 
 configMaps: {}
