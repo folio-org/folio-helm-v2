@@ -65,6 +65,37 @@ spec:
           {{- with .Values.livenessProbe }}
           livenessProbe: {{ toYaml . | nindent 12 }}
           {{- end }}
+        {{- if .Values.eureka.enabled }}
+        - name: "sidecar"
+          image: "732722833398.dkr.ecr.us-west-2.amazonaws.com732722833398.dkr.ecr.us-west-2.amazonaws.com/folio-module-sidecar:latest"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: AM_CLIENT_URL
+            value: "http://mgr-applications"
+          - name: TE_CLIENT_URL
+            value: "http://mgr-tenant-entitlements"
+          - name: TM_CLIENT_URL
+            value: "http://mgr-tenants"
+          - name: MODULE_URL
+            value: "http://{{ .Chart.Name }}"
+          - name: MODULE_NAME
+            value: {{ .Chart.Name | quote }}
+          - name: SIDECAR_FORWARD_UNKNOWN_REQUESTS
+            value: "true"
+          - name: SIDECAR_URL
+            value: "http://{{ .Chart.Name }}:8082"
+          - name: SIDECAR
+            value: "true"
+          - name: JAVA_OPTS
+            value: "--server.port=8082 -Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager -XX:+UseZGC -Xmx128m"
+          - name: {{ .Chart.Name | upper }}_URL
+            value: "http://{{ .Chart.Name }}/{{ .Chart.Name }}"
+          - name: SIDECAR_FORWARD_UNKNOWN_REQUESTS_DESTINATION
+            valueFrom:
+              secretKeyRef:
+                name: eureka-common
+                key: KONG_ADMIN_URL
+        {{- end }}
           ports:
             {{- range .Values.service.ports }}
             - name: {{ .targetPort | default "http" }}
@@ -74,6 +105,11 @@ spec:
             {{- if .Values.jmx.enabled }}
             - name: "jmx"
               containerPort: {{ .Values.jmx.port | default "1099" }}
+              protocol: "TCP"
+            {{- end }}
+            {{- if .Values.eureka.enabled }}
+            - name: "sidecar"
+              containerPort: "8082"
               protocol: "TCP"
             {{- end }}
           volumeMounts:

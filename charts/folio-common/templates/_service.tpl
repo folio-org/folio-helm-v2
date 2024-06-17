@@ -13,6 +13,12 @@ spec:
       port: {{ .port }}
       targetPort: {{ .targetPort }}
     {{- end }}
+    {{- if .Values.eureka.enabled }}
+    - name: sidecar
+      protocol: TCP
+      port: 8082
+      targetPort: 8082
+    {{- end }}
     {{- if .Values.jmx.enabled }}
     - name: jmx
       protocol: TCP
