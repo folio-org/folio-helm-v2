@@ -56,9 +56,6 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-eureka:
-  enabled: false
-
 ## @param javaOpts Custom JVM parameters
 ##
 javaOpts:
