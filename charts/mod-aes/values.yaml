@@ -59,7 +59,7 @@ ingress:
 args: []
 
 eureka:
-  enabled: true
+  enabled: false
   sidecarContainer:
       name: sidecar
       image: 732722833398.dkr.ecr.us-west-2.amazonaws.com/folio-module-sidecar
