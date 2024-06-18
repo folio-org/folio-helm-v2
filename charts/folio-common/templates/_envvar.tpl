@@ -62,7 +62,7 @@ env:
   value: "true"
 - name: JAVA_OPTS
   value: "--server.port={{ .Values.eureka.sidecarContainer.port | default "8082" }} -Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager -XX:+UseZGC -Xmx128m"
-- name: {{ .Chart.Name | upper }}_URL
+- name: {{ .Chart.Name | replace "-" "_" | upper }}_URL
   value: "http://{{ .Chart.Name }}/{{ .Chart.Name }}"
 - name: SIDECAR_FORWARD_UNKNOWN_REQUESTS_DESTINATION
   valueFrom:
