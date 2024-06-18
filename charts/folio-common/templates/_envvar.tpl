@@ -45,11 +45,11 @@ Sidecar env vars part of container specs.
 {{- define "folio-common.sidecar.env.vars" -}}
 env:
 - name: AM_CLIENT_URL
-  value: "http://mgr-applications"
+  value: "{{ (.Values.sidecar).am_client | default "http://mgr-applications" }}"
 - name: TE_CLIENT_URL
-  value: "http://mgr-tenant-entitlements"
+  value: "{{ (.Values.sidecar).te_client | default "http://mgr-tenant-entitlements" }}"
 - name: TM_CLIENT_URL
-  value: "http://mgr-tenants"
+  value: "{{ (.Values.sidecar).tm_client | default "http://mgr-tenants" }}"
 - name: MODULE_URL
   value: "http://{{ .Chart.Name }}"
 - name: MODULE_NAME
@@ -57,11 +57,11 @@ env:
 - name: SIDECAR_FORWARD_UNKNOWN_REQUESTS
   value: "true"
 - name: SIDECAR_URL
-  value: "http://{{ .Chart.Name }}:8082"
+  value: "http://{{ .Chart.Name }}:{{ (.Values.sidecar).port | default "8082" }}"
 - name: SIDECAR
   value: "true"
 - name: JAVA_OPTS
-  value: "--server.port=8082 -Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager -XX:+UseZGC -Xmx128m"
+  value: "--server.port={{ (.Values.sidecar).port | default "8082" }} -Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager -XX:+UseZGC -Xmx128m"
 - name: {{ .Chart.Name | upper }}_URL
   value: "http://{{ .Chart.Name }}/{{ .Chart.Name }}"
 - name: SIDECAR_FORWARD_UNKNOWN_REQUESTS_DESTINATION

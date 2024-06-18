@@ -16,8 +16,8 @@ spec:
     {{- if .Values.eureka.enabled }}
     - name: sidecar
       protocol: TCP
-      port: 8082
-      targetPort: 8082
+      port: {{ (.Values.sidecar).port | default "8082" }}
+      targetPort: {{ (.Values.sidecar).port | default "8082" }}
     {{- end }}
     {{- if .Values.jmx.enabled }}
     - name: jmx

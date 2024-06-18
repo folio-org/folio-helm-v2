@@ -206,7 +206,7 @@ Sidecar image part of container specs.
 */}}
 {{- define "folio-common.sidecar.image" -}}
 - name: {{ (.Values.sidecar).name | default "sidecar" }}
-  image: {{ (.Values.sidecar).image | default "732722833398.dkr.ecr.us-west-2.amazonaws.com/folio-module-sidecar:latest" }}
+  image: {{ printf "%s:%s" .Values.sidecar.image .Values.sidecar.tag |  default "732722833398.dkr.ecr.us-west-2.amazonaws.com/folio-module-sidecar:latest" }}
   imagePullPolicy: "IfNotPresent"
 {{- end }}
 
@@ -216,5 +216,5 @@ Sidecar port part of container specs.
 {{- define "folio-common.sidecar.port" -}}
 - name: {{ (.Values.sidecar).name | default "sidecar" }}
   containerPort: {{ (.Values.sidecar).containerPort | default "8082" }}
-  protocol: "TCP"
+  protocol: TCP
 {{- end }}
