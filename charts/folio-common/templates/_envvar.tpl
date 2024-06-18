@@ -44,12 +44,12 @@ Sidecar env vars part of container specs.
 */}}
 {{- define "folio-common.sidecar.env.vars" -}}
 env:
-- name: AM_CLIENT_URL
-  value: "{{ (.Values.eureka.sidecarContainer).am_client | default "http://mgr-applications" }}"
-- name: TE_CLIENT_URL
-  value: "{{ (.Values.eureka.sidecarContainer).te_client | default "http://mgr-tenant-entitlements" }}"
-- name: TM_CLIENT_URL
-  value: "{{ (.Values.eureka.sidecarContainer).tm_client | default "http://mgr-tenants" }}"
+- name: amClientUrl_URL
+  value: "{{ (.Values.eureka.sidecarContainer).amClientUrl | default "http://mgr-applications" }}"
+- name: teClientUrl_URL
+  value: "{{ (.Values.eureka.sidecarContainer).teClientUrl | default "http://mgr-tenant-entitlements" }}"
+- name: tmClientUrl_URL
+  value: "{{ (.Values.eureka.sidecarContainer).tmClientUrl | default "http://mgr-tenants" }}"
 - name: MODULE_URL
   value: "http://{{ .Chart.Name }}"
 - name: MODULE_NAME

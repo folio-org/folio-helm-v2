@@ -66,9 +66,9 @@ eureka:
       tag: latest
       containerPort: 8082
       port: 8082
-      am_client: http://mgr-applications
-      te_client: http://mgr-tenant-entitlements
-      tm_client: http://mgr-tenants
+      amClientUrl: http://mgr-applications
+      teClientUrl: http://mgr-tenant-entitlements
+      tmClientUrl: http://mgr-tenants
 
 ## @param javaOpts Custom JVM parameters
 ##
