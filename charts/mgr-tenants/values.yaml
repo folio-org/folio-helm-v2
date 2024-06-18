@@ -4,7 +4,7 @@
 
 image:
   repository: 732722833398.dkr.ecr.us-west-2.amazonaws.com/mgr-tenants
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
