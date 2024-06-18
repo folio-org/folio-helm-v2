@@ -57,6 +57,7 @@ ingress:
   #      - chart-example.local
 
 args: []
+
 ## @param javaOpts Custom JVM parameters
 ##
 javaOpts:
