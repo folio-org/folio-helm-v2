@@ -69,7 +69,6 @@ eureka:
       am_client: http://mgr-applications
       te_client: http://mgr-tenant-entitlements
       tm_client: http://mgr-tenants
-
 ## @param javaOpts Custom JVM parameters
 ##
 javaOpts:
