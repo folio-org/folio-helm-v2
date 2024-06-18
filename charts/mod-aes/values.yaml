@@ -59,7 +59,7 @@ ingress:
 args: []
 
 eureka:
-  enabled: true
+  enabled: false
 
 sidecar:
     name: sidecar
