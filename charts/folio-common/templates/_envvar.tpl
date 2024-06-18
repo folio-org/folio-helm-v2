@@ -45,11 +45,11 @@ Sidecar env vars part of container specs.
 {{- define "folio-common.sidecar.env.vars" -}}
 env:
 - name: AM_CLIENT_URL
-  value: "{{ (.Values.eureka.sidecarContainer).amClientUrl | default "http://mgr-applications" }}"
+  value: "{{ .Values.eureka.sidecarContainer.amClientUrl | default "http://mgr-applications" }}"
 - name: TE_CLIENT_URL
-  value: "{{ (.Values.eureka.sidecarContainer).teClientUrl | default "http://mgr-tenant-entitlements" }}"
+  value: "{{ .Values.eureka.sidecarContainer.teClientUrl | default "http://mgr-tenant-entitlements" }}"
 - name: TM_CLIENT_URL
-  value: "{{ (.Values.eureka.sidecarContainer).tmClientUrl | default "http://mgr-tenants" }}"
+  value: "{{ .Values.eureka.sidecarContainer.tmClientUrl | default "http://mgr-tenants" }}"
 - name: MODULE_URL
   value: "http://{{ .Chart.Name }}"
 - name: MODULE_NAME
@@ -57,11 +57,11 @@ env:
 - name: SIDECAR_FORWARD_UNKNOWN_REQUESTS
   value: "true"
 - name: SIDECAR_URL
-  value: "http://{{ .Chart.Name }}:{{ (.Values.eureka.sidecarContainer).port | default "8082" }}"
+  value: "http://{{ .Chart.Name }}:{{ .Values.eureka.sidecarContainer.port | default "8082" }}"
 - name: SIDECAR
   value: "true"
 - name: JAVA_OPTS
-  value: "--server.port={{ (.Values.eureka.sidecarContainer).port | default "8082" }} -Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager -XX:+UseZGC -Xmx128m"
+  value: "--server.port={{ .Values.eureka.sidecarContainer.port | default "8082" }} -Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager -XX:+UseZGC -Xmx128m"
 - name: {{ .Chart.Name | upper }}_URL
   value: "http://{{ .Chart.Name }}/{{ .Chart.Name }}"
 - name: SIDECAR_FORWARD_UNKNOWN_REQUESTS_DESTINATION
