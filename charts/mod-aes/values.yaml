@@ -59,17 +59,16 @@ ingress:
 args: []
 
 eureka:
-  enabled: false
-
-sidecar:
-    name: sidecar
-    image: 732722833398.dkr.ecr.us-west-2.amazonaws.com/folio-module-sidecar
-    tag: latest
-    containerPort: 8082
-    port: 8082
-    am_client: http://mgr-applications
-    te_client: http://mgr-tenant-entitlements
-    tm_client: http://mgr-tenants
+  enabled: true
+  sidecarContainer:
+      name: sidecar
+      image: 732722833398.dkr.ecr.us-west-2.amazonaws.com/folio-module-sidecar
+      tag: latest
+      containerPort: 8082
+      port: 8082
+      am_client: http://mgr-applications
+      te_client: http://mgr-tenant-entitlements
+      tm_client: http://mgr-tenants
 
 ## @param javaOpts Custom JVM parameters
 ##
