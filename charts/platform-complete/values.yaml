@@ -58,6 +58,10 @@ ingress:
 
 args: []
 
+eureka:
+  enabled: false
+  sidecarContainer: {}
+
 ## @param javaOpts Custom JVM parameters
 ##
 javaOpts: []

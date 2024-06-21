@@ -55,7 +55,6 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-
 args: []
 
 ## @param javaOpts Custom JVM parameters

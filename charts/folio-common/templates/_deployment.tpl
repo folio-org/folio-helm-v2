@@ -65,6 +65,10 @@ spec:
           {{- with .Values.livenessProbe }}
           livenessProbe: {{ toYaml . | nindent 12 }}
           {{- end }}
+        {{- if .Values.eureka.enabled }}
+        {{- include "folio-common.sidecar.image" . | nindent 8 }}
+        {{- include "folio-common.sidecar.env.vars" . | nindent 10 }}
+        {{- end }}
           ports:
             {{- range .Values.service.ports }}
             - name: {{ .targetPort | default "http" }}
@@ -75,6 +79,9 @@ spec:
             - name: "jmx"
               containerPort: {{ .Values.jmx.port | default "1099" }}
               protocol: "TCP"
+            {{- end }}
+            {{- if .Values.eureka.enabled }}
+            {{- include "folio-common.sidecar.port" . | nindent 12 }}
             {{- end }}
           volumeMounts:
           {{- include "folio-common.volumeMounts" . | indent 12}}
