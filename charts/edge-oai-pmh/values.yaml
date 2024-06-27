@@ -78,6 +78,10 @@ jmx:
   enabled: false
   port: 1099
 
+eureka:
+  enabled: false
+  sidecarContainer: {}
+
 heapDumpEnabled: false
 
 volumeClaims:

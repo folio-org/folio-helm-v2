@@ -80,6 +80,10 @@ jmx:
 
 heapDumpEnabled: false
 
+eureka:
+  enabled: false
+  sidecarContainer: {}
+
 volumeClaims:
   extendedtmp:
     enabled: false
