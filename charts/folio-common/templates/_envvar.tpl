@@ -71,4 +71,14 @@ env:
     secretKeyRef:
       name: eureka-common
       key: KONG_ADMIN_URL
+- name: KAFKA_HOST
+  valueFrom:
+    secretKeyRef:
+      name: kafka-credentials
+      key: KAFKA_HOST
+- name: KAFKA_PORT
+  valueFrom:
+    secretKeyRef:
+      name: kafka-credentials
+      key: KAFKA_PORT
 {{- end }}
