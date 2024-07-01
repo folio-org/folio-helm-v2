@@ -47,7 +47,7 @@ env:
 - name: AM_CLIENT_URL
   value: "{{ .Values.eureka.sidecarContainer.amClientUrl | default "http://mgr-applications" }}"
 - name: QUARKUS_HTTP_PORT
-  value: {{ .Values.eureka.sidecarContainer.port | default "8082" }}
+  value: "{{ .Values.eureka.sidecarContainer.port | default "8082" }}"
 - name: TE_CLIENT_URL
   value: "{{ .Values.eureka.sidecarContainer.teClientUrl | default "http://mgr-tenant-entitlements" }}"
 - name: TM_CLIENT_URL
