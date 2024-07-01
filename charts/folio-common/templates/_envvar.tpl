@@ -46,6 +46,8 @@ Sidecar env vars part of container specs.
 env:
 - name: AM_CLIENT_URL
   value: "{{ .Values.eureka.sidecarContainer.amClientUrl | default "http://mgr-applications" }}"
+- name: QUARKUS_HTTP_PORT
+  value: {{ .Values.eureka.sidecarContainer.port | default "8082" }}
 - name: TE_CLIENT_URL
   value: "{{ .Values.eureka.sidecarContainer.teClientUrl | default "http://mgr-tenant-entitlements" }}"
 - name: TM_CLIENT_URL
@@ -63,7 +65,7 @@ env:
 - name: SIDECAR
   value: "true"
 - name: JAVA_OPTS
-  value: "--server.port={{ .Values.eureka.sidecarContainer.port | default "8082" }} -Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager -XX:+UseZGC -Xmx128m"
+  value: "-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager -XX:+UseZGC -Xmx128m"
 - name: {{ .Chart.Name | replace "-" "_" | upper }}_URL
   value: "http://{{ .Chart.Name }}/{{ .Chart.Name }}"
 - name: SIDECAR_FORWARD_UNKNOWN_REQUESTS_DESTINATION
