@@ -59,7 +59,7 @@ ingress:
 args: []
 
 eureka:
-  enabled: true
+  enabled: false
   sidecarContainer: {}
 
 ## @param javaOpts Custom JVM parameters
