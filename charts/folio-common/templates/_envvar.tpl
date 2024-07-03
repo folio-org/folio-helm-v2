@@ -57,7 +57,7 @@ env:
 - name: MODULE_NAME
   value: "{{ .Chart.Name }}"
 - name: MODULE_VERSION
-  value: "{{ (split "-" .Values.image.tag)._0 | default .Values.image.tag }}"
+  value: "{{ (split "-" .Values.image.tag)._0 | default .Values.image.tag }}-SNAPSHOT"
 - name: SIDECAR_FORWARD_UNKNOWN_REQUESTS
   value: "true"
 - name: SIDECAR_URL
