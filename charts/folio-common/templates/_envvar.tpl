@@ -109,18 +109,18 @@ env:
       name: kafka-credentials
       key: KAFKA_PORT
 - name: MOD_USERS_KEYCLOAK_URL
-   valueFrom:
-     secretKeyRef:
-       name: eureka-common
-       key: MOD_USERS_KEYCLOAK_URL
+  valueFrom:
+    secretKeyRef:
+      name: eureka-common
+      key: MOD_USERS_KEYCLOAK_URL
 - name: MOD_USERS_BL
-   valueFrom:
-     secretKeyRef:
-       name: eureka-common
-       key: MOD_USERS_BL
+  valueFrom:
+    secretKeyRef:
+      name: eureka-common
+      key: MOD_USERS_BL
 - name: KC_URL
-   valueFrom:
-     secretKeyRef:
-       name: eureka-common
-       key: KC_URL
+  valueFrom:
+    secretKeyRef:
+      name: eureka-common
+      key: KC_URL
 {{- end }}
