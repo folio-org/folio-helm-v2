@@ -55,7 +55,7 @@ env:
 - name: MODULE_URL
   value: "http://{{ .Chart.Name }}"
 - name: MODULE_NAME
-  value: {{ .Chart.Name | quote }}
+  value: "{{ .Chart.Name }}"
 - name: MODULE_VERSION
   value: "{{ (split "-" .Values.image.tag)._0 | default .Values.image.tag }}"
 - name: SIDECAR_FORWARD_UNKNOWN_REQUESTS
@@ -64,10 +64,35 @@ env:
   value: "http://{{ .Chart.Name }}:{{ .Values.eureka.sidecarContainer.port | default "8082" }}"
 - name: SIDECAR
   value: "true"
+- name: REQUEST_TIMEOUT
+  value: "60000"
+- name: SIDECAR_MODULE_PATH_PREFIX_STRATEGY
+  value: "PROXY"
+- name: KC_LOGIN_CLIENT_SUFFIX
+  value: "-application"
+- name: KC_URI_VALIDATION_ENABLED
+  value: "false"
+- name: ALLOW_CROSS_TENANT_REQUESTS
+  value: "true"
+- name: QUARKUS_HTTP_LIMITS_MAX_INITIAL_LINE_LENGTH
+  value: "8192"
 - name: JAVA_OPTS
   value: "-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager -XX:+UseZGC -Xmx128m"
-- name: {{ .Chart.Name | replace "-" "_" | upper }}_URL
-  value: "http://{{ .Chart.Name }}/{{ .Chart.Name }}"
+- name: SECRET_STORE_TYPE
+  valueFrom:
+    secretKeyRef:
+      name: eureka-common
+      key: SECRET_STORE_TYPE
+- name: SECRET_STORE_AWS_SSM_REGION
+  valueFrom:
+    secretKeyRef:
+      name: eureka-common
+      key: SECRET_STORE_AWS_SSM_REGION
+- name: ENV
+  valueFrom:
+    secretKeyRef:
+      name: db-credentials
+      key: ENV
 - name: SIDECAR_FORWARD_UNKNOWN_REQUESTS_DESTINATION
   valueFrom:
     secretKeyRef:
@@ -83,4 +108,19 @@ env:
     secretKeyRef:
       name: kafka-credentials
       key: KAFKA_PORT
+- name: MOD_USERS_KEYCLOAK_URL
+  valueFrom:
+    secretKeyRef:
+      name: eureka-common
+      key: MOD_USERS_KEYCLOAK_URL
+- name: MOD_USERS_BL
+  valueFrom:
+    secretKeyRef:
+      name: eureka-common
+      key: MOD_USERS_BL
+- name: KC_URL
+  valueFrom:
+    secretKeyRef:
+      name: eureka-common
+      key: KC_URL
 {{- end }}
