@@ -1,0 +1,39 @@
+
+{{- range .Values.volumeClaims }}
+  {{- if and .enabled (not .existingClaim) }}
+---
+{{ include "folio-common.pvc.tpl" (list $ .) }}
+  {{- end }}
+{{- end }}
+---
+{{- $annotations := dict
+  "helm.sh/hook" "pre-install"
+  "helm.sh/hook-delete-policy" "hook-succeeded"
+-}}
+
+{{- $podFailurePolicy := dict
+  "containerName" "init-database"
+  "exitCodes" "1"
+-}}
+
+{{- include "ldp.job.template" (dict
+  "Chart" .Chart
+  "Values" .Values
+  "Release" .Release
+  "jobName" "init-database"
+  "containerName" "init-database"
+  "command" "init-database"
+  "podFailurePolicy" $podFailurePolicy
+  )
+}}
+---
+{{- include "ldp.job.template" (dict
+  "Chart" .Chart
+  "Values" .Values
+  "Release" .Release
+  "jobName" "update-database"
+  "containerName" "update-database"
+  "command" "update"
+  )
+}}
+
