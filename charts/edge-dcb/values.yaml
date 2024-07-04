@@ -55,7 +55,6 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-
 args: []
 
 ## @param javaOpts Custom JVM parameters
@@ -79,6 +78,10 @@ jmx:
   port: 1099
 
 heapDumpEnabled: false
+
+eureka:
+  enabled: false
+  sidecarContainer: {}
 
 volumeClaims:
   extendedtmp:

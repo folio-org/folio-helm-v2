@@ -290,6 +290,21 @@ helm uninstall my-release-name
 | `extraVolumeMounts.NAME.name`      | A reference name to an existed extra volume.                                                                      |              |
 | `extraVolumeMounts.NAME.mountPath` | Extra volume mount path.                                                                                          |              |
 
+### Eureka deployment parameters
+
+| Name                                    | Description                                                                                      | Common value                                                       |
+|-----------------------------------------|--------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
+| `eureka.enabled`                        | If `eureka.enabled` is true, Eureka related resources are created. Is disabled by default.       | `false`                                                            |
+| `eureka.sidecarContainer.name`          | Sidecar Container Identificator Name.	                                                           | `sidecar`                                                          |
+| `eureka.sidecarContainer.image`         | Sidecar Container Image Location to use for deployment.                                          | `732722833398.dkr.ecr.us-west-2.amazonaws.com/folio-module-sidecar`|
+| `eureka.sidecarContainer.tag`           | Sidecar Container Image Tag to be used.                                                          | `latest`                                                           |
+| `eureka.sidecarContainer.containerPort` | Sidecar Container TCP port number in the Pod to listen on.                                       | `8082`                                                             |
+| `eureka.sidecarContainer.port`          | Sidecar Container TCP port number to be exposed as a Service to outside world.                   | `8082`                                                             |
+| `eureka.sidecarContainer.amClientUrl`   | Sidecar Parameter: HTTP URL for Applications Manager service.                                    | `http://mgr-applications`                                          |
+| `eureka.sidecarContainer.teClientUrl`   | Sidecar Parameter: HTTP URL for Tenant Entitlements Manager service.                             | `http://mgr-tenant-entitlements`                                   |
+| `eureka.sidecarContainer.tmClientUrl`   | Sidecar Parameter: HTTP URL for Tenants Manager service.                                         | `http://mgr-tenants`                                               |
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
 ```console
