@@ -8,6 +8,8 @@ spec:
   schedule: "0 */12 * * *"  # Every 12 hours
   jobTemplate:
     spec:
+      activeDeadlineSeconds: 300
+      ttlSecondsAfterFinished: 100
       template:
         metadata:
           labels:
