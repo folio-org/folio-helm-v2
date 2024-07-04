@@ -22,6 +22,7 @@ spec:
             - {{ .Values.ldpDataDirPath }}
             - --profile
             - folio
+            - --direct-extraction-no-ssl
             env:
               {{- include "ldp.container.env" . | nindent 12 }}
             volumeMounts:

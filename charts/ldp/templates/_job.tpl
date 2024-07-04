@@ -10,7 +10,7 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  activeDeadlineSeconds: 100
+  activeDeadlineSeconds: 300
   ttlSecondsAfterFinished: 100
   template:
     metadata:
@@ -26,6 +26,7 @@ spec:
         - {{ .Values.ldpDataDirPath }}
         - --profile
         - folio
+        - --direct-extraction-no-ssl
         env:
           {{- include "ldp.container.env" . | nindent 8 }}
         volumeMounts:
