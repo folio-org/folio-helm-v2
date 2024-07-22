@@ -1,0 +1,37 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: "{{ .Chart.Name }}-update-database"
+  labels:
+    {{- include "ldp.labels" . | nindent 4 }}
+spec:
+  schedule: "0 */12 * * *"  # Every 12 hours
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 300
+      ttlSecondsAfterFinished: 100
+      template:
+        metadata:
+          labels:
+            {{- include "ldp.labels" . | nindent 12 }}
+        spec:
+          containers:
+          - name: update-database
+            image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+            args:
+            - update
+            - -D
+            - {{ .Values.ldpDataDirPath }}
+            - --profile
+            - folio
+            - --direct-extraction-no-ssl
+            env:
+              {{- include "ldp.container.env" . | nindent 12 }}
+            volumeMounts:
+              {{- include "ldp.container.volumeMounts" . | nindent 12 }}
+            {{- with .Values.resources }}
+            resources: {{ toYaml . | nindent 12 }}
+            {{- end }}
+          restartPolicy: Never
+          volumes:
+            {{- include "ldp.volumes" . | nindent 10 }}
