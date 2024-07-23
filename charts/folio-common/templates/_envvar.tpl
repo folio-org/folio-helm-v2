@@ -66,8 +66,6 @@ env:
   value: "true"
 - name: REQUEST_TIMEOUT
   value: "60000"
-- name: SIDECAR_MODULE_PATH_PREFIX_STRATEGY
-  value: "PROXY"
 - name: KC_LOGIN_CLIENT_SUFFIX
   value: "-application"
 - name: KC_URI_VALIDATION_ENABLED
