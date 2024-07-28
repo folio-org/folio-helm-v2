@@ -30,3 +30,5 @@
 {{ include "folio-common.configmap" (list $ (printf "folio-common.configmap.%s" $configMap)) }}
   {{- end }}
 {{- end }}
+---
+{{ include "folio-common.configmap" (list $ "okapi.hazelcast.configmap") }}

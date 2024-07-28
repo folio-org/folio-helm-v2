@@ -3,7 +3,6 @@
 {{- define "folio-common.deployment.tpl" }}
 apiVersion: apps/v1
 kind: Deployment
-metadata:
 {{ template "folio-common.metadata" . }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
@@ -65,10 +64,10 @@ spec:
           {{- with .Values.livenessProbe }}
           livenessProbe: {{ toYaml . | nindent 12 }}
           {{- end }}
-        {{- if .Values.eureka.enabled }}
-        {{- include "folio-common.sidecar.image" . | nindent 8 }}
-        {{- include "folio-common.sidecar.env.vars" . | nindent 10 }}
-        {{- end }}
+          {{- if .Values.eureka.enabled | default false }}
+            {{- include "folio-common.sidecar.image" . | nindent 8 }}
+            {{- include "folio-common.sidecar.env.vars" . | nindent 10 }}
+          {{- end }}
           ports:
             {{- range .Values.service.ports }}
             - name: {{ .targetPort | default "http" }}
@@ -80,7 +79,7 @@ spec:
               containerPort: {{ .Values.jmx.port | default "1099" }}
               protocol: "TCP"
             {{- end }}
-            {{- if .Values.eureka.enabled }}
+            {{- if .Values.eureka.enabled | default false }}
             {{- include "folio-common.sidecar.port" . | nindent 12 }}
             {{- end }}
           volumeMounts:
@@ -94,9 +93,9 @@ spec:
           {{- end }}
       volumes:
       {{- include "folio-common.volumes" . | indent 8}}
-    {{- if and .Values.extraVolumes (eq (include "folio-common.list.hasAnyEnabled" .Values.extraVolumes) "true") }}
-      {{- include "folio-common.list.renderEnabled" (list $ .Values.extraVolumes) | nindent 8 }}
-    {{- end }}
+      {{- if and .Values.extraVolumes (eq (include "folio-common.list.hasAnyEnabled" .Values.extraVolumes) "true") }}
+        {{- include "folio-common.list.renderEnabled" (list $ .Values.extraVolumes) | nindent 8 }}
+      {{- end }}
       {{- if .Values.heapDumpEnabled }}
         - name: heapdump
           emptyDir: {}
