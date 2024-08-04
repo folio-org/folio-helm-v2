@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<hazelcast xmlns="http://www.hazelcast.com/schema/config"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.hazelcast.com/schema/config
+           http://www.hazelcast.com/schema/config/hazelcast-config-4.0.xsd">
+
+    <cluster-name>dev</cluster-name>
+    <network>
+        <port auto-increment="true" port-count="100">5701</port>
+        <join>
+            <multicast enabled="false"/>
+            <tcp-ip enabled="false"/>
+            <aws enabled="false"/>
+            <kubernetes enabled="true">
+                <namespace>{{ .Release.Namespace }}</namespace>
+                <service-name>{{ .Values.hazelcastService.name }}</service-name>
+                <resolve-not-ready-addresses>true</resolve-not-ready-addresses>
+            </kubernetes>
+        </join>
+    </network>
+</hazelcast>
