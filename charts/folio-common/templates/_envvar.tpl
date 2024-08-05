@@ -121,4 +121,9 @@ env:
     secretKeyRef:
       name: eureka-common
       key: KC_URL
+- name: KC_SERVICE_CLIENT_ID
+  valueFrom:
+    secretKeyRef:
+      name: eureka-common
+      key: KC_SERVICE_CLIENT_ID
 {{- end }}
