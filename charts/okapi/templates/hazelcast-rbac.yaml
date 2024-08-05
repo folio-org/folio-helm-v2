@@ -36,11 +36,11 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: hazelcast-cluster-role-binding
+  name: {{ .Release.Namespace }}:okapi-hazelcast-cluster
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: {{ .Release.Namespace }}:hazelcast-cluster-role
+  name: hazelcast-cluster-role
 subjects:
   - kind: ServiceAccount
     name: {{ template "folio-common.fullname" . }}
