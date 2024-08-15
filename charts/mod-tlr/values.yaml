@@ -129,6 +129,12 @@ initContainer:
       mountPath: /tmp
 
 integrations:
+  okapi:
+    enabled: true
+    host: okapi
+    port: 9130
+    url: http://okapi:9130
+    existingSecret: ""
   db:
     enabled: true
     host: postgresql
@@ -140,6 +146,11 @@ integrations:
     charset: UTF-8
     querytimeout: 60000
     maxpoolsize: 5
+    existingSecret: ""
+  kafka:
+    enabled: true
+    host: kafka
+    port: 9092
     existingSecret: ""
 
 configMaps: {}
