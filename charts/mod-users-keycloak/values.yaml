@@ -70,9 +70,9 @@ javaOpts:
 extraJavaOpts: []
   # - "-Dlog_level=DEBUG"
 
-extraEnvVars: []
-  # - name: FOO
-  #   value: bar
+extraEnvVars: 
+    - name: OKAPI_URL
+      value: http://mod-users-keycloak:8082
 
 extraEnvVarsSecrets: []
   # = foo-secret
