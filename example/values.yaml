@@ -62,7 +62,7 @@ eureka:
   enabled: false
   sidecarContainer:
       name: sidecar
-      image: 732722833398.dkr.ecr.us-west-2.amazonaws.com/folio-module-sidecar
+      image: folioci/folio-module-sidecar
       tag: latest
       containerPort: 8082
       port: 8082

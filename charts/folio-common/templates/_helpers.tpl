@@ -206,7 +206,7 @@ Sidecar image part of container specs.
 */}}
 {{- define "folio-common.sidecar.image" -}}
 - name: {{ .Values.eureka.sidecarContainer.name | default "sidecar" }}
-  image: {{ printf "%s:%s" (.Values.eureka.sidecarContainer.image | default "732722833398.dkr.ecr.us-west-2.amazonaws.com/folio-module-sidecar") (.Values.eureka.sidecarContainer.tag | default "latest") }}
+  image: {{ printf "%s:%s" (.Values.eureka.sidecarContainer.image | default "folioci/folio-module-sidecar") (.Values.eureka.sidecarContainer.tag | default "latest") }}
   imagePullPolicy: "Always"
 {{- end }}
 
