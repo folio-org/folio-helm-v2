@@ -71,8 +71,8 @@ extraJavaOpts: []
   # - "-Dlog_level=DEBUG"
 
 extraEnvVars: 
-    - name: OKAPI_URL
-      value: http://mod-login-keycloak:8082
+  - name: OKAPI_URL
+    value: 'http://mod-login-keycloak:8082'
 
 extraEnvVarsSecrets: []
   # = foo-secret
