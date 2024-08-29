@@ -70,9 +70,9 @@ javaOpts:
 extraJavaOpts: []
   # - "-Dlog_level=DEBUG"
 
-extraEnvVars: []
-  # - name: FOO
-  #   value: bar
+extraEnvVars:
+  - name: CONCURRENT_JOBS_GLOBAL
+    value: 5
 
 extraEnvVarsSecrets: []
   # = foo-secret
