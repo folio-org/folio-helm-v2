@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: 732722833398.dkr.ecr.us-west-2.amazonaws.com/mod-users-keycloak
+  repository: folioorg/mod-users-keycloak
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -70,9 +70,9 @@ javaOpts:
 extraJavaOpts: []
   # - "-Dlog_level=DEBUG"
 
-extraEnvVars: []
-  # - name: FOO
-  #   value: bar
+extraEnvVars: 
+  - name: OKAPI_URL
+    value: 'http://mod-users-keycloak:8082'
 
 extraEnvVarsSecrets: []
   # = foo-secret
