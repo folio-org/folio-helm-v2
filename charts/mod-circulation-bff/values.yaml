@@ -1,9 +1,9 @@
-# Default values for mod-tlr.
+# Default values for mod-circulation-bff.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 image:
-  repository: folioorg/mod-tlr
+  repository: folioorg/mod-circulation-bff
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -17,7 +17,7 @@ replicaCount: 1
 resources:
   limits:
     # cpu: 100m
-    memory: 480Mi
+    memory: 512Mi
   requests:
     # cpu: 50m
     memory: 384Mi
@@ -120,7 +120,7 @@ initContainer:
     repository: busybox
     tag: latest
     pullPolicy: Always
-    command: '["sh", "-c", "chown -R 1000:1000 /tmp"]'
+  command: '["sh", "-c", "chown -R 1000:1000 /tmp"]'
   args:
   extraVolumeMounts:
     extendedtmp:
@@ -134,23 +134,6 @@ integrations:
     host: okapi
     port: 9130
     url: http://okapi:9130
-    existingSecret: ""
-  db:
-    enabled: true
-    host: postgresql
-    hostReader: ""
-    port: 5432
-    database: folio
-    username: admin
-    password: password
-    charset: UTF-8
-    querytimeout: 60000
-    maxpoolsize: 5
-    existingSecret: ""
-  kafka:
-    enabled: true
-    host: kafka
-    port: 9092
     existingSecret: ""
 
 configMaps: {}

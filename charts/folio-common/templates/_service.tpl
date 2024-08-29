@@ -13,7 +13,7 @@ spec:
       port: {{ .port }}
       targetPort: {{ .targetPort }}
     {{- end }}
-    {{- if .Values.eureka.enabled }}
+    {{- if .Values.eureka.enabled | default false }}
     - name: sidecar
       protocol: TCP
       port: {{ .Values.eureka.sidecarContainer.port | default "8082" }}

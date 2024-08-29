@@ -9,7 +9,7 @@ insert_final_newline = true
 charset = utf-8
 end_of_line = lf
 
-[*.{yml, yaml}]
+[*.{yml, yaml, tpl}]
 indent_size = 2
 end_of_line = LF
 
