@@ -296,7 +296,7 @@ helm uninstall my-release-name
 |-----------------------------------------|--------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
 | `eureka.enabled`                        | If `eureka.enabled` is true, Eureka related resources are created. Is disabled by default.       | `false`                                                            |
 | `eureka.sidecarContainer.name`          | Sidecar Container Identificator Name.	                                                           | `sidecar`                                                          |
-| `eureka.sidecarContainer.image`         | Sidecar Container Image Location to use for deployment.                                          | `732722833398.dkr.ecr.us-west-2.amazonaws.com/folio-module-sidecar`|
+| `eureka.sidecarContainer.image`         | Sidecar Container Image Location to use for deployment.                                          | `folioorg/folio-module-sidecar`                                    |
 | `eureka.sidecarContainer.tag`           | Sidecar Container Image Tag to be used.                                                          | `latest`                                                           |
 | `eureka.sidecarContainer.containerPort` | Sidecar Container TCP port number in the Pod to listen on.                                       | `8082`                                                             |
 | `eureka.sidecarContainer.port`          | Sidecar Container TCP port number to be exposed as a Service to outside world.                   | `8082`                                                             |
