@@ -95,7 +95,7 @@ env:
   valueFrom:
     secretKeyRef:
       name: eureka-common
-      key: KONG_ADMIN_URL
+      key: SIDECAR_FORWARD_UNKNOWN_REQUESTS_DESTINATION
 - name: KAFKA_HOST
   valueFrom:
     secretKeyRef:
