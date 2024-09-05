@@ -53,7 +53,7 @@ env:
 - name: TM_CLIENT_URL
   value: "{{ .Values.eureka.sidecarContainer.tmClientUrl | default "http://mgr-tenants" }}"
 - name: MODULE_URL
-  value: "http://{{ .Chart.Name }}"
+  value: "http://localhost:{{- with (index .Values.service.ports 0) }}{{ .containerPort | default "8080" }} {{- end}}"
 - name: MODULE_NAME
   value: "{{ .Chart.Name }}"
 - name: MODULE_VERSION
@@ -61,7 +61,7 @@ env:
 - name: SIDECAR_FORWARD_UNKNOWN_REQUESTS
   value: "true"
 - name: SIDECAR_URL
-  value: "http://{{ .Chart.Name }}:{{ .Values.eureka.sidecarContainer.port | default "8082" }}"
+  value: "http://localhost:{{ .Values.eureka.sidecarContainer.port | default "8082" }}"
 - name: SIDECAR
   value: "true"
 - name: REQUEST_TIMEOUT
