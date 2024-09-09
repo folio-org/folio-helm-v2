@@ -24,9 +24,24 @@ spec:
       {{- with .Values.podSecurityContext }}
       securityContext: {{ toYaml . | nindent 8 }}
       {{- end }}
+      {{- if or (and .Values.jmx .Values.jmx.enabled) (and .Values.initContainer .Values.initContainer.enabled) }}
+      initContainers:
+      {{- if and .Values.jmx .Values.jmx.enabled }}
+        - name: download-jmx-agent
+          image: busybox
+          command:
+            - sh
+            - -c
+            - "/scripts/jmx-install.sh"
+          volumeMounts:
+            - name: jmx-exporter
+              mountPath: {{ .Values.jmx.agentPath }}
+            - name: jmx-agent-script
+              mountPath: /scripts
+      {{- end }}
+
       {{- if and .Values.initContainer .Values.initContainer.enabled }}
       {{- with .Values.initContainer }}
-      initContainers:
         - name: {{ $.Chart.Name }}-init
           image: {{ .image.repository }}:{{ .image.tag | default "latest" }}
           imagePullPolicy: {{ .image.pullPolicy | default "Always" }}
@@ -36,8 +51,10 @@ spec:
           {{- if .args }}
           args: {{ include "folio-common.tplvalues.render" (dict "value" .args "context" $) | nindent 12 }}
           {{- end }}
-      {{- if and .extraVolumeMounts (eq (include "folio-common.list.hasAnyEnabled" .extraVolumeMounts) "true") }}
-          volumeMounts: {{- include "folio-common.list.renderEnabled" (list $ .extraVolumeMounts) | nindent 12 }}
+          {{- if and .extraVolumeMounts (eq (include "folio-common.list.hasAnyEnabled" .extraVolumeMounts) "true") }}
+          volumeMounts:
+            {{- include "folio-common.list.renderEnabled" (list $ .extraVolumeMounts) | nindent 12 }}
+          {{- end }}
       {{- end }}
       {{- end }}
       {{- end }}
@@ -74,7 +91,7 @@ spec:
               containerPort: {{ .containerPort | default "8080" }}
               protocol: {{ .protocol | default "TCP"}}
             {{- end }}
-            {{- if .Values.jmx.enabled }}
+            {{- if and .Values.jmx .Values.jmx.enabled }}
             - name: "jmx"
               containerPort: {{ .Values.jmx.port | default "1099" }}
               protocol: "TCP"
@@ -91,6 +108,13 @@ spec:
             - name: heapdump
               mountPath: /tmp/dump
           {{- end }}
+          {{- if and .Values.jmx .Values.jmx.enabled }}
+            - name: jmx-exporter
+              mountPath: {{ .Values.jmx.agentPath }}
+            - name: jmx-exporter-config
+              mountPath: {{ .Values.jmx.agentPath }}/prometheus-jmx-config.yaml
+              subPath: prometheus-jmx-config.yaml
+          {{- end }}
       volumes:
       {{- include "folio-common.volumes" . | indent 8}}
       {{- if and .Values.extraVolumes (eq (include "folio-common.list.hasAnyEnabled" .Values.extraVolumes) "true") }}
@@ -99,6 +123,18 @@ spec:
       {{- if .Values.heapDumpEnabled }}
         - name: heapdump
           emptyDir: {}
+      {{- end }}
+      {{- if and .Values.jmx .Values.jmx.enabled }}
+        - name: jmx-exporter
+          emptyDir: {}
+        - name: jmx-agent-script
+          configMap:
+            name: {{ printf "%s-jmx-install" (include "folio-common.fullname" .) }}
+            defaultMode: 0755
+        - name: jmx-exporter-config
+          configMap:
+            name: {{ printf "%s-jmx-config" (include "folio-common.fullname" .) }}
+            defaultMode: 0755
       {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector: {{ toYaml . | nindent 8 }}

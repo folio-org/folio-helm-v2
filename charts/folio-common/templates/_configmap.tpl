@@ -50,3 +50,19 @@ data:
   {{ .Values.configMaps.sip2tenants.fileName }}: |-
 {{ tpl ($.Files.Get (printf "resources/%s" .Values.configMaps.sip2tenants.fileName)) $ | indent 4 }}
 {{- end -}}
+
+{{- define "folio-common.configmap.jmx-config" -}}
+metadata:
+  name: {{ printf "%s-jmx-config" (include "folio-common.fullname" .) }}
+data:
+  prometheus-jmx-config.yaml: |-
+{{ tpl (.Files.Get "resources/prometheus-jmx-config.yaml") $ | indent 4 }}
+{{- end -}}
+
+{{- define "folio-common.configmap.jmx-install" -}}
+metadata:
+  name: {{ printf "%s-jmx-install" (include "folio-common.fullname" .) }}
+data:
+  jmx-install.sh: |-
+{{ tpl (.Files.Get "resources/jmx-install.sh") $ | indent 4 }}
+{{- end -}}

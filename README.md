@@ -25,8 +25,10 @@
 ## Introduction
 
 This repository contains Helm charts for different modules of the FOLIO (The Future of Libraries is Open) project.
-The FOLIO project aims to reimagine library software through a unique collaboration of libraries, developers, and vendors.
-It looks beyond the current model of an Integrated Library System to a new paradigm, where apps are built on an open platform,
+The FOLIO project aims to reimagine library software through a unique collaboration of libraries, developers, and
+vendors.
+It looks beyond the current model of an Integrated Library System to a new paradigm, where apps are built on an open
+platform,
 providing libraries with the ability to innovate and deliver extended services.
 
 In this repository, you will find HELM charts for each FOLIO module.
@@ -36,45 +38,47 @@ In this repository, you will find HELM charts for each FOLIO module.
 ```markdown
 folio-helm-v2/
 ├── README.md
-├── example/                        # module chart scaffold
-│   ├── value.yaml                  # library entry point
-│   ├── templates/
-│   │   ├── application.yaml        # main module template model
-│   │   └── NOTES.txt               # chart user instruction model
-│   └── resources                   # resource file examples
-│       ├── ephemeral.properties
-│       └── log4j2.xml
+├── example/ # module chart scaffold
+│ ├── value.yaml # library entry point
+│ ├── templates/
+│ │ ├── application.yaml # main module template model
+│ │ └── NOTES.txt # chart user instruction model
+│ └── resources # resource file examples
+│ ├── ephemeral.properties
+│ └── log4j2.xml
 └── charts/
-    ├── <some-module>/              # FOLIO module HELM chart
-    │   ├── Chart.yaml              # chart information
-    │   ├── values.yaml             # default values for templates
-    │   ├── templates/
-    │   │   ├── application.yaml    # main template
-    │   │   └── NOTES.txt           # chart user instruction
-    │   └── resources/              # chart resource files
-    │       ├── ephemeral.properties
-    │       ├── ..................
-    │       └── log4j2.xml
-    ├── ..................
-    └── folio-common/               # core helpers
-        ├── Chart.yaml
-        ├── values.yaml
-        └── templates/
-            ├── _configmap.tpl
-            ├── _deployment.tpl
-            ├── _helpers.tpl
-            ├── ...............
-            └── _volume.tpl
+├── <some-module>/ # FOLIO module HELM chart
+│ ├── Chart.yaml # chart information
+│ ├── values.yaml # default values for templates
+│ ├── templates/
+│ │ ├── application.yaml # main template
+│ │ └── NOTES.txt # chart user instruction
+│ └── resources/ # chart resource files
+│ ├── ephemeral.properties
+│ ├── ..................
+│ └── log4j2.xml
+├── ..................
+└── folio-common/ # core helpers
+├── Chart.yaml
+├── values.yaml
+└── templates/
+├── _configmap.tpl
+├── _deployment.tpl
+├── _helpers.tpl
+├── ...............
+└── _volume.tpl
 ```
 
 ## Usage
+
 ### Chart usage
 
 The charts in this repository allow users to deploy different modules of the FOLIO project to a Kubernetes cluster using
 the Helm package manager. To deploy a module, follow these steps:
+
 * Search for the particular FOLIO module you are interested in (For example, mod-users).
 * Look at the values.yaml file to understand the default configurations available for this module. Usually,
-they have common [Parameters](#parameters) but some distinctions are possible.
+  they have common [Parameters](#parameters) but some distinctions are possible.
 * Use Helm to install the chart with your unique release name and appropriate configurations.
 
 ### Adding/Modifying Charts
@@ -83,7 +87,8 @@ For adding new charts or modifying existing ones, this repository is designed to
 
 In the example directory, we have a scaffold that you can use as a base for creating new charts.
 
-The key feature in this repository is the `charts/folio-common` directory. This directory contains core chart helpers you need
+The key feature in this repository is the `charts/folio-common` directory. This directory contains core chart helpers
+you need
 to create Kubernetes deployments, services, ingresses, and so on.
 The `folio-common` helpers are included in the `templates/application.yaml` file.
 
@@ -94,7 +99,8 @@ This approach ensures seamless deployments and maintenance of the FOLIO project 
 
 Please DO NOT forget to increase the Chart version if changes were made.
 
-After merging Pull Request to the master branch the job https://jenkins-aws.indexdata.com/job/folioRancher/job/folioDevOpsTools/job/indexFolioHelmCharts/
+After merging Pull Request to the master branch the
+job https://jenkins-aws.indexdata.com/job/folioRancher/job/folioDevOpsTools/job/indexFolioHelmCharts/
 will run, package and index chart in Nexus automatically.
 
 ## Prerequisites
@@ -184,8 +190,10 @@ helm uninstall my-release-name
 | `serviceAccount.create`      | If `serviceAccount.create` is true, an additional ServiceAccount is created.                                                                                                                                                                                                                                              | `true`                                                 |
 | `serviceAccount.annotations` | If `serviceAccount.create` is true, annotations are set inside the new ServiceAccount.                                                                                                                                                                                                                                    | `{}`                                                   |
 | `serviceAccount.name`        | Defines the name of the new or existing ServiceAccount to be assigned to the pod, depending on the `serviceAccount.create` value.                                                                                                                                                                                         | `""`                                                   |
-| `jmx.enable`                 | If `jmx.enable` is true, `jmx.port` is exposed to allow JMX service to connect to the pod (e.g., a monitoring service or a JVM management console) and track its performance, memory usage, loaded classes, and other Java-related metrics.                                                                               | `false`                                                |
-| `jmx.port`                   | Specific port number exposed for JMX purposes.                                                                                                                                                                                                                                                                            | `1099`                                                 |
+| `jmx.enabled`                | If `jmx.enabled` is true, `jmx.port` is exposed to allow JMX service to connect to the pod (e.g., a monitoring service or a JVM management console) and track its performance, memory usage, loaded classes, and other Java-related metrics.                                                                              | `false`                                                |
+| `jmx.port`                   | Port for for prometheus jmx exporter.                                                                                                                                                                                                                                                                                     | `1099`                                                 |
+| `jmx.agentPath`              | Location for prometheus jmx exporter agent and config.                                                                                                                                                                                                                                                                    | `1099`                                                 |
+| `jmx.agentVersion`           | Version of Prometheus jmx exporter.                                                                                                                                                                                                                                                                                       | `1099`                                                 |
 
 ### Service parameters
 
@@ -201,25 +209,25 @@ helm uninstall my-release-name
 
 ### Ingress parameters
 
-| Name                           | Description                                                                       | Common value              |
-|--------------------------------|-----------------------------------------------------------------------------------|---------------------------|
-| `ingress.enabled`              | If `ingress.enabled` is true, a new Ingress is created.                           | `false`                   |
-| `ingress.className`            | Name of the IngressClass in `ingressClassName` property of Ingress.               | `""`                      |
-| `ingress.annotations`          | Ingress annotations.                                                              | `{}`                      |
-| `ingress.tls`                  | An array of secrets and TLS hosts, optionally specifying the hosts they apply to. | `[]`                      |
-| `ingress.hosts.host`           | Specifies the hostname to be matched so that the Ingress rules apply.             | `chart-example.local`     |
-| `ingress.hosts.paths.path`     | Determines the path used to route HTTP(S) traffic to a specific service.          | `/*`                      |
-| `ingress.hosts.paths.pathType` | Specifies how the path field should match incoming HTTP(S) requests.              | `ImplementationSpecific`  |
+| Name                           | Description                                                                       | Common value             |
+|--------------------------------|-----------------------------------------------------------------------------------|--------------------------|
+| `ingress.enabled`              | If `ingress.enabled` is true, a new Ingress is created.                           | `false`                  |
+| `ingress.className`            | Name of the IngressClass in `ingressClassName` property of Ingress.               | `""`                     |
+| `ingress.annotations`          | Ingress annotations.                                                              | `{}`                     |
+| `ingress.tls`                  | An array of secrets and TLS hosts, optionally specifying the hosts they apply to. | `[]`                     |
+| `ingress.hosts.host`           | Specifies the hostname to be matched so that the Ingress rules apply.             | `chart-example.local`    |
+| `ingress.hosts.paths.path`     | Determines the path used to route HTTP(S) traffic to a specific service.          | `/*`                     |
+| `ingress.hosts.paths.pathType` | Specifies how the path field should match incoming HTTP(S) requests.              | `ImplementationSpecific` |
 
 ### ConfigMaps parameters
 
-| Name                              | Description                                                                                                                                                              | Common value                                                                                     |
-|-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
-| `configMaps.NAME`                 | Defines existing or new ConfigMaps section with NAME (replace with the existing or desired name). Resource file used as a source for the data section of new ConfigMaps. | `ephemeral`, `apiconfig`, `log4j`, `sip2config`, `sip2tenants`                                   |
-| `configMaps.NAME.enabled`         | If `configMaps.NAME.enabled` is true, volume with desired ConfigMaps is mounted as a volume to a container.                                                              | `true`                                                                                           |
-| `configMaps.NAME.fileName`        | Name of a file used as a source for the data section of new ConfigMaps. Resides in the resource subfolder of the chart.                                                  | `ephemeral.properties`, `api_configuration.json`, `log4j2.xml`, `sip2.conf`, `sip2-tenants.conf` |
-| `configMaps.NAME.mountPath`       | Mount path used in volume definition section with mapping of newly created ConfigMaps.                                                                                   | `/etc/edge`, `/etc/log4j2.xml`                                                                   |
-| `configMaps.NAME.existingConfig`  | Defines existing ConfigMaps name. If defined and `configMaps.NAME.enabled` is true, existing ConfigMaps are used and mapped to the volume.                               | `""`                                                                                             |
+| Name                             | Description                                                                                                                                                              | Common value                                                                                     |
+|----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
+| `configMaps.NAME`                | Defines existing or new ConfigMaps section with NAME (replace with the existing or desired name). Resource file used as a source for the data section of new ConfigMaps. | `ephemeral`, `apiconfig`, `log4j`, `sip2config`, `sip2tenants`                                   |
+| `configMaps.NAME.enabled`        | If `configMaps.NAME.enabled` is true, volume with desired ConfigMaps is mounted as a volume to a container.                                                              | `true`                                                                                           |
+| `configMaps.NAME.fileName`       | Name of a file used as a source for the data section of new ConfigMaps. Resides in the resource subfolder of the chart.                                                  | `ephemeral.properties`, `api_configuration.json`, `log4j2.xml`, `sip2.conf`, `sip2-tenants.conf` |
+| `configMaps.NAME.mountPath`      | Mount path used in volume definition section with mapping of newly created ConfigMaps.                                                                                   | `/etc/edge`, `/etc/log4j2.xml`                                                                   |
+| `configMaps.NAME.existingConfig` | Defines existing ConfigMaps name. If defined and `configMaps.NAME.enabled` is true, existing ConfigMaps are used and mapped to the volume.                               | `""`                                                                                             |
 
 ### Secret parameters
 
@@ -249,38 +257,37 @@ helm uninstall my-release-name
 
 ### Init container
 
-| Name                                              | Description                                                                                                            | Common value |
-|---------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|--------------|
-| `initContainer.enabled`                           | If `initContainer.NAME.enabled` is true, a new init container will be added to the pod.                                | `false`      |
-| `initContainer.image.repository`                  | An init container image name.                                                                                          |              |
-| `initContainer.image.tag`                         | An init container image tag.                                                                                           | `latest`     |
-| `initContainer.image.pullPolicy`                  | An init container image pull policy.                                                                                   | `Always`     |
-| `initContainer.command`                           | Init container command list.                                                                                           | []           |
-| `initContainer.args`                              | Arguments passed to the command that is run in the init container.                                                     | []           |
-| `initContainer.extraVolumeMounts.NAME.enabled`    | If the extra volume mount element is enabled, a previously defined volume will be mounted to the pod's init container. | `false`      |
-| `initContainer.extraVolumeMounts.NAME.name`       | A reference name to an existed extra volume.                                                                           |              |
-| `initContainer.extraVolumeMounts.NAME.mountPath`  | Extra volume mount path.                                                                                               |              |
+| Name                                             | Description                                                                                                            | Common value |
+|--------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|--------------|
+| `initContainer.enabled`                          | If `initContainer.NAME.enabled` is true, a new init container will be added to the pod.                                | `false`      |
+| `initContainer.image.repository`                 | An init container image name.                                                                                          |              |
+| `initContainer.image.tag`                        | An init container image tag.                                                                                           | `latest`     |
+| `initContainer.image.pullPolicy`                 | An init container image pull policy.                                                                                   | `Always`     |
+| `initContainer.command`                          | Init container command list.                                                                                           | []           |
+| `initContainer.args`                             | Arguments passed to the command that is run in the init container.                                                     | []           |
+| `initContainer.extraVolumeMounts.NAME.enabled`   | If the extra volume mount element is enabled, a previously defined volume will be mounted to the pod's init container. | `false`      |
+| `initContainer.extraVolumeMounts.NAME.name`      | A reference name to an existed extra volume.                                                                           |              |
+| `initContainer.extraVolumeMounts.NAME.mountPath` | Extra volume mount path.                                                                                               |              |
 
 ### Volume claim (PVC) list element
 
-| Name                                  | Description                                                                                                                                                    | Common value    |
-|---------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
-| `volumeClaims.NAME.enabled`           | If the volumeClaims element is enabled, a new PVC will be added to the namespace.                                                                              | `false`         |
-| `volumeClaims.NAME.name`              | A new volume claim name.                                                                                                                                       |                 |
-| `volumeClaims.NAME.storageClassName`  | Storage class type name of the volume.                                                                                                                         | `gp2`           |
-| `volumeClaims.NAME.size`              | Size of the PV to be allocated.                                                                                                                                | `10Gi`          |
-| `volumeClaims.NAME.accessModes`       | Access mode type for the provided PV.                                                                                                                          | `ReadWriteOnce` |
-| `volumeClaims.NAME.existingClaim`     | Defines an existing persistence volume claim. If provided and `volumeClaims.NAME.enabled` is true, the existing PVC will be utilized and mapped to the volume. |                 |
-
+| Name                                 | Description                                                                                                                                                    | Common value    |
+|--------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
+| `volumeClaims.NAME.enabled`          | If the volumeClaims element is enabled, a new PVC will be added to the namespace.                                                                              | `false`         |
+| `volumeClaims.NAME.name`             | A new volume claim name.                                                                                                                                       |                 |
+| `volumeClaims.NAME.storageClassName` | Storage class type name of the volume.                                                                                                                         | `gp2`           |
+| `volumeClaims.NAME.size`             | Size of the PV to be allocated.                                                                                                                                | `10Gi`          |
+| `volumeClaims.NAME.accessModes`      | Access mode type for the provided PV.                                                                                                                          | `ReadWriteOnce` |
+| `volumeClaims.NAME.existingClaim`    | Defines an existing persistence volume claim. If provided and `volumeClaims.NAME.enabled` is true, the existing PVC will be utilized and mapped to the volume. |                 |
 
 ### Extra volume list element
 
-| Name                                                 | Description                                                                               | Common value |
-|------------------------------------------------------|-------------------------------------------------------------------------------------------|--------------|
-| `extraVolumes.NAME.enabled`                          | If the extra volume element is enabled, a new volume will be added to the deployment pod. | `false`      |
-| `extraVolumes.NAME.name`                             | An extra volume name.                                                                     |              |
-| `extraVolumes.NAME.emptyDir`                         | Definition for the ephemeral local Kubernetes node volume (OPTIONAL).                     | `{}`         |
-| `extraVolumes.NAME.persistentVolumeClaim.claimName`  | A reference name for the existing PVC (defined or not in the chart) (OPTIONAL).           |              |
+| Name                                                | Description                                                                               | Common value |
+|-----------------------------------------------------|-------------------------------------------------------------------------------------------|--------------|
+| `extraVolumes.NAME.enabled`                         | If the extra volume element is enabled, a new volume will be added to the deployment pod. | `false`      |
+| `extraVolumes.NAME.name`                            | An extra volume name.                                                                     |              |
+| `extraVolumes.NAME.emptyDir`                        | Definition for the ephemeral local Kubernetes node volume (OPTIONAL).                     | `{}`         |
+| `extraVolumes.NAME.persistentVolumeClaim.claimName` | A reference name for the existing PVC (defined or not in the chart) (OPTIONAL).           |              |
 
 ### Pod's container extra volume mount list element
 
@@ -292,17 +299,18 @@ helm uninstall my-release-name
 
 ### Eureka deployment parameters
 
-| Name                                    | Description                                                                                      | Common value                                                       |
-|-----------------------------------------|--------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
-| `eureka.enabled`                        | If `eureka.enabled` is true, Eureka related resources are created. Is disabled by default.       | `false`                                                            |
-| `eureka.sidecarContainer.name`          | Sidecar Container Identificator Name.	                                                           | `sidecar`                                                          |
-| `eureka.sidecarContainer.image`         | Sidecar Container Image Location to use for deployment.                                          | `folioorg/folio-module-sidecar`                                    |
-| `eureka.sidecarContainer.tag`           | Sidecar Container Image Tag to be used.                                                          | `latest`                                                           |
-| `eureka.sidecarContainer.containerPort` | Sidecar Container TCP port number in the Pod to listen on.                                       | `8082`                                                             |
-| `eureka.sidecarContainer.port`          | Sidecar Container TCP port number to be exposed as a Service to outside world.                   | `8082`                                                             |
-| `eureka.sidecarContainer.amClientUrl`   | Sidecar Parameter: HTTP URL for Applications Manager service.                                    | `http://mgr-applications`                                          |
-| `eureka.sidecarContainer.teClientUrl`   | Sidecar Parameter: HTTP URL for Tenant Entitlements Manager service.                             | `http://mgr-tenant-entitlements`                                   |
-| `eureka.sidecarContainer.tmClientUrl`   | Sidecar Parameter: HTTP URL for Tenants Manager service.                                         | `http://mgr-tenants`                                               |
+| Name                                    | Description                                                                                | Common value                     |
+|-----------------------------------------|--------------------------------------------------------------------------------------------|----------------------------------|
+| `eureka.enabled`                        | If `eureka.enabled` is true, Eureka related resources are created. Is disabled by default. | `false`                          |
+| `eureka.sidecarContainer.name`          | Sidecar Container Identificator Name.	                                                     | `sidecar`                        |
+| `eureka.sidecarContainer.image`         | Sidecar Container Image Location to use for deployment.                                    | `folioorg/folio-module-sidecar`  |
+| `eureka.sidecarContainer.tag`           | Sidecar Container Image Tag to be used.                                                    | `latest`                         |
+| `eureka.sidecarContainer.containerPort` | Sidecar Container TCP port number in the Pod to listen on.                                 | `8082`                           |
+| `eureka.sidecarContainer.port`          | Sidecar Container TCP port number to be exposed as a Service to outside world.             | `8082`                           |
+| `eureka.sidecarContainer.amClientUrl`   | Sidecar Parameter: HTTP URL for Applications Manager service.                              | `http://mgr-applications`        |
+| `eureka.sidecarContainer.teClientUrl`   | Sidecar Parameter: HTTP URL for Tenant Entitlements Manager service.                       | `http://mgr-tenant-entitlements` |
+| `eureka.sidecarContainer.tmClientUrl`   | Sidecar Parameter: HTTP URL for Tenants Manager service.                                   | `http://mgr-tenants`             |
+
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
@@ -322,6 +330,7 @@ helm install my-release-name -f values.yaml folio/CHART_NAME
 ```
 
 ## License
+
 Copyright (C) 2019-2023 The Open Library Foundation
 
 This software is distributed under the terms of the Apache License,

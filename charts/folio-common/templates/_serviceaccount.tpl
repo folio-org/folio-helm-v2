@@ -4,11 +4,10 @@
 {{- if .Values.serviceAccount.create }}
 apiVersion: v1
 kind: ServiceAccount
-metadata:
 {{ template "folio-common.metadata" . }}
-  {{- with .Values.serviceAccount.annotations }}
+{{- with .Values.serviceAccount.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
-  {{- end }}
+{{- end }}
 {{- end }}
 {{- end }}
