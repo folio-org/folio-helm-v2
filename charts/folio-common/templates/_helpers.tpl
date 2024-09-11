@@ -186,6 +186,10 @@ without enabled: true key-value pair.
 {{- if .Values.extraJavaOpts -}}
   {{- $javaOpts = append $javaOpts (.Values.extraJavaOpts | join " ") -}}
 {{- end -}}
+{{- if .Values.jmx.enabled -}}
+  {{- $jmxOpt :=  printf "-javaagent:%s/jmx_prometheus_javaagent-%s.jar=%v:%s/prometheus-jmx-config.yaml" .Values.jmx.agentPath .Values.jmx.agentVersion .Values.jmx.port .Values.jmx.agentPath -}}
+  {{- $javaOpts = append $javaOpts $jmxOpt -}}
+{{- end -}}
 {{- if .Values.configMaps.log4j -}}
   {{- $log4jOpt := printf "-Dlog4j.configurationFile=%s/%s" .Values.configMaps.log4j.mountPath .Values.configMaps.log4j.fileName -}}
   {{- $javaOpts = append $javaOpts $log4jOpt -}}
