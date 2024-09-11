@@ -67,7 +67,7 @@ args:
 ## @param javaOpts Custom JVM parameters
 ##
 javaOpts:
-- "-XX:MaxRAMPercentage=75.0 -Dhost=okapi -Dokapiurl=http://okapi:9130 -Dstorage=postgres -Dpostgres_host=$(DB_HOST)"
+- "-Dhost=okapi -Dokapiurl=http://okapi:9130 -Dstorage=postgres -Dpostgres_host=$(DB_HOST)"
 - "-Dpostgres_database=$(DB_DATABASE) -Dpostgres_username=$(DB_USERNAME) -Dpostgres_password=$(DB_PASSWORD)"
 - "-Ddeploy.waitIterations=90"
 # Should be checked if this options required
@@ -79,7 +79,8 @@ javaOpts:
 # --add-opens java.management/sun.management=ALL-UNNAMED
 # --add-opens jdk.management/com.sun.management.internal=ALL-UNNAMED
 
-extraJavaOpts: []
+extraJavaOpts:
+  - "-XX:MaxRAMPercentage=75.0"
 # - "-Dlog_level=DEBUG"
 
 extraEnvVars: []

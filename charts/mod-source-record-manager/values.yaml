@@ -65,9 +65,10 @@ eureka:
 ## @param javaOpts Custom JVM parameters
 ##
 javaOpts:
-  - "-XX:MaxRAMPercentage=75.0 -Djava.util.logging.config.file=vertx-default-jul-logging.properties"
+  - "-Djava.util.logging.config.file=vertx-default-jul-logging.properties"
 
-extraJavaOpts: []
+extraJavaOpts:
+  - "-XX:MaxRAMPercentage=75.0"
   # - "-Dlog_level=DEBUG"
 
 envVars:

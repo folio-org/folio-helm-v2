@@ -63,9 +63,10 @@ args: []
 ## @param javaOpts Custom JVM parameters
 ##
 javaOpts:
-  - "-XX:MaxRAMPercentage=75.0 -Dokapi_url=http://$(OKAPI_HOST):$(OKAPI_PORT)"
+  - "-Dokapi_url=http://$(OKAPI_HOST):$(OKAPI_PORT)"
 
-extraJavaOpts: []
+extraJavaOpts:
+  - "-XX:MaxRAMPercentage=75.0"
   # - "-Dlog_level=DEBUG"
 
 extraEnvVars: []

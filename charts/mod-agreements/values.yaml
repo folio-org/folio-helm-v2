@@ -67,7 +67,8 @@ eureka:
 javaOpts:
 - "-XX:MaxRAMPercentage=75.0"
 
-extraJavaOpts: []
+extraJavaOpts:
+  - "-XX:MaxRAMPercentage=75.0"
 # - "-Dlog_level=DEBUG"
 
 extraEnvVars: []
