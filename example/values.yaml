@@ -72,10 +72,10 @@ eureka:
 
 ## @param javaOpts Custom JVM parameters
 ##
-javaOpts:
-  - "-XX:MaxRAMPercentage=75.0"
+javaOpts: []
 
-extraJavaOpts: []
+extraJavaOpts:
+  - "-XX:MaxRAMPercentage=75.0"
   # - "-Dlog_level=DEBUG"
 
 extraEnvVars: []
@@ -88,7 +88,9 @@ extraEnvVarsSecrets: []
 
 jmx:
   enabled: false
-  port: 1099
+  agentVersion: 0.19.0
+  agentPath: /jmx_exporter
+  port: 9991
 
 heapDumpEnabled: false
 

@@ -1,0 +1,27 @@
+autoscaling:
+  enabled: true
+  maxReplicas: 4
+  minReplicas: 1
+  targetMemoryUtilizationPercentage: 70
+extraEnvVars:
+- name: DB_MAXPOOLSIZE
+  value: '50'
+- name: CONCURRENT_JOBS_GLOBAL
+  value: '3'
+image:
+  repository: folioci/mod-agreements
+  tag: 7.1.0-SNAPSHOT.710
+integrations:
+  db:
+    enabled: true
+    existingSecret: db-credentials
+jmx:
+  enabled: true
+podAnnotations:
+  creationTimestamp: '"2024-09-06T09:31:33"'
+replicaCount: 1
+resources:
+  limits:
+    memory: 1792Mi
+  requests:
+    memory: 1536Mi
