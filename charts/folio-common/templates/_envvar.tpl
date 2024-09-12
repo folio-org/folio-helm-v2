@@ -49,9 +49,11 @@ env:
 - name: QUARKUS_HTTP_PORT
   value: "{{ .Values.eureka.sidecarContainer.port | default "8082" }}"
 - name: QUARKUS_REST_CLIENT_READ_TIMEOUT
-  value: "60000"
+  value: "180000"
 - name: QUARKUS_REST_CLIENT_CONNECT_TIMEOUT
-  value: "60000"
+  value: "180000"
+- name: QUARKUS_REST_CLIENT_SEND_TIMEOUT
+  value: "180000"
 - name: TE_CLIENT_URL
   value: "{{ .Values.eureka.sidecarContainer.teClientUrl | default "http://mgr-tenant-entitlements" }}"
 - name: TM_CLIENT_URL
