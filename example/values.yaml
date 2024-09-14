@@ -218,6 +218,11 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+pdb:
+  enabled: false
+  minAvailable: ""
+  maxUnavailable: ""
+
 startupProbe: {}
 readinessProbe: {}
 livenessProbe: {}

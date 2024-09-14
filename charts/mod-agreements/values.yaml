@@ -68,7 +68,7 @@ javaOpts:
 - "-XX:MaxRAMPercentage=75.0"
 
 extraJavaOpts:
-  - "-XX:MaxRAMPercentage=75.0"
+- "-XX:MaxRAMPercentage=75.0"
 # - "-Dlog_level=DEBUG"
 
 extraEnvVars: []

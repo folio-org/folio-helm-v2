@@ -9,6 +9,8 @@
 {{- include "folio-common.service.tpl" . }}
 ---
 {{- include "folio-common.ingress.tpl" . }}
+---
+{{- include "folio-common.pdb.tpl" . }}
 
 {{- range .Values.volumeClaims }}
   {{- if and .enabled (not .existingClaim) }}
