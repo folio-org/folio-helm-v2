@@ -1,7 +1,7 @@
 {{/* vim: set filetype=mustache: */}}
 
 {{- define "folio-common.pdb.tpl" }}
-{{- if .Values.pdb.enabled }}
+{{- if and .Values.pdb .Values.pdb.enabled }}
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 {{ template "folio-common.metadata" . }}
