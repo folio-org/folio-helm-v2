@@ -5,6 +5,8 @@ apiVersion: apps/v1
 kind: Deployment
 {{ template "folio-common.metadata" . }}
 spec:
+  strategy:
+    type: Recreate
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
