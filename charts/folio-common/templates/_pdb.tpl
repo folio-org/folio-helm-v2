@@ -14,7 +14,7 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "folio-common.selectorLabels" . | nindent 4 }}
+      {{- include "folio-common.selectorLabels" . | nindent 6 }}
 {{- end }}
 {{- end }}
 
