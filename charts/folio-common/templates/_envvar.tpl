@@ -81,7 +81,7 @@ env:
 - name: QUARKUS_HTTP_LIMITS_MAX_INITIAL_LINE_LENGTH
   value: "8192"
 - name: JAVA_OPTS
-  value: "-Dquarkus.log.level=DEBUG -Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager -XX:+UseZGC -Xmx128m -Dquarkus.log.category.'org.apache.kafka'.level=DEBUG"
+  value: "-Dquarkus.log.level=DEBUG -Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager -XX:+UseZGC -Xms64m -Xmx64m -Dquarkus.log.category.'org.apache.kafka'.level=DEBUG"
 - name: SC_LOG_LEVEL
   value: "DEBUG"
 - name: ROOT_LOG_LEVEL
