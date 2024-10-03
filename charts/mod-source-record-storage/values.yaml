@@ -74,6 +74,8 @@ extraJavaOpts:
 envVars:
   - name: KAFKA_PRODUCER_TENANT_COLLECTION
     value: "ALL"
+  - name: DB_MAXPOOLSIZE
+    value: "15"
 
 extraEnvVars: []
   # - name: FOO
