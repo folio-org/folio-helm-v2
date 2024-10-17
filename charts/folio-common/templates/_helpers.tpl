@@ -212,6 +212,11 @@ Sidecar image part of container specs.
 - name: {{ .Values.eureka.sidecarContainer.name | default "sidecar" }}
   image: {{ printf "%s:%s" (.Values.eureka.sidecarContainer.image | default "folioorg/folio-module-sidecar") (.Values.eureka.sidecarContainer.tag | default "latest") }}
   imagePullPolicy: "Always"
+  resources:
+     limits:
+       memory: 512Mi
+     requests:
+       memory: 256Mi
 {{- end }}
 
 {{/*
