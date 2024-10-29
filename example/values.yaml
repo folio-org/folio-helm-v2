@@ -58,17 +58,7 @@ ingress:
 
 args: []
 
-eureka:
-  enabled: false
-  sidecarContainer:
-      name: sidecar
-      image: folioorg/folio-module-sidecar
-      tag: latest
-      containerPort: 8082
-      port: 8082
-      amClientUrl: http://mgr-applications
-      teClientUrl: http://mgr-tenant-entitlements
-      tmClientUrl: http://mgr-tenants
+eureka: &is_eureka false
 
 ## @param javaOpts Custom JVM parameters
 ##
@@ -138,6 +128,27 @@ initContainer:
       name: extendedtmp
       mountPath: /tmp
 
+sidecarContainers:
+  eureka:
+    enabled: *is_eureka
+    name: sidecar
+    image:
+      repository: folioorg/folio-module-sidecar
+      pullPolicy: IfNotPresent
+      tag: latest
+    env:
+      - '{{ include "folio-common.sidecar.env.eureka.common" . }}'
+    ports:
+      - name: sidecar
+        protocol: TCP
+        port: 8082
+        containerPort: 8082
+    resources:
+      limits:
+        memory: 96Mi
+      requests:
+        memory: 64Mi
+
 integrations:
   okapi:
     enabled: true
@@ -191,6 +202,10 @@ integrations:
     secretAccessKey: ""
     forcepathstyle: ""
     existingSecret: ""
+
+  eureka:
+    enabled: *is_eureka
+    existingSecret: "eureka-common"
 
 configMaps:
   ephemeral:

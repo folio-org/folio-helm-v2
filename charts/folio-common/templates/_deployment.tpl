@@ -61,6 +61,11 @@ spec:
       {{- end }}
       {{- end }}
       containers:
+        {{- range .Values.sidecarContainers }}
+        {{- if and .enabled }}
+        {{- include "folio-common.sidecar" (dict "sidecar" . "global" $)  | nindent 8 }}
+        {{- end }}
+        {{- end }}
         - name: {{ .Chart.Name }}
           {{- with .Values.securityContext }}
           securityContext: {{ toYaml . | nindent 12 }}
@@ -83,10 +88,6 @@ spec:
           {{- with .Values.livenessProbe }}
           livenessProbe: {{ toYaml . | nindent 12 }}
           {{- end }}
-          {{- if .Values.eureka.enabled | default false }}
-            {{- include "folio-common.sidecar.image" . | nindent 8 }}
-            {{- include "folio-common.sidecar.env.vars" . | nindent 10 }}
-          {{- end }}
           ports:
             {{- range .Values.service.ports }}
             - name: {{ .targetPort | default "http" }}
@@ -98,8 +99,10 @@ spec:
               containerPort: {{ .Values.jmx.port | default "1099" }}
               protocol: "TCP"
             {{- end }}
-            {{- if .Values.eureka.enabled | default false }}
-            {{- include "folio-common.sidecar.port" . | nindent 12 }}
+            {{- range $sidecarName, $sidecarConfig := .Values.sidecarContainers }}
+            {{- if and $sidecarConfig.enabled }}
+            {{- include "folio-common.sidecar.port" (list $sidecarName $sidecarConfig.ports) | nindent 12 }}
+            {{- end }}
             {{- end }}
           volumeMounts:
           {{- include "folio-common.volumeMounts" . | indent 12}}

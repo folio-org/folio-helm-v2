@@ -13,11 +13,15 @@ spec:
       port: {{ .port }}
       targetPort: {{ .targetPort }}
     {{- end }}
-    {{- if .Values.eureka.enabled | default false }}
-    - name: sidecar
-      protocol: TCP
-      port: {{ .Values.eureka.sidecarContainer.port | default "8082" }}
-      targetPort: {{ .Values.eureka.sidecarContainer.port | default "8082" }}
+    {{- range $sidecarName, $sidecarConfig := .Values.sidecarContainers }}
+    {{- if and $sidecarConfig.enabled }}
+    {{- range $index, $val := $sidecarConfig.ports }}
+    - name: {{ $val.name | default "sidecar-{{ $sidecarName }}-{{ $index }}" }}
+      protocol: {{ $val.protocol | default "TCP" }}
+      port: {{ $val.port | default "8082" }}
+      targetPort: {{ $val.containerPort | default "8082" }}
+    {{- end }}
+    {{- end }}
     {{- end }}
     {{- if .Values.jmx.enabled }}
     - name: jmx
