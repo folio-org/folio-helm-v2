@@ -81,9 +81,7 @@ jmx:
   enabled: false
   port: 1099
 
-eureka:
-  enabled: false
-  sidecarContainer: {}
+eureka: &is_eureka false
 
 heapDumpEnabled: false
 
@@ -138,6 +136,10 @@ integrations:
     port: 9130
     url: http://okapi:9130
     existingSecret: ""
+
+  eureka-edge:
+    enabled: *is_eureka
+    existingSecret: "eureka-edge"
 
 configMaps:
   ephemeral:

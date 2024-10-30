@@ -78,9 +78,7 @@ jmx:
   enabled: false
   port: 1099
 
-eureka:
-  enabled: false
-  sidecarContainer: {}
+eureka: &is_eureka false
 
 heapDumpEnabled: false
 
@@ -127,6 +125,11 @@ initContainer:
       enabled: false
       name: extendedtmp
       mountPath: /tmp
+
+integrations:
+  eureka:
+    enabled: *is_eureka
+    existingSecret: "eureka-common"
 
 configMaps: {}
 
