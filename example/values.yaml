@@ -207,6 +207,10 @@ integrations:
     enabled: *is_eureka
     existingSecret: "eureka-common"
 
+  eureka-edge:
+    enabled: *is_eureka
+    existingSecret: "eureka-edge"
+
 configMaps:
   ephemeral:
     enabled: true
