@@ -22,7 +22,7 @@ envFrom:
 {{- end -}}
 {{- end -}}
 {{- range $integration, $config := .Values.integrations -}}
-  {{- if and $config.enabled }}
+  {{- if eq (include "folio-common.tplvalues.render" (dict "value" $config.enabled "context" $)) "true" }}
     {{- $secretName := "" -}}
     {{- if $config.existingSecret }}
       {{- $secretName = $config.existingSecret -}}

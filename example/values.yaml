@@ -58,7 +58,7 @@ ingress:
 
 args: []
 
-eureka: &is_eureka false
+eureka: false
 
 ## @param javaOpts Custom JVM parameters
 ##
@@ -130,7 +130,7 @@ initContainer:
 
 sidecarContainers:
   eureka:
-    enabled: *is_eureka
+    enabled: '{{ .Values.eureka }}'
     name: sidecar
     image:
       repository: folioorg/folio-module-sidecar
@@ -204,11 +204,11 @@ integrations:
     existingSecret: ""
 
   eureka:
-    enabled: *is_eureka
+    enabled: '{{ .Values.eureka }}'
     existingSecret: "eureka-common"
 
   eureka-edge:
-    enabled: *is_eureka
+    enabled: '{{ .Values.eureka }}'
     existingSecret: "eureka-edge"
 
 configMaps:

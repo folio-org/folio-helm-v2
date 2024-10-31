@@ -61,11 +61,6 @@ spec:
       {{- end }}
       {{- end }}
       containers:
-        {{- range .Values.sidecarContainers }}
-        {{- if and .enabled }}
-        {{- include "folio-common.sidecar" (dict "sidecar" . "global" $)  | nindent 8 }}
-        {{- end }}
-        {{- end }}
         - name: {{ .Chart.Name }}
           {{- with .Values.securityContext }}
           securityContext: {{ toYaml . | nindent 12 }}
@@ -100,7 +95,7 @@ spec:
               protocol: "TCP"
             {{- end }}
             {{- range $sidecarName, $sidecarConfig := .Values.sidecarContainers }}
-            {{- if and $sidecarConfig.enabled }}
+            {{- if eq (include "folio-common.tplvalues.render" (dict "value" $sidecarConfig.enabled "context" $)) "true" }}
             {{- include "folio-common.sidecar.port" (list $sidecarName $sidecarConfig.ports) | nindent 12 }}
             {{- end }}
             {{- end }}
@@ -120,6 +115,11 @@ spec:
               mountPath: {{ .Values.jmx.agentPath }}/prometheus-jmx-config.yaml
               subPath: prometheus-jmx-config.yaml
           {{- end }}
+        {{- range .Values.sidecarContainers }}
+        {{- if eq (include "folio-common.tplvalues.render" (dict "value" .enabled "context" $)) "true" }}
+        {{- include "folio-common.sidecar" (dict "sidecar" . "global" $)  | nindent 8 }}
+        {{- end }}
+        {{- end }}
       volumes:
       {{- include "folio-common.volumes" . | indent 8}}
       {{- if and .Values.extraVolumes (eq (include "folio-common.list.hasAnyEnabled" .Values.extraVolumes) "true") }}

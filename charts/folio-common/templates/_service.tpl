@@ -14,7 +14,7 @@ spec:
       targetPort: {{ .targetPort }}
     {{- end }}
     {{- range $sidecarName, $sidecarConfig := .Values.sidecarContainers }}
-    {{- if and $sidecarConfig.enabled }}
+    {{- if eq (include "folio-common.tplvalues.render" (dict "value" $sidecarConfig.enabled "context" $)) "true" }}
     {{- range $index, $val := $sidecarConfig.ports }}
     - name: {{ $val.name | default "sidecar-{{ $sidecarName }}-{{ $index }}" }}
       protocol: {{ $val.protocol | default "TCP" }}
