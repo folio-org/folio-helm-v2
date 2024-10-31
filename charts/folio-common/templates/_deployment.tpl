@@ -83,10 +83,6 @@ spec:
           {{- with .Values.livenessProbe }}
           livenessProbe: {{ toYaml . | nindent 12 }}
           {{- end }}
-          {{- if .Values.eureka.enabled | default false }}
-            {{- include "folio-common.sidecar.image" . | nindent 8 }}
-            {{- include "folio-common.sidecar.env.vars" . | nindent 10 }}
-          {{- end }}
           ports:
             {{- range .Values.service.ports }}
             - name: {{ .targetPort | default "http" }}
@@ -98,8 +94,10 @@ spec:
               containerPort: {{ .Values.jmx.port | default "1099" }}
               protocol: "TCP"
             {{- end }}
-            {{- if .Values.eureka.enabled | default false }}
-            {{- include "folio-common.sidecar.port" . | nindent 12 }}
+            {{- range $sidecarName, $sidecarConfig := .Values.sidecarContainers }}
+            {{- if eq (include "folio-common.tplvalues.render" (dict "value" $sidecarConfig.enabled "context" $)) "true" }}
+            {{- include "folio-common.sidecar.port" (list $sidecarName $sidecarConfig.ports) | nindent 12 }}
+            {{- end }}
             {{- end }}
           volumeMounts:
           {{- include "folio-common.volumeMounts" . | indent 12}}
@@ -117,6 +115,11 @@ spec:
               mountPath: {{ .Values.jmx.agentPath }}/prometheus-jmx-config.yaml
               subPath: prometheus-jmx-config.yaml
           {{- end }}
+        {{- range .Values.sidecarContainers }}
+        {{- if eq (include "folio-common.tplvalues.render" (dict "value" .enabled "context" $)) "true" }}
+        {{- include "folio-common.sidecar" (dict "sidecar" . "global" $)  | nindent 8 }}
+        {{- end }}
+        {{- end }}
       volumes:
       {{- include "folio-common.volumes" . | indent 8}}
       {{- if and .Values.extraVolumes (eq (include "folio-common.list.hasAnyEnabled" .Values.extraVolumes) "true") }}
