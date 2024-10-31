@@ -79,7 +79,7 @@ jmx:
   enabled: false
   port: 1099
 
-eureka: &is_eureka false
+eureka: false
 
 heapDumpEnabled: false
 
@@ -136,7 +136,7 @@ integrations:
     existingSecret: ""
 
   eureka-edge:
-    enabled: *is_eureka
+    enabled: '{{ .Values.eureka }}'
     existingSecret: "eureka-edge"
 
 configMaps:

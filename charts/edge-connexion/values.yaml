@@ -81,7 +81,7 @@ jmx:
 
 heapDumpEnabled: false
 
-eureka: &is_eureka false
+eureka: false
 
 volumeClaims:
   extendedtmp:
@@ -136,7 +136,7 @@ integrations:
     existingSecret: ""
 
   eureka-edge:
-    enabled: *is_eureka
+    enabled: '{{ .Values.eureka }}'
     existingSecret: "eureka-edge"
 
 configMaps:

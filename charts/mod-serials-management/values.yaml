@@ -58,7 +58,7 @@ ingress:
 
 args: []
 
-eureka: &is_eureka false
+eureka: false
 
 ## @param javaOpts Custom JVM parameters
 ##
@@ -129,7 +129,7 @@ initContainer:
 
 sidecarContainers:
   eureka:
-    enabled: *is_eureka
+    enabled: '{{ .Values.eureka }}'
     name: sidecar
     image:
       repository: folioorg/folio-module-sidecar

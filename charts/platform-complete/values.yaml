@@ -58,7 +58,7 @@ ingress:
 
 args: []
 
-eureka: &is_eureka false
+eureka: false
 
 ## @param javaOpts Custom JVM parameters
 ##
