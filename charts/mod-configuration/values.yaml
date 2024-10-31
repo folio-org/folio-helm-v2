@@ -143,9 +143,9 @@ sidecarContainers:
         containerPort: 8082
     resources:
       limits:
-        memory: 96Mi
+        memory: 400Mi
       requests:
-        memory: 64Mi
+        memory: 200Mi
 
 integrations:
   db:

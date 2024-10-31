@@ -144,9 +144,9 @@ sidecarContainers:
         containerPort: 8082
     resources:
       limits:
-        memory: 512Mi
+        memory: 400Mi
       requests:
-        memory: 64Mi
+        memory: 200Mi
 
 integrations:
   okapi:

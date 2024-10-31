@@ -147,9 +147,9 @@ sidecarContainers:
         containerPort: 8082
     resources:
       limits:
-        memory: 256Mi
+        memory: 400Mi
       requests:
-        memory: 64Mi
+        memory: 200Mi
 
 integrations:
   kafka:
