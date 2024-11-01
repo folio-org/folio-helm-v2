@@ -46,7 +46,7 @@ Sidecar env vars part of container specs.
 */}}
 {{- define "folio-common.sidecar.env.eureka.common" -}}
 - name: AM_CLIENT_URL
-  value: http://mgr-applications"
+  value: "http://mgr-applications"
 - name: QUARKUS_HTTP_PORT
   value: "{{ (index .Values.sidecarContainers.eureka.ports 0).port | default "8082" }}"
 - name: QUARKUS_REST_CLIENT_READ_TIMEOUT
