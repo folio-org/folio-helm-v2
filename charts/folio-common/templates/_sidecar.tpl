@@ -37,13 +37,6 @@ Sidecar port part of container specs.
 {{/*
 Sidecar env vars part of container specs.
 */}}
-{{- define "folio-common.sidecar.env.eureka.common2" -}}
-{{ . }}
-{{- end }}
-
-{{/*
-Sidecar env vars part of container specs.
-*/}}
 {{- define "folio-common.sidecar.env.eureka.common" -}}
 - name: AM_CLIENT_URL
   value: "http://mgr-applications"
