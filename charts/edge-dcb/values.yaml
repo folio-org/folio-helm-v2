@@ -80,7 +80,11 @@ jmx:
 
 heapDumpEnabled: false
 
-eureka: false
+eureka:
+  enabled: false
+  extraEnvVars: []
+  # - name: FOO
+  #   value: ba
 
 volumeClaims:
   extendedtmp:
@@ -135,7 +139,7 @@ integrations:
     existingSecret: ""
 
   eureka-edge:
-    enabled: '{{ .Values.eureka }}'
+    enabled: '{{ .Values.eureka.enabled }}'
     existingSecret: "eureka-edge"
 
 configMaps:

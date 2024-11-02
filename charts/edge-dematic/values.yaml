@@ -79,7 +79,11 @@ jmx:
   enabled: false
   port: 1099
 
-eureka: false
+eureka:
+  enabled: false
+  extraEnvVars: []
+  # - name: FOO
+  #   value: ba
 
 heapDumpEnabled: false
 
@@ -136,7 +140,7 @@ integrations:
     existingSecret: ""
 
   eureka-edge:
-    enabled: '{{ .Values.eureka }}'
+    enabled: '{{ .Values.eureka.enabled }}'
     existingSecret: "eureka-edge"
 
 configMaps:

@@ -58,7 +58,11 @@ ingress:
 
 args: []
 
-eureka: false
+eureka:
+  enabled: false
+  extraEnvVars: []
+  # - name: FOO
+  #   value: ba
 
 ## @param javaOpts Custom JVM parameters
 ##
