@@ -58,7 +58,11 @@ ingress:
 
 args: []
 
-eureka: false
+eureka:
+  enabled: false
+  extraEnvVars:
+    - name: PLATFORM
+      value: "eureka"
 
 ## @param javaOpts Custom JVM parameters
 ##
@@ -132,7 +136,7 @@ initContainer:
 
 sidecarContainers:
   eureka:
-    enabled: '{{ .Values.eureka }}'
+    enabled: '{{ .Values.eureka.enabled }}'
     name: sidecar
     image:
       repository: folioorg/folio-module-sidecar
