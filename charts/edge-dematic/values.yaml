@@ -81,7 +81,9 @@ jmx:
 
 eureka:
   enabled: false
-  sidecarContainer: {}
+  extraEnvVars: []
+  # - name: FOO
+  #   value: ba
 
 heapDumpEnabled: false
 
@@ -136,6 +138,10 @@ integrations:
     port: 9130
     url: http://okapi:9130
     existingSecret: ""
+
+  eureka-edge:
+    enabled: '{{ .Values.eureka.enabled }}'
+    existingSecret: "eureka-edge"
 
 configMaps:
   ephemeral:

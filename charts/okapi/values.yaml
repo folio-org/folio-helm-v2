@@ -172,8 +172,6 @@ configMaps:
     mountPath: /etc/log4j2.xml
     existingConfig: ""
 
-eureka: {}
-
 hazelcastService:
   name: okapi-hazelcast
   port: 5701

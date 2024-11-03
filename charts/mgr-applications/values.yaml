@@ -80,7 +80,9 @@ jmx:
 
 eureka:
   enabled: false
-  sidecarContainer: {}
+  extraEnvVars: []
+  # - name: FOO
+  #   value: ba
 
 heapDumpEnabled: false
 
@@ -127,6 +129,11 @@ initContainer:
       enabled: false
       name: extendedtmp
       mountPath: /tmp
+
+integrations:
+  eureka:
+    enabled: '{{ .Values.eureka.enabled }}'
+    existingSecret: "eureka-common"
 
 configMaps: {}
 
