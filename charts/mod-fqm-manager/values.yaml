@@ -62,7 +62,7 @@ eureka:
   enabled: false
   extraEnvVars:
     - name: IS_EUREKA
-      value: true
+      value: "true"
 
 ## @param javaOpts Custom JVM parameters
 ##
