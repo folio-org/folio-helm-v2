@@ -8,7 +8,7 @@ env:
 {{- if .Values.extraEnvVars }}
 {{- include "folio-common.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 2 }}
 {{- end }}
-{{- if and .Values.eureka.enabled .Values.eureka.extraEnvVars }}
+{{- if and .Values.eureka .Values.eureka.enabled .Values.eureka.extraEnvVars }}
 {{- include "folio-common.tplvalues.render" (dict "value" .Values.eureka.extraEnvVars "context" $) | nindent 2 }}
 {{- end }}
   - name: JAVA_OPTIONS
