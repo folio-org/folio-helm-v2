@@ -32,3 +32,10 @@
 {{ include "folio-common.configmap" (list $ (printf "folio-common.configmap.%s" $configMap)) }}
   {{- end }}
 {{- end }}
+
+{{- if and .Values.jmx .Values.jmx.enabled }}
+---
+{{ include "folio-common.configmap" (list $ ("folio-common.configmap.jmx-config")) }}
+---
+{{ include "folio-common.configmap" (list $ ("folio-common.configmap.jmx-install")) }}
+{{- end }}
