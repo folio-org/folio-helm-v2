@@ -159,6 +159,12 @@ integrations:
     url: http://okapi:9130
     existingSecret: ""
 
+  systemuser:
+    enabled: false
+    name: mod-circulation-bff
+    password: ""
+    existingSecret: ""
+
 configMaps: {}
 
 serviceAccount:
