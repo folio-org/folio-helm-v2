@@ -166,7 +166,7 @@ integrations:
     existingSecret: ""
   
   kafka:
-    enabled: true
+    enabled: false
     host: localhost
     port: 9092
     existingSecret: ""
