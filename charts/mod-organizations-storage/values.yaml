@@ -164,6 +164,12 @@ integrations:
     querytimeout: 60000
     maxpoolsize: 5
     existingSecret: ""
+  
+  kafka:
+    enabled: false
+    host: localhost
+    port: 9092
+    existingSecret: ""
 
 configMaps: {}
 
