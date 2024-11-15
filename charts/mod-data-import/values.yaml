@@ -72,17 +72,9 @@ extraJavaOpts:
   - "-XX:MaxRAMPercentage=75.0"
   # - "-Dlog_level=DEBUG"
 
-envVars:
-  - name: SPLIT_FILES_ENABLED
-    value: "true"
-  - name: RECORDS_PER_SPLIT_FILE
-    value: "1000"
-  - name: ASYNC_PROCESSOR_POLL_INTERVAL_MS
-    value: "5000"
-  - name: ASYNC_PROCESSOR_MAX_WORKERS_COUNT
-    value: "1"
-  - name: KAFKA_PRODUCER_TENANT_COLLECTION
-    value: "ALL"
+envVars: []
+  # - name: FOO
+  #   value: bar
 
 extraEnvVars: []
   # - name: FOO
