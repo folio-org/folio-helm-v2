@@ -60,6 +60,9 @@ args: []
 
 eureka:
   enabled: false
+  envVars: []
+  # - name: FOO
+  #   value: ba
   extraEnvVars: []
   # - name: FOO
   #   value: ba
