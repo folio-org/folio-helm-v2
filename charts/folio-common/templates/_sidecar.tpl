@@ -4,9 +4,19 @@
 - name: {{ .sidecar.name | default "sidecar" }}
   image: "{{ .sidecar.image.repository }}:{{ .sidecar.image.tag | default "latest" }}"
   imagePullPolicy: {{ .sidecar.image.pullPolicy | default "IfNotPresent" }}
-  {{- if .sidecar.env }}
+  {{- if or .sidecar.envVars .sidecar.extraEnvVars }}
   env:
-  {{- range .sidecar.env -}}
+  {{- range .sidecar.envVars -}}
+  {{- if contains "{{" (toJson .) }}
+    {{- tpl . $.global | nindent 2 }}
+  {{- else if and .name .value }}
+  - name: {{ .name }}
+    value: {{ .value }}
+  {{- else }}
+  - {{- typeIs "string" . | ternary . (toYaml .) | indent 4 }}
+  {{- end }}
+  {{- end }}
+  {{- range .sidecar.extraEnvVars -}}
   {{- if contains "{{" (toJson .) }}
     {{- tpl . $.global | nindent 2 }}
   {{- else if and .name .value }}
