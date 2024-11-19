@@ -162,7 +162,7 @@ integrations:
     password: password
     charset: UTF-8
     querytimeout: 60000
-    maxpoolsize: 5
+    maxpoolsize: 20
     existingSecret: ""
 
 configMaps: {}
