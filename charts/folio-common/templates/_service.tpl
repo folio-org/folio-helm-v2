@@ -4,6 +4,8 @@
 apiVersion: v1
 kind: Service
 {{ template "folio-common.metadata" . }}
+  annotations:
+    {{- toYaml .Values.service.annotations | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
