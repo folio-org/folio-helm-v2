@@ -165,6 +165,12 @@ integrations:
     maxpoolsize: 5
     existingSecret: ""
 
+  kafka:
+    enabled: true
+    host: localhost
+    port: 9092
+    existingSecret: ""
+
 configMaps: {}
 
 serviceAccount:
