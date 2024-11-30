@@ -60,9 +60,12 @@ args: []
 
 eureka:
   enabled: false
-  extraEnvVars:
+  envVars:
     - name: PLATFORM
       value: "eureka"
+  extraEnvVars: []
+    # - name: FOO
+    #   value: ba
 
 ## @param javaOpts Custom JVM parameters
 ##
@@ -138,8 +141,11 @@ sidecarContainers:
       repository: folioorg/folio-module-sidecar
       pullPolicy: IfNotPresent
       tag: latest
-    env:
+    envVars:
       - '{{ include "folio-common.sidecar.env.eureka.common" . }}'
+    extraEnvVars: []
+      # - name: FOO
+      #   value: bar
     ports:
       - name: sidecar
         protocol: TCP

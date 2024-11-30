@@ -60,9 +60,12 @@ args: []
 
 eureka:
   enabled: false
+  envVars: []
+    # - name: FOO
+    #   value: ba
   extraEnvVars: []
-  # - name: FOO
-  #   value: ba
+    # - name: FOO
+    #   value: ba
 
 ## @param javaOpts Custom JVM parameters
 ##
@@ -71,6 +74,10 @@ javaOpts: []
 extraJavaOpts:
   - "-XX:MaxRAMPercentage=75.0"
   # - "-Dlog_level=DEBUG"
+
+envVars: []
+  # - name: FOO
+  #   value: bar
 
 extraEnvVars: []
   # - name: FOO
@@ -140,8 +147,11 @@ sidecarContainers:
       repository: folioorg/folio-module-sidecar
       pullPolicy: IfNotPresent
       tag: latest
-    env:
+    envVars:
       - '{{ include "folio-common.sidecar.env.eureka.common" . }}'
+    extraEnvVars: []
+      # - name: FOO
+      #   value: bar
     ports:
       - name: sidecar
         protocol: TCP
