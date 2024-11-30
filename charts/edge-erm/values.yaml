@@ -1,9 +1,9 @@
-# Default values for mod-workflow.
+# Default values for edge-erm.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 image:
-  repository: folioorg/mod-workflow
+  repository: folioorg/edge-erm
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -17,10 +17,10 @@ replicaCount: 1
 resources:
   limits:
     # cpu: 100m
-    memory: 512Mi
+    memory: 340Mi
   requests:
     # cpu: 50m
-    memory: 384Mi
+    memory: 295Mi
 
 autoscaling:
   enabled: false
@@ -49,8 +49,9 @@ ingress:
   hosts:
     - host: chart-example.local
       paths:
-        - path: /*
+        - path: /erm*
           pathType: ImplementationSpecific
+
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
@@ -58,21 +59,13 @@ ingress:
 
 args: []
 
-eureka:
-  enabled: false
-  envVars: []
-  # - name: FOO
-  #   value: ba
-  extraEnvVars: []
-  # - name: FOO
-  #   value: ba
-
 ## @param javaOpts Custom JVM parameters
 ##
-javaOpts: []
+javaOpts:
+  - "-Dokapi_url=http://$(OKAPI_HOST):$(OKAPI_PORT)"
 
 extraJavaOpts:
-  - "-XX:MaxRAMPercentage=75.0"
+  - "-XX:MaxRAMPercentage=85.0"
   # - "-Dlog_level=DEBUG"
 
 extraEnvVars: []
@@ -86,6 +79,12 @@ extraEnvVarsSecrets: []
 jmx:
   enabled: false
   port: 1099
+
+eureka:
+  enabled: false
+  extraEnvVars: []
+  # - name: FOO
+  #   value: ba
 
 heapDumpEnabled: false
 
@@ -133,51 +132,24 @@ initContainer:
       name: extendedtmp
       mountPath: /tmp
 
-sidecarContainers:
-  eureka:
-    enabled: '{{ .Values.eureka.enabled }}'
-    name: sidecar
-    image:
-      repository: folioorg/folio-module-sidecar
-      pullPolicy: IfNotPresent
-      tag: latest
-    envVars:
-      - '{{ include "folio-common.sidecar.env.eureka.common" . }}'
-    extraEnvVars: []
-      # - name: FOO
-      #   value: bar
-    ports:
-      - name: sidecar
-        protocol: TCP
-        port: 8082
-        containerPort: 8082
-    resources:
-      limits:
-        memory: 400Mi
-      requests:
-        memory: 200Mi
-
 integrations:
-  db:
-    enabled: true
-    host: postgresql
-    hostReader: ""
-    port: 5432
-    database: folio
-    username: admin
-    password: password
-    charset: UTF-8
-    querytimeout: 60000
-    maxpoolsize: 5
-    existingSecret: ""
-
-  kafka:
+  okapi:
     enabled: false
-    host: localhost
-    port: 9092
+    host: okapi
+    port: 9130
+    url: http://okapi:9130
     existingSecret: ""
 
-configMaps: {}
+  eureka-edge:
+    enabled: '{{ .Values.eureka.enabled }}'
+    existingSecret: "eureka-edge"
+
+configMaps:
+  ephemeral:
+    enabled: true
+    fileName: ephemeral.properties
+    mountPath: /etc/edge
+    existingConfig: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
