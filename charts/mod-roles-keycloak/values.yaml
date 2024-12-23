@@ -75,9 +75,13 @@ extraJavaOpts:
   - "-XX:MaxRAMPercentage=75.0"
   # - "-Dlog_level=DEBUG"
 
-extraEnvVars:
+envVars:
   - name: OKAPI_URL
     value: 'http://mod-roles-keycloak:8082'
+
+extraEnvVars: []
+  # - name: FOO
+  #   value: bar
 
 extraEnvVarsSecrets: []
   # = foo-secret
