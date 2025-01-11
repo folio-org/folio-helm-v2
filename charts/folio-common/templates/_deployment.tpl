@@ -30,7 +30,10 @@ spec:
       initContainers:
       {{- if and .Values.jmx .Values.jmx.enabled }}
         - name: download-jmx-agent
-          image: busybox
+          repository: busybox
+          registry: 732722833398.dkr.ecr.us-west-2.amazonaws.com
+          tag: latest
+          pullPolicy: IfNotPresent
           command:
             - sh
             - -c
