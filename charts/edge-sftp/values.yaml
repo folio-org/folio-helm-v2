@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: atmoz/sftp
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
@@ -104,7 +104,7 @@ config:
 #     repository: busybox
     registry: 732722833398.dkr.ecr.us-west-2.amazonaws.com
 #     tag: latest
-#   imagePullPolicy: Always
+#   imagepullPolicy: IfNotPresent
 #   command: cat
 #   overrideArgs:
 #     - diku
