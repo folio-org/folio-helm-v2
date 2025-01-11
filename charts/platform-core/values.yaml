@@ -107,6 +107,7 @@ affinity: {}
 # initContainer:
 #   image:
 #     repository: busybox
+    registry: 732722833398.dkr.ecr.us-west-2.amazonaws.com
 #     tag: latest
 #   imagePullPolicy: Always
 #   command: cat
