@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: docker.dev.folio.org/platform-core
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
@@ -107,8 +107,9 @@ affinity: {}
 # initContainer:
 #   image:
 #     repository: busybox
+    registry: 732722833398.dkr.ecr.us-west-2.amazonaws.com
 #     tag: latest
-#   imagePullPolicy: Always
+#   imagepullPolicy: IfNotPresent
 #   command: cat
 #   overrideArgs:
 #     - diku
@@ -123,7 +124,7 @@ postJob:
   referenceData: false
   image:
     repository: docker.dev.folio.org/folio-okapi-registration
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: "latest"
   annotations:
