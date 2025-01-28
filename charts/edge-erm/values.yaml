@@ -62,7 +62,7 @@ args: []
 ## @param javaOpts Custom JVM parameters
 ##
 javaOpts:
-  - "-Dokapi_url=http://$(OKAPI_HOST):$(OKAPI_PORT)"
+  - "-Dfolio.client.okapiUrl=http://$(OKAPI_HOST):$(OKAPI_PORT)"
 
 extraJavaOpts:
   - "-XX:MaxRAMPercentage=85.0"
