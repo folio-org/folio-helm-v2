@@ -61,7 +61,7 @@ args: []
 ## @param javaOpts Custom JVM parameters
 ##
 javaOpts:
-  - "-Drequest_timeout_ms=7200000 -Dokapi_url=http://$(OKAPI_HOST):$(OKAPI_PORT)"
+  - "-Drequest_timeout_ms=7200000 -Dfolio.client.okapiUrl=http://$(OKAPI_HOST):$(OKAPI_PORT)"
 
 extraJavaOpts:
   - "-XX:MaxRAMPercentage=75.0"

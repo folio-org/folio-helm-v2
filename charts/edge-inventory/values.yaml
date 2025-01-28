@@ -36,7 +36,7 @@ service:
     - name: http
       protocol: TCP
       port: 80
-      containerPort: 8081
+      containerPort: 8080
       targetPort: http
   annotations: {}
 
