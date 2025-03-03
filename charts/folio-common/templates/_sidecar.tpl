@@ -87,9 +87,9 @@ Sidecar env vars part of container specs.
 - name: JAVA_OPTS
   value: "-Dquarkus.log.level=DEBUG -Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager -XX:+UseZGC -Xms64m -Xmx64m -Dquarkus.log.category.'org.apache.kafka'.level=DEBUG"
 - name: SC_LOG_LEVEL
-  value: "DEBUG"
+  value: "INFO"
 - name: ROOT_LOG_LEVEL
-  value: "DEBUG"
+  value: "INFO"
 - name: SECRET_STORE_TYPE
   valueFrom:
     secretKeyRef:
