@@ -135,4 +135,11 @@ Sidecar env vars part of container specs.
     secretKeyRef:
       name: eureka-common
       key: KC_URL
+{{- if eq .Release.Name "mod-scheduler" }}
+- name: ROUTING_DYNAMIC_ENABLED
+  value: "true"
+- name: SIDECAR_FORWARD_UNKNOWN_REQUESTS 
+  value: "false"
+{{- end }}
+
 {{- end }}
