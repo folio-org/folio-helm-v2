@@ -69,7 +69,7 @@ Sidecar env vars part of container specs.
 - name: MODULE_VERSION
   value: "{{ default .Values.image.tag }}"
 - name: SIDECAR_FORWARD_UNKNOWN_REQUESTS
-  value: "true"
+  value: {{- if eq .Chart.Name "mod-scheduler" }} "false" {{ else }} "true" {{- end }}
 - name: SIDECAR_URL
   value: "http://localhost:{{ (index .Values.sidecarContainers.eureka.ports 0).port | default "8082" }}"
 - name: SIDECAR
@@ -135,4 +135,9 @@ Sidecar env vars part of container specs.
     secretKeyRef:
       name: eureka-common
       key: KC_URL
+{{- if eq .Chart.Name "mod-scheduler"  }}
+- name: ROUTING_DYNAMIC_ENABLED
+  value: "true"
+{{- end }}
+
 {{- end }}
