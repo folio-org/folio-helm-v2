@@ -46,7 +46,6 @@ ansiColor('xterm') {
             extensions: [],
             userRemoteConfigs: [[url: chartsRepositoryUrl]]
           )
-          }
           if (params.INDEX_ALL) {
               currentBuild.description = "Index all charts"
               chartsForIndex = sh(script: "ls -d charts/*", returnStdout: true).split('\\n')
@@ -56,7 +55,6 @@ ansiColor('xterm') {
               currentBuild.description = "Triggered by Github"
             }
           }
-        }
         stage("Package and index charts") {
           if (!chartsForIndex.isEmpty()) {
             folioHelm.withK8sClient {
