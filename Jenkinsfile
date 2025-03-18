@@ -1,6 +1,6 @@
 #!groovy
 
-@Library('pipelines-shared-library@RANCHER-1407') _
+@Library('pipelines-shared-library@RANCHER-650-Jenkins-upgrade') _
 
 import org.folio.Constants
 import org.jenkinsci.plugins.workflow.libs.Library
