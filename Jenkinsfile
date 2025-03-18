@@ -39,21 +39,15 @@ ansiColor('xterm') {
   podTemplates.defaultTemplate {
     node(JenkinsAgentLabel.DEFAULT_AGENT.getLabel()) {
       try {
-        stage('Init') {
+        stage('checkout') {
           println(currentBuild.getBuildCauses())
-          sshagent(credentials: [Constants.GITHUB_CREDENTIALS_ID]) {
-            checkout([
-              $class           : 'GitSCM',
-              branches         : [[name: params.HELM_BRANCH]],
-              extensions       : scm.extensions + [[$class             : 'SubmoduleOption',
-                                                    disableSubmodules  : false,
-                                                    parentCredentials  : false,
-                                                    recursiveSubmodules: true,
-                                                    reference          : '',
-                                                    trackingSubmodules : false]],
-              userRemoteConfigs: [[url: chartsRepositoryUrl]]
-            ])
-            if (params.INDEX_ALL) {
+          checkout scmGit(
+            branches: [[name: "params.HELM_BRANCH"]],
+            extensions: [],
+            userRemoteConfigs: [[url: chartsRepositoryUrl]]
+          )
+          }
+          if (params.INDEX_ALL) {
               currentBuild.description = "Index all charts"
               chartsForIndex = sh(script: "ls -d charts/*", returnStdout: true).split('\\n')
             } else {
