@@ -42,7 +42,7 @@ ansiColor('xterm') {
         stage('checkout') {
           println(currentBuild.getBuildCauses())
           checkout scmGit(
-            branches: [[name: 'params.HELM_BRANCH']],
+            branches: [[name: "params.HELM_BRANCH"]],
             extensions: [submodule(
                 recursiveSubmodules: true,
                 reference: ''
