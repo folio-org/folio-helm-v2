@@ -1,6 +1,6 @@
 #!groovy
 
-@Library('pipelines-shared-library') _
+@Library('pipelines-shared-library@RANCHER-650-Jenkins-upgrade') _
 
 import org.folio.Constants
 import org.jenkinsci.plugins.workflow.libs.Library
@@ -84,9 +84,6 @@ ansiColor('xterm') {
         println(exception)
         error(exception.getMessage())
       } finally {
-        stage('Cleanup') {
-          cleanWs notFailBuild: true
-        }
       }
     }
   }
