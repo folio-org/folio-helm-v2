@@ -83,7 +83,6 @@ ansiColor('xterm') {
       } catch (exception) {
         println(exception)
         error(exception.getMessage())
-      } finally {
       }
     }
   }
