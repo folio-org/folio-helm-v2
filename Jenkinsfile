@@ -66,14 +66,14 @@ ansiColor('xterm') {
             folioHelm.withK8sClient {
               chartsForIndex.each {
                 println("Pushing ${it} to repo Nexus...")
-//                withCredentials([usernamePassword(credentialsId: Constants.NEXUS_PUBLISH_CREDENTIALS_ID,
-//                  usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD'),
-//                ]) {
-//                  sh """
-//                  CHART_PACKAGE="\$(helm package ${it} --dependency-update | cut -d":" -f2 | tr -d '[:space:]')"
-//                  curl -is -u "\$NEXUS_USERNAME:\$NEXUS_PASSWORD" "${Constants.NEXUS_BASE_URL}/${params.HELM_NEXUS_REPOSITORY}/" --upload-file "\$CHART_PACKAGE"
-//                """
-//                }
+                withCredentials([usernamePassword(credentialsId: Constants.NEXUS_PUBLISH_CREDENTIALS_ID,
+                  usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD'),
+                ]) {
+                  sh """
+                  CHART_PACKAGE="\$(helm package ${it} --dependency-update | cut -d":" -f2 | tr -d '[:space:]')"
+                  curl -is -u "\$NEXUS_USERNAME:\$NEXUS_PASSWORD" "${Constants.NEXUS_BASE_URL}/${params.HELM_NEXUS_REPOSITORY}/" --upload-file "\$CHART_PACKAGE"
+                """
+                }
               }
             }
           } else {
