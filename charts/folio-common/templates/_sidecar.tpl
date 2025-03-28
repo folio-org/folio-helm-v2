@@ -13,7 +13,7 @@
   - name: {{ .name }}
     value: {{ .value }}
   {{- else }}
-  - {{- typeIs "string" . | ternary . (toYaml .) | indent 4 }}
+  - {{- typeIs "string" . | ternary . (toYaml .) | indent 2 }}
   {{- end }}
   {{- end }}
   {{- range .sidecar.extraEnvVars -}}
@@ -23,7 +23,7 @@
   - name: {{ .name }}
     value: {{ .value }}
   {{- else }}
-  - {{- typeIs "string" . | ternary . (toYaml .) | indent 4 }}
+  - {{- typeIs "string" . | ternary . (toYaml .) | indent 2 }}
   {{- end }}
   {{- end }}
   {{- end }}
