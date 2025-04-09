@@ -1,17 +1,40 @@
 {
-    "routing": [
-      {
-        "type": "GOBI",
-        "method": "POST",
-        "pathPattern": "/orders/validate",
-        "proxyPath": "/gobi/validate"
-      },
-      {
-        "type": "GOBI",
-        "method": "GET",
-        "pathPattern": "/orders/validate",
-        "proxyMethod": "POST",
-        "proxyPath": "/gobi/validate"
-      }
-    ]
+  "routing": [
+    {
+      "type": "GOBI",
+      "method": "POST",
+      "pathPattern": "/orders",
+      "proxyPath": "/gobi/orders"
+    },
+    {
+      "type": "GOBI",
+      "method": "POST",
+      "pathPattern": "/orders/validate",
+      "proxyPath": "/gobi/validate"
+    },
+    {
+      "type": "GOBI",
+      "method": "GET",
+      "pathPattern": "/orders/validate",
+      "proxyPath": "/gobi/validate"
+    },
+    {
+      "type": "EBSCONET",
+      "method": "GET",
+      "pathPattern": "/orders/order-lines/:id",
+      "proxyPath": "/ebsconet/orders/order-lines/:id"
+    },
+    {
+      "type": "EBSCONET",
+      "method": "PUT",
+      "pathPattern": "/orders/order-lines/:id",
+      "proxyPath": "/ebsconet/orders/order-lines/:id"
+    },
+    {
+      "type": "EBSCONET",
+      "method": "GET",
+      "pathPattern": "/orders/validate",
+      "proxyPath": "/ebsconet/validate"
+    }
+  ]
 }
