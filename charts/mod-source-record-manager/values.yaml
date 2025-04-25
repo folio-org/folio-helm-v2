@@ -187,6 +187,12 @@ integrations:
     port: 9092
     existingSecret: ""
 
+  systemuser:
+    enabled: true
+    name: mod-source-record-manager
+    password: ""
+    existingSecret: ""
+
 configMaps: {}
 
 serviceAccount:

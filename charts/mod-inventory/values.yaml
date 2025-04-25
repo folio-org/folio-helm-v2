@@ -183,6 +183,12 @@ integrations:
     port: 9092
     existingSecret: ""
 
+  systemuser:
+    enabled: true
+    name: mod-inventory
+    password: ""
+    existingSecret: ""
+
 configMaps: {}
 
 serviceAccount:

@@ -169,6 +169,12 @@ integrations:
     port: 9092
     existingSecret: ""
 
+  systemuser:
+    enabled: true
+    name: mod-invoice
+    password: ""
+    existingSecret: ""
+
 configMaps: {}
 
 serviceAccount:

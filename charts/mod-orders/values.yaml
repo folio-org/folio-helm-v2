@@ -178,6 +178,12 @@ integrations:
     port: 9092
     existingSecret: ""
 
+  systemuser:
+    enabled: true
+    name: mod-orders
+    password: ""
+    existingSecret: ""
+
 configMaps: {}
 
 serviceAccount:
