@@ -58,6 +58,8 @@ Sidecar env vars part of container specs.
   value: "180000"
 - name: QUARKUS_REST_CLIENT_SEND_TIMEOUT
   value: "180000"
+- name: QUARKUS_HTTP_LIMITS_MAX_BODY_SIZE
+  value: {{- if and (eq .Release.Namespace "sprint") (or (eq .Release.Name "mod-data-import") (eq .Release.Name "mod-bulk-operations")) }} "204800k" {{ else }} "10240K" {{- end }}
 - name: TE_CLIENT_URL
   value: "http://mgr-tenant-entitlements"
 - name: TM_CLIENT_URL
