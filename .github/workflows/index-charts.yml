@@ -1,0 +1,37 @@
+name: index-charts
+on:
+  pull_request:
+    types:
+      - closed
+  workflow_dispatch:    
+jobs:
+    index-charts:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+        - name: Check Helm
+          run: |
+            echo "Helm version: $(helm version --short)"  
+        - name: Helm package
+          run: |
+            new_charts=$(ls charts/)
+            mkdir -p uploads
+            for c in $new_charts
+                do
+                if [ $c != "common" ] && [ $c != "folio-common" ] && [ $c != "platform-core" ]; then
+                    echo "Processing chart: $c"
+                    helm package charts/$c --dependency-update --destination uploads                    
+                fi    
+                done
+            ls uploads/
+        - name: Upload Helm charts
+          run: |
+            echo "Indexing charts in ${{ github.event.repository.name }} repository"
+            uploaded_charts=$(ls uploads/)
+            for c in $uploaded_charts;
+                do
+                  echo "Processing chart: $c"
+                  curl -is -u "${{ secrets.HELM_USERNAME }}:${{ secrets.HELM_PASSWORD }}" "${{secrets.NEXUS_URL}}/${{ github.event.repository.name }}" --upload-file uploads/$c
+                  echo "Chart $c uploaded"
+                done            
