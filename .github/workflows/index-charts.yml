@@ -34,6 +34,6 @@ jobs:
             for c in $uploaded_charts;
                 do
                   echo "Processing chart: $c"
-                  curl -is -u "${{ secrets.HELM_USERNAME }}:${{ secrets.HELM_PASSWORD }}" "${{secrets.NEXUS_URL}}/${{ github.event.repository.name }}" --upload-file uploads/$c
+                  curl -is -u "${{ secrets.HELM_USERNAME }}:${{ secrets.HELM_PASSWORD }}" "${{ secrets.NEXUS_URL }}/${{ github.event.repository.name }}" --upload-file uploads/$c
                   echo "Chart $c uploaded"
                 done            
