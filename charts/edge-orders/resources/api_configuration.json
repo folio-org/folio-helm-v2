@@ -83,6 +83,12 @@
       "method": "GET",
       "pathPattern": "/addresses/billing-and-shipping",
       "proxyPath": "/configurations/entries?query=configName==tenant.addresses"
+    },
+    {
+      "type": "COMMON",
+      "method": "GET",
+      "pathPattern": "/acquisition-methods",
+      "proxyPath": "/orders/acquisition-methods?offset=:offset&limit=:limit&query=:query"
     }
   ]
 }
