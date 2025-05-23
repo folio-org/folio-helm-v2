@@ -89,6 +89,31 @@
       "method": "GET",
       "pathPattern": "/acquisition-methods",
       "proxyPath": "/orders/acquisition-methods?offset=:offset&limit=:limit&query=:query"
+    },
+    {
+      "type": "COMMON",
+      "method": "GET",
+      "pathPattern": "/addresses/billing-and-shipping",
+      "proxyPath": "/configurations/entries?offset=:offset&limit=:limit&query=:query",
+      "extraQuery": "configName==tenant.addresses"
+    },
+    {
+      "type": "COMMON",
+      "method": "GET",
+      "pathPattern": "/locations-for-order",
+      "proxyPath": "/locations?offset=:offset&limit=:limit&query=:query"
+    },
+    {
+      "type": "COMMON",
+      "method": "GET",
+      "pathPattern": "/material-types-for-order",
+      "proxyPath": "/material-types?offset=:offset&limit=:limit&query=:query"
+    },
+    {
+      "type": "COMMON",
+      "method": "GET",
+      "pathPattern": "/users-for-order",
+      "proxyPath": "/users?offset=:offset&limit=:limit&query=:query"
     }
   ]
 }
