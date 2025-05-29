@@ -94,7 +94,7 @@ volumeClaims:
     enabled: false
     name: &extendedtmp_name '{{ printf "%s-%s" (include "folio-common.fullname" $) "extendedtmp" }}'
     storageClassName: gp2
-    size: 20Gi
+    size: 100Gi
     accessModes: ReadWriteOnce
     existingClaim:
 
