@@ -57,6 +57,12 @@
     {
       "type": "COMMON",
       "method": "GET",
+      "pathPattern": "/orders/custom-fields",
+      "proxyPath": "/custom-fields?offset=:offset&limit=:limit&query=:query"
+    },
+    {
+      "type": "COMMON",
+      "method": "GET",
       "pathPattern": "/finance/funds",
       "proxyPath": "/finance/funds?offset=:offset&limit=:limit&query=:query"
     },
@@ -69,26 +75,26 @@
     {
       "type": "COMMON",
       "method": "GET",
+      "pathPattern": "/finance/fund-codes-expense-classes",
+      "proxyPath": "/finance/fund-codes-expense-classes?fiscalYearCode=:fiscalYearCode"
+    },
+    {
+      "type": "COMMON",
+      "method": "GET",
       "pathPattern": "/acquisitions-units",
       "proxyPath": "/acquisitions-units/units?offset=:offset&limit=:limit&query=:query"
     },
     {
       "type": "COMMON",
       "method": "GET",
-      "pathPattern": "/organizations",
-      "proxyPath": "/organizations/organizations?offset=:offset&limit=:limit&query=:query"
-    },
-    {
-      "type": "COMMON",
-      "method": "GET",
-      "pathPattern": "/addresses/billing-and-shipping",
-      "proxyPath": "/configurations/entries?query=configName==tenant.addresses"
-    },
-    {
-      "type": "COMMON",
-      "method": "GET",
       "pathPattern": "/acquisition-methods",
       "proxyPath": "/orders/acquisition-methods?offset=:offset&limit=:limit&query=:query"
+    },
+    {
+      "type": "COMMON",
+      "method": "GET",
+      "pathPattern": "/organizations",
+      "proxyPath": "/organizations/organizations?offset=:offset&limit=:limit&query=:query"
     },
     {
       "type": "COMMON",
@@ -108,6 +114,18 @@
       "method": "GET",
       "pathPattern": "/material-types-for-order",
       "proxyPath": "/material-types?offset=:offset&limit=:limit&query=:query"
+    },
+    {
+      "type": "COMMON",
+      "method": "GET",
+      "pathPattern": "/identifier-types-for-order",
+      "proxyPath": "/identifier-types?offset=:offset&limit=:limit&query=:query"
+    },
+    {
+      "type": "COMMON",
+      "method": "GET",
+      "pathPattern": "/contributor-name-types-for-order",
+      "proxyPath": "/contributor-name-types?offset=:offset&limit=:limit&query=:query"
     },
     {
       "type": "COMMON",
