@@ -139,6 +139,12 @@ integrations:
     enabled: '{{ .Values.eureka.enabled }}'
     existingSecret: "eureka-common"
 
+  kafka:
+    enabled: true
+    host: localhost
+    port: 9092
+    existingSecret: ""
+
 configMaps: {}
 
 serviceAccount:
