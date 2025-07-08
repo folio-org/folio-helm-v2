@@ -21,7 +21,7 @@ spec:
     - name: {{ $val.name | default "sidecar-{{ $sidecarName }}-{{ $index }}" }}
       protocol: {{ $val.protocol | default "TCP" }}
       port: {{ $val.port | default "8082" }}
-      targetPort: {{ $val.containerPort | default "8082" }}
+      targetPort: {{ "sidecar" }}
     {{- end }}
     {{- end }}
     {{- end }}
