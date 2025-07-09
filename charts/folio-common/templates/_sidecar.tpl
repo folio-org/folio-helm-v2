@@ -73,7 +73,7 @@ Sidecar env vars part of container specs.
 - name: SIDECAR_FORWARD_UNKNOWN_REQUESTS
   value: {{- if eq .Chart.Name "mod-scheduler" }} "false" {{ else }} "true" {{- end }}
 - name: SIDECAR_URL
-  value: "http://localhost:{{ (index .Values.sidecarContainers.eureka.ports 0).port | default "8082" }}"
+  value: "http://{{ .Chart.Name }}:{{ (index .Values.sidecarContainers.eureka.ports 0).port | default "8082" }}"
 - name: SIDECAR
   value: "true"
 - name: REQUEST_TIMEOUT
