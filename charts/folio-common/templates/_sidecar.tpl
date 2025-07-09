@@ -65,7 +65,7 @@ Sidecar env vars part of container specs.
 - name: TM_CLIENT_URL
   value: "http://mgr-tenants"
 - name: MODULE_URL
-  value: "http://localhost:{{ (index .Values.service.ports 0).containerPort | default "8080" }}"
+  value: "http://{{ .Chart.Name }}"
 - name: MODULE_NAME
   value: "{{ .Chart.Name }}"
 - name: MODULE_VERSION
@@ -73,7 +73,7 @@ Sidecar env vars part of container specs.
 - name: SIDECAR_FORWARD_UNKNOWN_REQUESTS
   value: {{- if eq .Chart.Name "mod-scheduler" }} "false" {{ else }} "true" {{- end }}
 - name: SIDECAR_URL
-  value: "http://localhost:{{ (index .Values.sidecarContainers.eureka.ports 0).port | default "8082" }}"
+  value: "http://{{ .Chart.Name }}:{{ (index .Values.sidecarContainers.eureka.ports 0).port | default "8082" }}"
 - name: SIDECAR
   value: "true"
 - name: REQUEST_TIMEOUT
