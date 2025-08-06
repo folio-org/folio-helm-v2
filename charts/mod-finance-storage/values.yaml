@@ -172,6 +172,10 @@ integrations:
     maxpoolsize: 5
     existingSecret: ""
 
+  eureka:
+    enabled: '{{ .Values.eureka.enabled }}'
+    existingSecret: "eureka-common"
+
 configMaps: {}
 
 serviceAccount:
