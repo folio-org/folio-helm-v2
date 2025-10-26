@@ -13,9 +13,12 @@ spec:
     - name: {{ .name }}
       protocol: {{ .protocol }}
       port: {{ .port }}
+      {{- if .Values.eureka.enabled }}
+      targetPort: sidecar
+      {{- else }}
       targetPort: {{ .targetPort }}
+      {{- end }}
     {{- end }}
-    {{/* Only expose sidecar ports if they are NOT Eureka sidecars */}}
     {{- range $sidecarName, $sidecarConfig := .Values.sidecarContainers }}
     {{- if eq (include "folio-common.tplvalues.render" (dict "value" $sidecarConfig.enabled "context" $)) "true" }}
     {{- if ne $sidecarName "eureka" }}
