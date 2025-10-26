@@ -15,16 +15,13 @@ spec:
       port: {{ .port }}
       targetPort: {{ .targetPort }}
     {{- end }}
-    {{/* Only expose sidecar ports if they are NOT Eureka sidecars */}}
     {{- range $sidecarName, $sidecarConfig := .Values.sidecarContainers }}
     {{- if eq (include "folio-common.tplvalues.render" (dict "value" $sidecarConfig.enabled "context" $)) "true" }}
-    {{- if ne $sidecarName "eureka" }}
     {{- range $index, $val := $sidecarConfig.ports }}
     - name: {{ $val.name | default "sidecar-{{ $sidecarName }}-{{ $index }}" }}
       protocol: {{ $val.protocol | default "TCP" }}
       port: {{ $val.port | default "8082" }}
-      targetPort: {{ $val.name | default "sidecar" }}
-    {{- end }}
+      targetPort: {{ "sidecar" }}
     {{- end }}
     {{- end }}
     {{- end }}
@@ -41,4 +38,3 @@ spec:
 {{- define "folio-common.service" -}}
 {{- template "folio-common.util.merge" (append . "folio-common.service.tpl") -}}
 {{- end -}}
-
