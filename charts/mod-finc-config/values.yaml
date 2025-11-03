@@ -31,7 +31,7 @@ autoscaling:
 
 # Should be set to NodePort if ingress for AWS ALB enabled
 service:
-  type: ClusterIP
+  type: None
   ports:
     - name: http
       protocol: TCP
@@ -142,7 +142,7 @@ initContainer:
 
 sidecarContainers:
   eureka:
-    enabled: '{{ .Values.eureka.enabled }}'
+    enabled: "{{ .Values.eureka.enabled }}"
     name: sidecar
     image:
       repository: folioorg/folio-module-sidecar
@@ -185,7 +185,7 @@ integrations:
     existingSecret: ""
 
   eureka:
-    enabled: '{{ .Values.eureka.enabled }}'
+    enabled: "{{ .Values.eureka.enabled }}"
     existingSecret: "eureka-common"
 
 configMaps:
