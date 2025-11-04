@@ -1,4 +1,4 @@
-  # Default values for mod-audit.
+# Default values for mod-audit.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -31,7 +31,7 @@ autoscaling:
 
 # Should be set to NodePort if ingress for AWS ALB enabled
 service:
-  type: ClusterIP
+  type: None
   ports:
     - name: http
       protocol: TCP
@@ -140,7 +140,7 @@ initContainer:
 
 sidecarContainers:
   eureka:
-    enabled: '{{ .Values.eureka.enabled }}'
+    enabled: "{{ .Values.eureka.enabled }}"
     name: sidecar
     image:
       repository: folioorg/folio-module-sidecar
