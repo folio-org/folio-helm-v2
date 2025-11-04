@@ -8,9 +8,6 @@ kind: Service
     {{- toYaml .Values.service.annotations | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
-  {{- if .Values.service.clusterIP }}
-  clusterIP: {{ .Values.service.clusterIP }}
-  {{- end }}
   ports:
     {{- range .Values.service.ports }}
     - name: {{ .name }}
