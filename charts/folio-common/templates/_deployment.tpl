@@ -6,7 +6,7 @@ kind: Deployment
 {{ template "folio-common.metadata" . }}
 spec:
   strategy:
-    type: Recreate
+    type: {{ .Values.deploymentStrategy | default "Recreate" }}
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
