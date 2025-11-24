@@ -8,6 +8,7 @@ description: A common Helm chart for FOLIO Kubernetes charts
 version: 0.2.25
 appVersion: 0.2.25
 
+
 home: https://folio.org/
 icon: https://folio.org/favicon.ico
 
