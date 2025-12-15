@@ -53,6 +53,8 @@ ingress:
           pathType: ImplementationSpecific
         - path: /entity-types*
           pathType: ImplementationSpecific
+        - path: /fqm*
+          pathType: ImplementationSpecific
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
