@@ -53,11 +53,11 @@ Sidecar env vars part of container specs.
 - name: QUARKUS_HTTP_PORT
   value: "{{ (index .Values.sidecarContainers.eureka.ports 0).port | default "8082" }}"
 - name: QUARKUS_REST_CLIENT_READ_TIMEOUT
-  value: "180000"
+  value: "360000"
 - name: QUARKUS_REST_CLIENT_CONNECT_TIMEOUT
-  value: "180000"
+  value: "360000"
 - name: QUARKUS_REST_CLIENT_SEND_TIMEOUT
-  value: "180000"
+  value: "360000"
 - name: QUARKUS_HTTP_LIMITS_MAX_BODY_SIZE
   value: {{- if and (eq .Release.Namespace "sprint") (or (eq .Release.Name "mod-data-import") (eq .Release.Name "mod-bulk-operations")) }} "204800k" {{ else }} "10240K" {{- end }}
 - name: TE_CLIENT_URL

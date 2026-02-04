@@ -136,7 +136,7 @@ initContainer:
 
 sidecarContainers:
   eureka:
-    enabled: '{{ .Values.eureka.enabled }}'
+    enabled: "{{ .Values.eureka.enabled }}"
     name: sidecar
     image:
       repository: folioorg/folio-module-sidecar
@@ -148,15 +148,15 @@ sidecarContainers:
       # - name: FOO
       #   value: bar
     ports:
-    - name: sidecar
-      protocol: TCP
-      port: 8082
-      containerPort: 8082
+      - name: sidecar
+        protocol: TCP
+        port: 8082
+        containerPort: 8082
     resources:
       limits:
-        memory: 400Mi
+        memory: 256Mi
       requests:
-        memory: 200Mi
+        memory: 128Mi
 
 integrations:
   db:

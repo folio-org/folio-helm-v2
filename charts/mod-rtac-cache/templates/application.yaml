@@ -1,0 +1,34 @@
+{{/* vim: set filetype=mustache: */}}
+
+{{- include "folio-common.serviceaccount.tpl" . }}
+---
+{{- include "folio-common.deployment.tpl" . }}
+---
+{{- include "folio-common.hpa.tpl" . }}
+---
+{{- include "folio-common.service.tpl" . }}
+---
+{{- include "folio-common.ingress.tpl" . }}
+---
+{{- include "folio-common.pdb.tpl" . }}
+
+{{- range .Values.volumeClaims }}
+  {{- if and .enabled (not .existingClaim) }}
+---
+{{ include "folio-common.pvc.tpl" (list $ .) }}
+  {{- end }}
+{{- end }}
+
+{{- range $integration, $config := .Values.integrations }}
+  {{- if and $config.enabled (not $config.existingSecret) }}
+---
+{{ include "folio-common.secret" (list $ (printf "folio-common.%s.secret" $integration)) }}
+  {{- end }}
+{{- end }}
+
+{{- range $configMap, $config := .Values.configMaps }}
+  {{- if and $config.enabled (not $config.existingConfig) }}
+---
+{{ include "folio-common.configmap" (list $ (printf "folio-common.configmap.%s" $configMap)) }}
+  {{- end }}
+{{- end }}

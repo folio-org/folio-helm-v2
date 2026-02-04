@@ -136,7 +136,7 @@ initContainer:
 
 sidecarContainers:
   eureka:
-    enabled: '{{ .Values.eureka.enabled }}'
+    enabled: "{{ .Values.eureka.enabled }}"
     name: sidecar
     image:
       repository: folioorg/folio-module-sidecar
@@ -154,9 +154,9 @@ sidecarContainers:
         containerPort: 8082
     resources:
       limits:
-        memory: 400Mi
+        memory: 256Mi
       requests:
-        memory: 200Mi
+        memory: 128Mi
 
 integrations:
   db:
@@ -173,7 +173,7 @@ integrations:
     existingSecret: ""
 
   eureka:
-    enabled: '{{ .Values.eureka.enabled }}'
+    enabled: "{{ .Values.eureka.enabled }}"
     existingSecret: "eureka-common"
 
 configMaps: {}

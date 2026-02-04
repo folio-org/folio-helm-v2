@@ -20,3 +20,15 @@ Session.vim
 .netrwhist
 
 .history
+
+# Ignore user-specific AI/development tool artifacts
+.cursor/
+.claude/
+.mcp.json
+.cursor*
+claude*
+.github/chatmodes
+.github/instructions
+.github/prompts
+.github/copilot-*
+.github/COPILOT*
