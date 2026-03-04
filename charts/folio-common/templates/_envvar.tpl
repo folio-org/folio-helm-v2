@@ -16,6 +16,10 @@ env:
 {{- end }}
   - name: JAVA_OPTIONS
     value: {{ include "folio-common.javaOpts.render" . }}
+{{- if .Values.debugEnabled }}
+  - name: JAVA_OPTS
+    value: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+{{- end }}
 envFrom:
 {{- $secrets := list -}}
 {{- $secretsString := "" -}}

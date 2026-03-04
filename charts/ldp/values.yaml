@@ -93,3 +93,5 @@ ldpConfigMapName: ldp-config
 # tolerations: []
 
 # affinity: {}
+
+debugEnabled: false
