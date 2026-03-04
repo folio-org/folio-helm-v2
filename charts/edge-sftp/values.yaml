@@ -117,3 +117,5 @@ testConnectionPod:
     "helm.sh/hook": test
 
 healthCheck: false
+
+debugEnabled: false
