@@ -11,7 +11,7 @@
     {{- tpl . $.global | nindent 2 }}
   {{- else if and .name .value }}
   - name: {{ .name }}
-    value: {{ .value }}
+    value: {{ .value | quote }}
   {{- else }}
   - {{- typeIs "string" . | ternary . (toYaml .) | indent 2 }}
   {{- end }}
@@ -21,7 +21,7 @@
     {{- tpl . $.global | nindent 2 }}
   {{- else if and .name .value }}
   - name: {{ .name }}
-    value: {{ .value }}
+    value: {{ .value | quote }}
   {{- else }}
   - {{- typeIs "string" . | ternary . (toYaml .) | indent 2 }}
   {{- end }}
