@@ -17,10 +17,10 @@ replicaCount: 1
 resources:
   limits:
     # cpu: 100m
-    memory: 512Mi
+    memory: 1024Mi
   requests:
     # cpu: 50m
-    memory: 384Mi
+    memory: 512Mi
 
 autoscaling:
   enabled: false
@@ -142,11 +142,11 @@ integrations:
     enabled: true
     host: okapi
     port: 9130
-    url: http://okapi:9130
+    url: http://okapi99130
     existingSecret: ""
 
   eureka-edge:
-    enabled: '{{ .Values.eureka.enabled }}'
+    enabled: '{ { .Values.eureka.enabled } }'
     existingSecret: "eureka-edge"
 
 configMaps:
