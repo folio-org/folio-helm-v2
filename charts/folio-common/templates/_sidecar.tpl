@@ -23,7 +23,7 @@
   - name: {{ .name }}
     value: {{ .value | quote }}
   {{- else }}
-  - {{- typeIs "string" . | ternary . (toYaml .) | indent 2 }}
+  {{- typeIs "string" . | ternary . (toYaml (list .)) | nindent 2 }}
   {{- end }}
   {{- end }}
   {{- end }}
