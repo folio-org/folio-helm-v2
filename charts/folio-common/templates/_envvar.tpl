@@ -14,6 +14,8 @@ env:
 {{- if and .Values.eureka .Values.eureka.enabled .Values.eureka.extraEnvVars }}
 {{- include "folio-common.tplvalues.render" (dict "value" .Values.eureka.extraEnvVars "context" $) | nindent 2 }}
 {{- end }}
+  - name: MODULE_VERSION
+    value: "{{ .Values.image.tag | default .Chart.AppVersion }}"
   - name: JAVA_OPTIONS
     value: {{ include "folio-common.javaOpts.render" . }}
 {{- if .Values.debugEnabled }}
