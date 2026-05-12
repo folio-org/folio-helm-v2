@@ -24,6 +24,7 @@ Session.vim
 # Ignore user-specific AI/development tool artifacts
 .cursor/
 .claude/
+.serena/
 .mcp.json
 .cursor*
 claude*
