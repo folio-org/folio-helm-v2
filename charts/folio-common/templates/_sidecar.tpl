@@ -115,12 +115,12 @@ Sidecar env vars part of container specs.
 - name: KAFKA_HOST
   valueFrom:
     secretKeyRef:
-      name: kafka-credentials
+      name: {{- if eq .Release.Namespace "cikarate" }} kafka-credentials-2 {{ else }} kafka-credentials {{- end }}
       key: KAFKA_HOST
 - name: KAFKA_PORT
   valueFrom:
     secretKeyRef:
-      name: kafka-credentials
+      name: {{- if eq .Release.Namespace "cikarate" }} kafka-credentials-2 {{ else }} kafka-credentials {{- end }}
       key: KAFKA_PORT
 - name: MOD_USERS_KEYCLOAK_URL
   valueFrom:
