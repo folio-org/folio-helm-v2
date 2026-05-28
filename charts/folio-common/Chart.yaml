@@ -5,8 +5,8 @@ type: application
 name: folio-common
 description: A common Helm chart for FOLIO Kubernetes charts
 # NOTE! Versions always should be the same
-version: 0.2.29
-appVersion: 0.2.29
+version: 0.2.30
+appVersion: 0.2.30
 
 
 home: https://folio.org/
