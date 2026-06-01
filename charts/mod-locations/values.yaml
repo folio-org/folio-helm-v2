@@ -58,6 +58,15 @@ ingress:
 
 args: []
 
+eureka:
+  enabled: false
+  envVars: []
+  # - name: FOO
+  #   value: ba
+  extraEnvVars: []
+  # - name: FOO
+  #   value: ba
+
 ## @param javaOpts Custom JVM parameters
 ##
 javaOpts: []
@@ -125,19 +134,34 @@ initContainer:
       name: extendedtmp
       mountPath: /tmp
 
+sidecarContainers:
+  eureka:
+    enabled: "{{ .Values.eureka.enabled }}"
+    name: sidecar
+    image:
+      repository: folioorg/folio-module-sidecar
+      pullPolicy: IfNotPresent
+      tag: latest
+    envVars:
+      - '{{ include "folio-common.sidecar.env.eureka.common" . }}'
+    extraEnvVars: []
+      # - name: FOO
+      #   value: bar
+    ports:
+      - name: sidecar
+        protocol: TCP
+        port: 8082
+        containerPort: 8082
+    resources:
+      limits:
+        memory: 256Mi
+      requests:
+        memory: 128Mi
+
 integrations:
-  db:
-    enabled: true
-    host: postgresql
-    hostReader: ""
-    port: 5432
-    database: folio
-    username: admin
-    password: password
-    charset: UTF-8
-    querytimeout: 60000
-    maxpoolsize: 5
-    existingSecret: ""
+  eureka:
+    enabled: "{{ .Values.eureka.enabled }}"
+    existingSecret: "eureka-common"
 
 configMaps: {}
 
