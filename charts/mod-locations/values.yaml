@@ -159,13 +159,6 @@ sidecarContainers:
         memory: 128Mi
 
 integrations:
-  okapi:
-    enabled: true
-    host: okapi
-    port: 9130
-    url: http://okapi:9130
-    existingSecret: ""
-
   db:
     enabled: true
     host: postgresql
