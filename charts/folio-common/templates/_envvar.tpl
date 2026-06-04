@@ -36,7 +36,9 @@ envFrom:
 {{- range $integration, $config := .Values.integrations -}}
   {{- if eq (include "folio-common.tplvalues.render" (dict "value" $config.enabled "context" $)) "true" }}
     {{- $secretName := "" -}}
-    {{- if $config.existingSecret }}
+    {{- if and $.Values.releaseSupport (eq $integration "db") }}
+      {{- $secretName = "db-credentials2" -}}
+    {{- else if $config.existingSecret }}
       {{- $secretName = $config.existingSecret -}}
     {{- else }}
       {{- $secretName = printf "%s-%s" (include "folio-common.fullname" $) $integration -}}

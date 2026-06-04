@@ -20,7 +20,7 @@
 {{- end }}
 
 {{- range $integration, $config := .Values.integrations }}
-  {{- if and $config.enabled (not $config.existingSecret) }}
+  {{- if and $config.enabled (not $config.existingSecret) (not (and $.Values.releaseSupport (eq $integration "db"))) }}
 ---
 {{ include "folio-common.secret" (list $ (printf "folio-common.%s.secret" $integration)) }}
   {{- end }}

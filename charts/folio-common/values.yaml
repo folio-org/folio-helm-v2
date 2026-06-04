@@ -4,3 +4,5 @@
 # name: value
 
 debugEnabled: false
+
+releaseSupport: false
