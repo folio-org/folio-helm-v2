@@ -9,24 +9,19 @@ Expand the name of the chart.
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
-When releaseSupport is true, a "2" suffix is appended to all resource names to support a second instance.
+For 2nd release support, pass release name with "2" suffix (e.g. "mod-agreements2") so resource names
+are derived from .Release.Name without requiring releaseSupport to append the suffix.
 */}}
 {{- define "folio-common.fullname" -}}
-{{- $baseName := "" -}}
 {{- if .Values.fullnameOverride }}
-{{- $baseName = .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
 {{- $name := default .Chart.Name .Values.nameOverride }}
 {{- if contains $name .Release.Name }}
-{{- $baseName = .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- .Release.Name | trunc 63 | trimSuffix "-" }}
 {{- else }}
-{{- $baseName = printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
 {{- end }}
-{{- end }}
-{{- if .Values.releaseSupport }}
-{{- printf "%s2" $baseName }}
-{{- else }}
-{{- $baseName }}
 {{- end }}
 {{- end }}
 
@@ -51,15 +46,11 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 
 {{/*
 Selector labels
-When releaseSupport is true, app.kubernetes.io/name uses the fullname (with "2" suffix) to isolate
-pod selection between the primary and secondary instances in the same namespace.
+Uses fullname so that 1st and 2nd release instances in the same namespace
+have isolated pod selectors (release names differ: "mod-x" vs "mod-x2").
 */}}
 {{- define "folio-common.selectorLabels" -}}
-{{- if .Values.releaseSupport }}
 app.kubernetes.io/name: {{ include "folio-common.fullname" . }}
-{{- else }}
-app.kubernetes.io/name: {{ include "folio-common.name" . }}
-{{- end }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
