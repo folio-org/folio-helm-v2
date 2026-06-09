@@ -105,7 +105,7 @@ Sidecar env vars part of container specs.
 - name: ENV
   valueFrom:
     secretKeyRef:
-      name: {{- if .Values.releaseSupport }} db-credentials2 {{- else }} db-credentials {{- end }}
+      name: db-credentials
       key: ENV
 - name: SIDECAR_FORWARD_UNKNOWN_REQUESTS_DESTINATION
   valueFrom:
