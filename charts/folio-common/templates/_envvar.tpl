@@ -38,6 +38,8 @@ envFrom:
     {{- $secretName := "" -}}
     {{- if and $.Values.releaseSupport (eq $integration "db") }}
       {{- $secretName = "db-credentials2" -}}
+    {{- else if and $.Values.releaseSupport (eq $integration "kafka") }}
+      {{- $secretName = "kafka-credentials2" -}}
     {{- else if $config.existingSecret }}
       {{- $secretName = $config.existingSecret -}}
     {{- else }}
