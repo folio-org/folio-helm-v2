@@ -40,6 +40,8 @@ envFrom:
       {{- $secretName = "db-credentials2" -}}
     {{- else if and $.Values.releaseSupport (eq $integration "kafka") }}
       {{- $secretName = "kafka-credentials2" -}}
+    {{- else if and $.Values.releaseSupport (eq $integration "opensearch") }}
+      {{- $secretName = "opensearch-credentials2" -}}  
     {{- else if $config.existingSecret }}
       {{- $secretName = $config.existingSecret -}}
     {{- else }}
