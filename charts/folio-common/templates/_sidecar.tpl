@@ -92,6 +92,8 @@ Sidecar env vars part of container specs.
   value: "INFO"
 - name: ROOT_LOG_LEVEL
   value: "INFO"
+- name: SIDECAR_TENANT_SCOPED_ROUTING_ENABLED
+  value: "true"
 - name: SECRET_STORE_TYPE
   valueFrom:
     secretKeyRef:
@@ -141,7 +143,7 @@ Sidecar env vars part of container specs.
   valueFrom:
     secretKeyRef:
       name: eureka-common
-      key: SECURE_STORE_ENV      
+      key: SECURE_STORE_ENV
 {{- if eq .Chart.Name "mod-scheduler"  }}
 - name: ROUTING_DYNAMIC_ENABLED
   value: "true"
