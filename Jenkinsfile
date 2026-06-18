@@ -15,7 +15,7 @@ properties([
       description: 'GitHub branch to build an index from', branch: '', branchFilter: '.*', listSize: '0',
       quickFilterEnabled: true, selectedValue: 'DEFAULT', sortMode: 'ASCENDING', tagFilter: '*',
       type: 'GitParameterDefinition', useRepository: 'folio-helm-v2'),
-    choice(name: 'HELM_NEXUS_REPOSITORY', choices: ['folio-helm-v2', 'folio-helm-v2-test'],
+    choice(name: 'HELM_NEXUS_REPOSITORY', choices: ['folio-helm-v2', 'folio-helm-v2-test', 'folio-helm-v2-main'],
       description: 'Nexus repository of folio-helm chart'),
     booleanParam(name: 'INDEX_ALL', defaultValue: false, description: 'Run index for all charts in folio-helm-v2 repo'),
     folioParameters.refreshParameters()
