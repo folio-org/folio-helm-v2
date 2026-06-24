@@ -33,3 +33,4 @@ claude*
 .github/prompts
 .github/copilot-*
 .github/COPILOT*
+graphify-out/
