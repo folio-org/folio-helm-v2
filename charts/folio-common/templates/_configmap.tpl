@@ -21,7 +21,11 @@ data:
 
 {{- define "folio-common.configmap.ephemeral" -}}
 metadata:
+  {{- if .Values.releaseSupport }}
+  name: {{ printf "%s2" (include "folio-common.fullname" .) }}
+  {{- else }}
   name: {{ printf "%s-ephemeral" (include "folio-common.fullname" .) }}
+  {{- end }}
 data:
   {{ .Values.configMaps.ephemeral.fileName }}: |-
 {{ tpl ($.Files.Get (printf "resources/%s" .Values.configMaps.ephemeral.fileName)) $ | indent 4 }}
@@ -29,7 +33,11 @@ data:
 
 {{- define "folio-common.configmap.apiconfig" -}}
 metadata:
+  {{- if .Values.releaseSupport }}
+  name: {{ printf "%s2" (include "folio-common.fullname" .) }}
+  {{- else }}
   name: {{ printf "%s-apiconfig" (include "folio-common.fullname" .) }}
+  {{- end }}
 data:
   {{ .Values.configMaps.apiconfig.fileName }}: |-
 {{ tpl ($.Files.Get (printf "resources/%s" .Values.configMaps.apiconfig.fileName)) $ | indent 4 }}
@@ -37,7 +45,11 @@ data:
 
 {{- define "folio-common.configmap.sip2config" -}}
 metadata:
+  {{- if .Values.releaseSupport }}
+  name: {{ printf "%s2" (include "folio-common.fullname" .) }}
+  {{- else }}
   name: {{ printf "%s-sip2config" (include "folio-common.fullname" .) }}
+  {{- end }}
 data:
   {{ .Values.configMaps.sip2config.fileName }}: |-
 {{ tpl ($.Files.Get (printf "resources/%s" .Values.configMaps.sip2config.fileName)) $ | indent 4 }}
@@ -45,7 +57,11 @@ data:
 
 {{- define "folio-common.configmap.sip2tenants" -}}
 metadata:
+  {{- if .Values.releaseSupport }}
+  name: {{ printf "%s2" (include "folio-common.fullname" .) }}
+  {{- else }}
   name: {{ printf "%s-sip2tenants" (include "folio-common.fullname" .) }}
+  {{- end }}
 data:
   {{ .Values.configMaps.sip2tenants.fileName }}: |-
 {{ tpl ($.Files.Get (printf "resources/%s" .Values.configMaps.sip2tenants.fileName)) $ | indent 4 }}

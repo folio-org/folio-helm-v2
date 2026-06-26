@@ -164,9 +164,15 @@ without enabled: true key-value pair.
 {{- define "folio-common.volumes" -}}
 {{- range $name, $config := .Values.configMaps -}}
   {{- if $config.enabled }}
+  {{- $cmName := "" -}}
+  {{- if and $.Values.releaseSupport (has $name (list "ephemeral" "apiconfig" "sip2config" "sip2tenants")) }}
+    {{- $cmName = printf "%s2" (include "folio-common.fullname" $) -}}
+  {{- else }}
+    {{- $cmName = default (printf "%s-%s" (include "folio-common.fullname" $) $name) $config.existingConfig -}}
+  {{- end }}
 - name: {{ $name }}
   configMap:
-    name: {{ default (printf "%s-%s" (include "folio-common.fullname" $) $name) $config.existingConfig }}
+    name: {{ $cmName }}
     defaultMode: 0755
   {{- end }}
 {{- end -}}
