@@ -125,10 +125,7 @@ Sidecar env vars part of container specs.
       name: {{- if eq .Release.Namespace "cikarate" }} kafka-credentials-2 {{ else }} kafka-credentials {{- end }}
       key: KAFKA_PORT
 - name: MOD_USERS_KEYCLOAK_URL
-  valueFrom:
-    secretKeyRef:
-      name: eureka-common
-      key: MOD_USERS_KEYCLOAK_URL
+  value: {{- if .Values.releaseSupport }} "http://mod-users-keycloak2:8082" {{ else }} "http://mod-users-keycloak:8082" {{- end }}
 - name: MOD_USERS_BL
   valueFrom:
     secretKeyRef:
