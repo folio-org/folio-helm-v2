@@ -92,6 +92,8 @@ Sidecar env vars part of container specs.
   value: "INFO"
 - name: ROOT_LOG_LEVEL
   value: "INFO"
+- name: HANDLER_EGRESS_IGNORE_SYSTEM_USER_TOKEN_ERROR
+  value: "true"
 - name: SECRET_STORE_TYPE
   valueFrom:
     secretKeyRef:
@@ -139,9 +141,7 @@ Sidecar env vars part of container specs.
       key: KC_URL
 {{- if eq .Chart.Name "mod-scheduler"  }}
 - name: ROUTING_DYNAMIC_ENABLED
-  value: "true"
-- name: HANDLER_EGRESS_IGNORE_SYSTEM_USER_TOKEN_ERROR
-  value: "true"  
+  value: "true" 
 {{- end }}
 
 {{- end }}
