@@ -1,5 +1,7 @@
 # OSX trash
 .DS_Store
+.memsearch/
+.opencode/
 
 # Chart dependencies
 **/charts/*.tgz

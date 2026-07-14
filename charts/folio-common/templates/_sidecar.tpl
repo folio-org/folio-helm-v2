@@ -140,6 +140,8 @@ Sidecar env vars part of container specs.
 {{- if eq .Chart.Name "mod-scheduler"  }}
 - name: ROUTING_DYNAMIC_ENABLED
   value: "true"
+- name: HANDLER_EGRESS_IGNORE_SYSTEM_USER_TOKEN_ERROR
+  value: "true"  
 {{- end }}
 
 {{- end }}
