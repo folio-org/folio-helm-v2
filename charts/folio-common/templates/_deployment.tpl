@@ -45,7 +45,7 @@ spec:
 
       {{- if and .Values.initContainer .Values.initContainer.enabled }}
       {{- with .Values.initContainer }}
-        - name: {{ $.Chart.Name }}-init
+        - name: {{ .name | default (printf "%s-init" $.Chart.Name) }}
           image: {{ .image.repository }}:{{ .image.tag | default "latest" }}
           imagePullPolicy: {{ .image.pullPolicy | default "Always" }}
           {{- if .command }}
