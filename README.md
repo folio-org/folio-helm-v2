@@ -270,6 +270,10 @@ helm uninstall my-release-name
 | `initContainer.image.pullPolicy`                 | An init container image pull policy.                                                                                   | `Always`     |
 | `initContainer.command`                          | Init container command list.                                                                                           | []           |
 | `initContainer.args`                             | Arguments passed to the command that is run in the init container.                                                     | []           |
+| `initContainer.env`                              | Env variables for the init container. Values can use templates, as in the main container's env.                         | []           |
+| `initContainer.envFrom`                          | Secrets or ConfigMaps to load as env variables in the init container, e.g. `- secretRef: {name: db-credentials}`.      | []           |
+| `initContainer.resources`                        | Init container resource requests and limits.                                                                           | `{}`         |
+| `initContainer.securityContext`                  | Init container security context.                                                                                       | `{}`         |
 | `initContainer.extraVolumeMounts.NAME.enabled`   | If the extra volume mount element is enabled, a previously defined volume will be mounted to the pod's init container. | `false`      |
 | `initContainer.extraVolumeMounts.NAME.name`      | A reference name to an existed extra volume.                                                                           |              |
 | `initContainer.extraVolumeMounts.NAME.mountPath` | Extra volume mount path.                                                                                               |              |

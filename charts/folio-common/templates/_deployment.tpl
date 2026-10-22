@@ -54,6 +54,18 @@ spec:
           {{- if .args }}
           args: {{ include "folio-common.tplvalues.render" (dict "value" .args "context" $) | nindent 12 }}
           {{- end }}
+          {{- with .env }}
+          env: {{ include "folio-common.tplvalues.render" (dict "value" . "context" $) | nindent 12 }}
+          {{- end }}
+          {{- with .envFrom }}
+          envFrom: {{ include "folio-common.tplvalues.render" (dict "value" . "context" $) | nindent 12 }}
+          {{- end }}
+          {{- with .resources }}
+          resources: {{ toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .securityContext }}
+          securityContext: {{ toYaml . | nindent 12 }}
+          {{- end }}
           {{- if and .extraVolumeMounts (eq (include "folio-common.list.hasAnyEnabled" .extraVolumeMounts) "true") }}
           volumeMounts:
             {{- include "folio-common.list.renderEnabled" (list $ .extraVolumeMounts) | nindent 12 }}
