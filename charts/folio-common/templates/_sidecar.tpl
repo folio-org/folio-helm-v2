@@ -1,9 +1,22 @@
 {{/* vim: set filetype=mustache: */}}
 
+{{/*
+Sidecar container spec. With native: true it is rendered as a native sidecar (an initContainers
+entry with restartPolicy: Always, Kubernetes >= 1.29): the kubelet starts the module container only
+after the sidecar's startupProbe passes, and stops the sidecar only after the module exits.
+Optional keys: native, startupProbe (native default: tcpSocket on the first sidecar port),
+readinessProbe, livenessProbe.
+*/}}
 {{- define "folio-common.sidecar" -}}
+{{- $native := include "folio-common.sidecar.isNative" . -}}
+{{- $port := 8082 -}}
+{{- with .sidecar.ports }}{{ $port = (index . 0).containerPort | default 8082 }}{{ end -}}
 - name: {{ .sidecar.name | default "sidecar" }}
   image: "{{ .sidecar.image.repository }}:{{ .sidecar.image.tag | default "latest" }}"
   imagePullPolicy: {{ .sidecar.image.pullPolicy | default "IfNotPresent" }}
+  {{- if $native }}
+  restartPolicy: Always
+  {{- end }}
   {{- if or .sidecar.envVars .sidecar.extraEnvVars }}
   env:
   {{- range .sidecar.envVars -}}
@@ -30,6 +43,42 @@
   {{- if .sidecar.resources }}
   resources: {{ toYaml .sidecar.resources | nindent 4 }}
   {{- end }}
+  {{- if .sidecar.startupProbe }}
+  startupProbe: {{ toYaml .sidecar.startupProbe | nindent 4 }}
+  {{- else if $native }}
+  startupProbe:
+    tcpSocket:
+      port: {{ $port }}
+    periodSeconds: 5
+    failureThreshold: 60
+  {{- end }}
+  {{- with .sidecar.readinessProbe }}
+  readinessProbe: {{ toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .sidecar.livenessProbe }}
+  livenessProbe: {{ toYaml . | nindent 4 }}
+  {{- end }}
+{{- end -}}
+
+{{/*
+Prints "true" when the sidecar's native value renders to "true".
+Usage: include "folio-common.sidecar.isNative" (dict "sidecar" . "global" $)
+*/}}
+{{- define "folio-common.sidecar.isNative" -}}
+{{- if eq (include "folio-common.tplvalues.render" (dict "value" .sidecar.native "context" .global)) "true" }}true{{ end -}}
+{{- end -}}
+
+{{/*
+Prints "true" when any sidecarContainers entry is both enabled and native.
+*/}}
+{{- define "folio-common.sidecar.anyNative" -}}
+{{- $any := false -}}
+{{- range .Values.sidecarContainers -}}
+{{- if and (eq (include "folio-common.tplvalues.render" (dict "value" .enabled "context" $)) "true") (include "folio-common.sidecar.isNative" (dict "sidecar" . "global" $)) -}}
+{{- $any = true -}}
+{{- end -}}
+{{- end -}}
+{{- if $any }}true{{ end -}}
 {{- end -}}
 
 {{/*
